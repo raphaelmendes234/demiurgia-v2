@@ -1,7 +1,7 @@
-import { useEffect, useLayoutEffect, useMemo, useRef } from 'react'
-import { useGLTF } from '@react-three/drei'
-import { useExperienceStore } from '../../stores/useExperienceStore'
-import { gsap } from 'gsap'
+import { useEffect, useLayoutEffect, useMemo, useRef } from "react"
+import { useGLTF } from "@react-three/drei"
+import { useExperienceStore } from "../../stores/useExperienceStore"
+import { gsap } from "gsap"
 
 const POSITIONS = {
     top:    { x: 0,   y: 10, z: 0 },
@@ -27,13 +27,13 @@ const animateMeshes = (meshes, offsetStart, offsetEnd, isEntering) => {
             y: orig.y + offsetEnd.y, 
             z: orig.z + offsetEnd.z,
             duration: 1.2,
-            ease: isEntering ? 'power3.out' : 'power3.inOut',
+            ease: isEntering ? "power3.out" : "power3.inOut",
             delay: index * 0.03
         })
     })
 }
 
-export function Scene({ name, glb, active, before = 'right', after = 'left' }) {
+export function Scene({ name, glb, active, before = "right", after = "left" }) {
     const { scene } = useGLTF(glb)
     scene.rotation.y = Math.PI
     const groupRef = useRef()
@@ -88,10 +88,10 @@ export function Scene({ name, glb, active, before = 'right', after = 'left' }) {
         if (active && !prevActive.current) {
             console.log(`[${name}] ACTIVE`)
 
-            if (direction === 'FORWARD') {
+            if (direction === "FORWARD") {
                 // Come from a future position
                 animateMeshes(meshes, POSITIONS[before], POSITIONS.center, true)
-            } else if (direction === 'BACKWARD') {
+            } else if (direction === "BACKWARD") {
                 // Come back from a previous position
                 animateMeshes(meshes, POSITIONS[after], POSITIONS.center, true)
             }
@@ -102,10 +102,10 @@ export function Scene({ name, glb, active, before = 'right', after = 'left' }) {
         // Scene becomes INACTIVE (leaves)
         else if (!active && prevActive.current) {
 
-            if (direction === 'FORWARD') {
+            if (direction === "FORWARD") {
                  // Leaves to a past position
                 animateMeshes(meshes, POSITIONS.center, POSITIONS[after], false)
-            } else if (direction === 'BACKWARD') {
+            } else if (direction === "BACKWARD") {
                 // Leaves to a future position
                 animateMeshes(meshes, POSITIONS.center, POSITIONS[before], false)
             }

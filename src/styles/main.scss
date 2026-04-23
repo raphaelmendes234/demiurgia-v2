@@ -1,1 +1,8 @@
 @use "./_styles.scss";
+
+@use "./screens/_loading.scss";
+@use "./screens/_menu.scss";
+@use "./screens/_context.scss";
+@use "./screens/_game.scss";
+@use "./screens/_end.scss";
+@use "./screens/_utils.scss";

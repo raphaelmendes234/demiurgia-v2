@@ -1,5 +1,5 @@
-import { useControls, button } from 'leva';
-import { useExperienceStore } from '../stores/useExperienceStore';
+import { useControls, button } from "leva";
+import { useExperienceStore } from "../stores/useExperienceStore";
 
 export function Debug() {
   const { 
@@ -8,21 +8,20 @@ export function Debug() {
     
     setMenu, 
     setContext, 
-    setGame, 
+    setGame,
+    setEnd,
     nextScene, 
     prevScene 
   } = useExperienceStore();
 
-  useControls('Flow Manager', {
-    'Phase Actuelle': { value: phase, editable: false },
-    'Scène Actuelle': { value: currentScene, editable: false },
+  useControls("Flow Manager", {
+    "Menu": button(() => setMenu()),
+    "Context": button(() => setContext()),
+    "Game": button(() => setGame()),
+    "End": button(() => setEnd()),
     
-    'Aller au Menu': button(() => setMenu()),
-    'Aller au Contexte': button(() => setContext()),
-    'Lancer l\'Expérience': button(() => setGame()),
-    
-    'Scène Suivante >': button(() => nextScene()),
-    '< Scène Précédente': button(() => prevScene()),
+    "Game next >": button(() => nextScene()),
+    "< Game prev": button(() => prevScene()),
   });
 
   return null;

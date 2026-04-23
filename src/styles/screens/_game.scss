@@ -1,0 +1,35 @@
+.game {
+    &__screen {
+        z-index: 99;
+        pointer-events: none;
+
+        position: fixed;
+        top: 0;
+        left: 0;
+
+        width: 100%;
+        height: 100%;
+
+        display: flex;
+        justify-content: center;
+        align-items: end;
+
+        color: palevioletred;
+
+        box-sizing: border-box;
+        border: solid 4px palevioletred;
+    }
+
+    &__nav {
+        pointer-events: all;
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+        margin-bottom: 20px;
+
+        button {
+            padding: 10px 20px;
+            cursor: pointer;
+        }
+    }
+}

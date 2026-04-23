@@ -1,69 +1,75 @@
-import { create } from 'zustand';
+import { create } from "zustand";
 
-// Experience phases
 export const PHASES = {
-  MENU: 'MENU',
-  CONTEXT: 'CONTEXT',
-  GAME: 'GAME',
-  END: 'END'
+  MENU: "MENU",
+  CONTEXT: "CONTEXT",
+  GAME: "GAME",
+  END: "END"
 };
 
-// 3D scenes
-export const SCENES = ['sceneMenu', 'scene1', 'scene2', 'scene3', 'scene4', 'scene5', 'sceneEnd'];
+export const GAME_SCENES = ["scene1", "scene2", "scene3", "scene4", "scene5"];
 
 export const useExperienceStore = create((set, get) => ({
-  phase: 'MENU',
-  currentScene: SCENES[0],
-  sceneIndex: 0,
-  direction: 'FORWARD',
+  // --- STATE ---
+  phase: PHASES.MENU,
+  currentScene: "sceneMenu",
+  gameIndex: 0,
+  direction: "FORWARD",
+
+  // --- ACTIONS ---
 
   setMenu: () => set({ 
     phase: PHASES.MENU,
-    currentScene: SCENES[0],
-    sceneIndex: 0,
-    direction: 'FORWARD',
+    currentScene: "sceneMenu",
+    gameIndex: 0,
+    direction: "FORWARD"
   }),
 
   setContext: () => set({ 
-    phase: PHASES.CONTEXT
+    phase: PHASES.CONTEXT,
   }),
 
   setGame: () => set({ 
     phase: PHASES.GAME, 
-    currentScene: SCENES[1],
-    sceneIndex: 1,
-    direction: 'FORWARD'
+    currentScene: GAME_SCENES[0],
+    gameIndex: 0,
+    direction: "FORWARD"
   }),
 
-  nextScene: () => {
-    const { sceneIndex } = get();
+  setEnd: () => set({ 
+    phase: PHASES.END, 
+    currentScene: "sceneEnd",
+    direction: "FORWARD"
+  }),
 
-    if (sceneIndex < SCENES.length - 1) {
-      const nextIndex = sceneIndex + 1;
+  // --- NAVIGATION GAME (only in GAME phase) ---
+  nextScene: () => {
+    const { phase, gameIndex } = get();
+    
+    if (phase !== PHASES.GAME) return;
+
+    if (gameIndex < GAME_SCENES.length - 1) {
+      const nextIdx = gameIndex + 1;
       set({ 
-        sceneIndex: nextIndex, 
-        currentScene: SCENES[nextIndex],
-        direction: 'FORWARD'
+        gameIndex: nextIdx, 
+        currentScene: GAME_SCENES[nextIdx],
+        direction: "FORWARD"
       });
+    } else {
+      get().setEnd();
     }
   },
 
   prevScene: () => {
-    const { sceneIndex } = get();
-    if (sceneIndex === 0) return;
+    const { phase, gameIndex } = get();
+    
+    if (phase !== PHASES.GAME || gameIndex === 0) return;
 
-    const prevIndex = sceneIndex - 1;
+    const prevIdx = gameIndex - 1;
     set({ 
-      sceneIndex: prevIndex, 
-      currentScene: SCENES[prevIndex],
-      direction: 'BACKWARD'
+      gameIndex: prevIdx, 
+      currentScene: GAME_SCENES[prevIdx],
+      direction: "BACKWARD"
     });
-  },
-
-  setEnd: () => set({ 
-    phase: PHASES.END, 
-    currentScene: SCENES[SCENES.length - 1], 
-    gameSceneIndex: SCENES.length - 1,
-    direction: 'FORWARD'
-  })
+  }
 }));
