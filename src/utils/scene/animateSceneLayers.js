@@ -17,20 +17,13 @@ export const animateSceneLayers = (meshes, offsetStart, offsetEnd, isEntering, m
 
     itemsToAnimate.forEach((mesh, index) => {
         const orig = mesh.userData.origPos
-        if (!orig) return
-
-        // Initial position (teleport)
-        mesh.position.set(
-            orig.x + offsetStart.x, 
-            orig.y + offsetStart.y, 
-            orig.z + offsetStart.z
-        )
+        const transitionOffset = mesh.userData.transitionOffset
 
         // Position
-        gsap.to(mesh.position, {
-            x: orig.x + offsetEnd.x, 
-            y: orig.y + offsetEnd.y, 
-            z: orig.z + offsetEnd.z,
+        gsap.to(transitionOffset, {
+            x: offsetEnd.x, 
+            y: offsetEnd.y, 
+            z: offsetEnd.z,
             duration: isEntering ? 1.4 : 1.0,
             ease: isEntering ? "power3.out" : "power2.inOut",
             delay: masterDelay + (index * 0.04) // Stagger fluide

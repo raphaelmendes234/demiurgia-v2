@@ -6,10 +6,9 @@ export const setInitialMeshesPosition = (meshes, offsetName, positionsMap) => {
 
     meshes.forEach((mesh) => {
         const orig = mesh.userData.origPos
-        mesh.position.set(
-            orig.x + offset.x, 
-            orig.y + offset.y, 
-            orig.z + offset.z
-        )
+        const transitionOffset = mesh.userData.transitionOffset
+        transitionOffset.x = offset.x
+        transitionOffset.y = offset.y
+        transitionOffset.z = offset.z
     })
 }

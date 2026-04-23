@@ -21,6 +21,7 @@ export const prepareSceneLayers = (scene) => {
             
             // Save layer original position
             child.userData.origPos = child.position.clone()
+            child.userData.transitionOffset = { x: 0, y: 0, z: 0 }
             extractedMeshes.push(child)
         }
     })
@@ -28,6 +29,16 @@ export const prepareSceneLayers = (scene) => {
     // Sort by depth (z) : sort from the back (negative z) to the front (positive z)
     // This way the background animates first, and the foreground animates last.
     extractedMeshes.sort((a, b) => a.position.z - b.position.z)
+
+    // Normalize z depth to [0, 1] — furthest mesh gets 0, closest gets 1.
+    const zValues = extractedMeshes.map((m) => m.userData.origPos.z)
+    const minZ = Math.min(...zValues)
+    const maxZ = Math.max(...zValues)
+    const range = maxZ - minZ || 1
+
+    extractedMeshes.forEach((mesh) => {
+        mesh.userData.parallaxFactor = (mesh.userData.origPos.z - minZ) / range
+    })
 
     return { sceneElements: clone, meshes: extractedMeshes }
 }

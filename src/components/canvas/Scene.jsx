@@ -2,7 +2,8 @@ import { useEffect, useLayoutEffect, useMemo, useRef } from "react"
 import { useGLTF } from "@react-three/drei"
 import { useExperienceStore } from "../../stores/useExperienceStore"
 import { gsap } from "gsap"
-import { animateSceneLayers, prepareSceneLayers, setInitialMeshesPosition } from "../../utils/scene"
+import { animateSceneLayers, prepareSceneLayers, setInitialMeshesPosition, mousePointer, updateSceneLayers } from "../../utils/scene"
+import { useFrame } from "@react-three/fiber"
 
 const POSITIONS = {
     top:    { x: 0,   y: 5, z: 0 },
@@ -20,10 +21,10 @@ export function Scene({ name, glb, active, before = "right", after = "left" }) {
     // Prepare and clone scene pour isolation des calques
     const { sceneElements, meshes } = useMemo(() => prepareSceneLayers(scene), [scene])
 
-    // Security : if not active position meshes position set to before pos
-    useLayoutEffect(() => {
+    // Setting initial position
+    useEffect(() => {
         if (!active) setInitialMeshesPosition(meshes, before, POSITIONS)
-    }, [active, before, meshes])
+    }, [])
 
     // Scene transitions : animate layers with stagger
     useEffect(() => {
@@ -44,8 +45,12 @@ export function Scene({ name, glb, active, before = "right", after = "left" }) {
             animateSceneLayers(meshes, POSITIONS.center, endPos, false, 0)
             prevActive.current = false
         }
-    }, [active, meshes, before, after])
+    }, [active, meshes])
     
+    useFrame(() => {
+        updateSceneLayers(meshes, mousePointer, active)
+    })
+
     return (
         <primitive 
             object={sceneElements} 
