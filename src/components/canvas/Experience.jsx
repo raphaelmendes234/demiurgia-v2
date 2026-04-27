@@ -1,5 +1,6 @@
 import { Canvas } from "@react-three/fiber";
 import { Suspense } from "react";
+import { OrbitControls } from "@react-three/drei";
 
 import { ScenesManager } from "./ScenesManager";
 
@@ -13,7 +14,7 @@ export function Experience() {
                 <color attach="background" args={["#111"]} />
                 <ambientLight intensity={1} color={"white"} />
                     
-                {/* <OrbitControls /> */}
+                 <OrbitControls /> 
                     
                 <Suspense fallback={null}>
                     <ScenesManager/>

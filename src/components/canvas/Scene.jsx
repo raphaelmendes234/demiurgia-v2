@@ -15,7 +15,7 @@ const POSITIONS = {
 
 export function Scene({ name, glb, active, before = "right", after = "left" }) {
     const { scene } = useGLTF(glb)
-    scene.rotation.y = Math.PI
+    // scene.rotation.y = Math.PI
     const prevActive = useRef(false)
 
     // Prepare and clone scene pour isolation des calques
