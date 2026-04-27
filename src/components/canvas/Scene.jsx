@@ -48,7 +48,7 @@ export function Scene({ name, glb, active, before = "right", after = "left" }) {
     }, [active, meshes])
     
     useFrame(() => {
-        updateSceneLayers(meshes, mousePointer, active)
+        updateSceneLayers(meshes, mousePointer, true)
     })
 
     return (

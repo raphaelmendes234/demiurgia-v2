@@ -15,7 +15,6 @@ export function ScenesManager() {
                 before={"bottom"}
                 after={"top"}
             />
-
             {/* Game */}
             <Scene 
                 name="scene1" 

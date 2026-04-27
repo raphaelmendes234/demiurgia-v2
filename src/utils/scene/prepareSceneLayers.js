@@ -37,7 +37,8 @@ export const prepareSceneLayers = (scene) => {
     const range = maxZ - minZ || 1
 
     extractedMeshes.forEach((mesh) => {
-        mesh.userData.parallaxFactor = (mesh.userData.origPos.z - minZ) / range
+        // mesh.userData.parallaxFactor = (mesh.userData.origPos.z - minZ) / range
+        mesh.userData.parallaxFactor = (maxZ - mesh.userData.origPos.z) / range // inverted
     })
 
     return { sceneElements: clone, meshes: extractedMeshes }
