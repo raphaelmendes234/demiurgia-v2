@@ -13,14 +13,17 @@ import { ContextScreen } from "./components/screens/ContextScreen";
 import { GameScreen } from "./components/screens/GameScreen";
 import { EndScreen } from "./components/screens/EndScreen";
 import { Experience } from "./components/canvas/Experience";
+import { GlobalSoundController } from "./components/GlobalSoundController";
+import { SuccessBox } from "./components/SuccessBox";
 
 export default function App() {
 
   const phase = useExperienceStore((state) => state.phase)
 
   return (
+    <>
+    <GlobalSoundController />
     <div style={{ width: "100vw", height: "100vh" }}>
-
       <Debug />
 
       <LoadingScreen />
@@ -32,5 +35,6 @@ export default function App() {
 
       <Experience />
     </div>
+    </>
   );
 }
