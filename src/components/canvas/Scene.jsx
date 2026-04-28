@@ -4,6 +4,7 @@ import { useExperienceStore } from "../../stores/useExperienceStore"
 import { gsap } from "gsap"
 import { animateSceneLayers, prepareSceneLayers, setInitialMeshesPosition, mousePointer, updateSceneLayers } from "../../utils/scene"
 import { useFrame } from "@react-three/fiber"
+import { useCursorStore } from "../../stores/useCursorStore"
 
 const POSITIONS = {
     top:    { x: 0,   y: 10, z: 0 },
@@ -14,6 +15,7 @@ const POSITIONS = {
 }
 
 export function Scene({ name, glb, active, before = "right", after = "left" }) {
+    const setCursor = useCursorStore((state) => state.setCursorType)
     const { scene } = useGLTF(glb)
     // scene.rotation.y = Math.PI
     const prevActive = useRef(false)
@@ -51,10 +53,32 @@ export function Scene({ name, glb, active, before = "right", after = "left" }) {
         updateSceneLayers(meshes, mousePointer, 0.1, true)
     })
 
+    const handlePointerOver = (e) => {
+        e.stopPropagation()
+        if (e.object.name.startsWith('INT_')) {
+            useCursorStore.getState().setIsHovering(true)
+        }
+    }
+
+    const handlePointerOut = (e) => {
+        if (e.object.name.startsWith('INT_')) {
+            useCursorStore.getState().setIsHovering(false)
+        }
+    }
+
+    const handleClick = (e) => {
+        if (e.object.name.startsWith('INT_')) {
+            console.log("Action interactive !")
+        }
+    }
+
     return (
         <primitive 
             object={sceneElements} 
             name={name}
+            onPointerOver={handlePointerOver}
+            onPointerOut={handlePointerOut}
+            onClick={handleClick}
         />
     )
 }

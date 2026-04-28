@@ -13,15 +13,16 @@ export const prepareSceneLayers = (scene) => {
             // Base configuration
             child.castShadow = true
             child.receiveShadow = true
-            
-            // Transparence security
+
             if (child.material) {
+                // Transparence security
                 child.material.transparent = true
             }
-            
+     
             // Save layer original position
             child.userData.origPos = child.position.clone()
             child.userData.transitionOffset = { x: 0, y: 0, z: 0 }
+            
             extractedMeshes.push(child)
         }
     })
