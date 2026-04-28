@@ -6,10 +6,10 @@ import { animateSceneLayers, prepareSceneLayers, setInitialMeshesPosition, mouse
 import { useFrame } from "@react-three/fiber"
 
 const POSITIONS = {
-    top:    { x: 0,   y: 5, z: 0 },
-    bottom: { x: 0,   y: -5,z: 0 },
-    left:   { x: -5, y: 0,  z: 0 },
-    right:  { x: 5,  y: 0,  z: 0 },
+    top:    { x: 0,   y: 10, z: 0 },
+    bottom: { x: 0,   y: -10,z: 0 },
+    left:   { x: -10, y: 0,  z: 0 },
+    right:  { x: 10,  y: 0,  z: 0 },
     center: { x: 0,   y: 0,  z: 0 }
 }
 
@@ -48,7 +48,7 @@ export function Scene({ name, glb, active, before = "right", after = "left" }) {
     }, [active, meshes])
     
     useFrame(() => {
-        updateSceneLayers(meshes, mousePointer, true)
+        updateSceneLayers(meshes, mousePointer, 0.1, true)
     })
 
     return (

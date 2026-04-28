@@ -8,8 +8,8 @@ export function Experience() {
     return (
         <>
             <Canvas
-                camera={{ position: [0, 0.1, 0.5], fov: 75 }}
-                onCreated={({ camera }) => { camera.lookAt(0, 0.1, -0.5) }}
+                camera={{ position: [0, 0, 4.5], fov: 35 }}
+                onCreated={({ camera }) => { camera.lookAt(0, 0, -0.5) }}
             >
                 <color attach="background" args={["#111"]} />
                 <ambientLight intensity={1} color={"white"} />
