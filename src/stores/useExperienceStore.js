@@ -4,7 +4,8 @@ export const PHASES = {
   MENU: "MENU",
   CONTEXT: "CONTEXT",
   GAME: "GAME",
-  END: "END"
+  END: "END",
+  TEST: "TEST"
 };
 
 export const GAME_SCENES = ["scene1", "scene2", "scene3", "scene4", "scene5"];
@@ -27,6 +28,9 @@ export const useExperienceStore = create((set, get) => ({
 
   setContext: () => set({ 
     phase: PHASES.CONTEXT,
+  }),
+  setTest: () => set({ 
+    phase: PHASES.TEST,
   }),
 
   setGame: () => set({ 

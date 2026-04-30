@@ -6,5 +6,6 @@
 @use "./screens/_game.scss";
 @use "./screens/_end.scss";
 @use "./screens/_utils.scss";
-
+@use "./_dialogueOverlay.scss";
+@use "./_dialogueBox.scss";
 @use "./cursor.scss";

@@ -16,9 +16,9 @@ export function Experience() {
                     
                  <OrbitControls /> 
                     
-                <Suspense fallback={null}>
+                {/* <Suspense fallback={null}>
                     <ScenesManager/>
-                </Suspense>
+                </Suspense> */}
             </Canvas>
         </>
     )
