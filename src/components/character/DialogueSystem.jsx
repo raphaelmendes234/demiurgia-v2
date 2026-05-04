@@ -1,19 +1,23 @@
 import { Suspense } from "react";
 import { Canvas } from "@react-three/fiber";
 import { AnimatePresence, motion } from "framer-motion";
+
+import { useExperienceStore } from "../../stores/useExperienceStore";
+import { SCENE_CONFIG } from "../../data/sceneConfig";
+
 import { CharacterComponent } from "./CharacterComponent";
-import { useGameStore } from "../../stores/useGameStore";
 import { DialogueBox3D } from "./DialogueBox3D";
 import CloseButtonIcon from "../ui/CloseButtonIcon";
-// import { DialogueBox } from "./DialogueBox";
 
 export const DialogueSystem = () => {
-  const activeDialogue = useGameStore((state) => state.activeDialogue);
-  const closeDialogue = useGameStore((state) => state.closeDialogue);
+  const activeCharacter = useExperienceStore((state) => state.activeCharacter);
+  const closeDialogue = useExperienceStore((state) => state.closeDialogue);
+
+  const character = activeCharacter ? SCENE_CONFIG[activeCharacter] : null
 
   return (
     <AnimatePresence>
-      {activeDialogue && (
+      {character && (
         <motion.div
           key="dialogue-system-overlay"
           initial={{ opacity: 0, scale: 1.05, filter: "blur(10px)" }}
@@ -41,18 +45,18 @@ export const DialogueSystem = () => {
             <Canvas camera={{ position: [0, 0, 5], fov: 45 }}>
               <ambientLight intensity={1.5} />
               <Suspense fallback={null}>
-                <CharacterComponent imagePath={activeDialogue.image} />
+                <CharacterComponent imagePath={character.image} />
                 <DialogueBox3D
-                  name={activeDialogue.name} 
-                  text={activeDialogue.text} 
+                  name={character.name} 
+                  text={character.text} 
                 />
               </Suspense>
             </Canvas>
           </div>
 
           {/* <DialogueBox 
-            name={activeDialogue.name} 
-            text={activeDialogue.text} 
+            name={character.name} 
+            text={character.text} 
           /> */}
 
           

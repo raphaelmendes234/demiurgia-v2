@@ -5,10 +5,15 @@ export const PHASES = {
   CONTEXT: "CONTEXT",
   GAME: "GAME",
   END: "END",
-  TEST: "TEST"
 };
 
-export const GAME_SCENES = ["scene1", "scene2", "scene3", "scene4", "scene5"];
+export const GAME_SCENES = [
+  "scene1", 
+  "scene2", 
+  "scene3", 
+  "scene4", 
+  "scene5"
+];
 
 export const useExperienceStore = create((set, get) => ({
   // --- STATE ---
@@ -16,9 +21,9 @@ export const useExperienceStore = create((set, get) => ({
   currentScene: "sceneMenu",
   gameIndex: 0,
   direction: "FORWARD",
+  activeCharacter: null, 
 
-  // --- ACTIONS ---
-
+  // --- PHASES NAVIGATION ---
   setMenu: () => set({ 
     phase: PHASES.MENU,
     currentScene: "sceneMenu",
@@ -28,9 +33,6 @@ export const useExperienceStore = create((set, get) => ({
 
   setContext: () => set({ 
     phase: PHASES.CONTEXT,
-  }),
-  setTest: () => set({ 
-    phase: PHASES.TEST,
   }),
 
   setGame: () => set({ 
@@ -46,7 +48,7 @@ export const useExperienceStore = create((set, get) => ({
     direction: "FORWARD"
   }),
 
-  // --- NAVIGATION GAME (only in GAME phase) ---
+  // --- GAME NAVIGATION (game scenes) ---
   nextScene: () => {
     const { phase, gameIndex } = get();
     
@@ -75,5 +77,15 @@ export const useExperienceStore = create((set, get) => ({
       currentScene: GAME_SCENES[prevIdx],
       direction: "BACKWARD"
     });
-  }
+  },
+
+  // --- INTERACTION PANEL
+  openDialogue: (id) => set({
+    activeCharacter: id 
+  }),
+
+  closeDialogue: () => set({
+    activeCharacter: null 
+  }),
+
 }));

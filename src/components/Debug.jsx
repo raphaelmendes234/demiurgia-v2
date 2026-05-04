@@ -5,7 +5,6 @@ export function Debug() {
   const { 
     phase, 
     currentScene, 
-    setTest,
     setMenu, 
     setContext, 
     setGame,
@@ -19,7 +18,6 @@ export function Debug() {
     "Context": button(() => setContext()),
     "Game": button(() => setGame()),
     "End": button(() => setEnd()),
-    "Test": button(() => setTest()),
     "Game next >": button(() => nextScene()),
     "< Game prev": button(() => prevScene()),
   });
