@@ -18,7 +18,7 @@ export function ScenesManager() {
             {/* Game */}
             <Scene 
                 name="scene1" 
-                glb="/models/scene1-v4.glb" 
+            glb="/models/scene1.glb" 
                 active={ currentScene === "scene1" }
                 before={"bottom"}
                 after={"left"}

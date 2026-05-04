@@ -26,7 +26,7 @@ export default function App() {
       <div style={{ width: "100vw", height: "100vh" }}>
         <Debug />
 
-        <CustomCursor />
+        {/* <CustomCursor /> */}
 
         <LoadingScreen />
         
