@@ -15,7 +15,6 @@ import { EndScreen } from "./components/screens/EndScreen";
 import { Experience } from "./components/canvas/Experience";
 import { GlobalSoundController } from "./components/GlobalSoundController";
 import { Test } from "./components/test/Test";
-import Test2 from "./components/Test2";
 import { CustomCursor } from "./components/cursor/CustomCursor";
 
 export default function App() {

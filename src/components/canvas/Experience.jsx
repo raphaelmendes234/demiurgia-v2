@@ -52,6 +52,7 @@ export function Experience() {
       <Suspense fallback={null}>
         <ScenesManager />
       </Suspense>
+      
 
       <EffectComposer>
        <Bloom
