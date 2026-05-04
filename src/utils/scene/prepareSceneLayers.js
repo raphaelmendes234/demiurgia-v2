@@ -16,7 +16,9 @@ export const prepareSceneLayers = (scene) => {
 
             if (child.material) {
                 // Transparence security
+                child.material = child.material.clone()
                 child.material.transparent = true
+                child.material.opacity = 0
             }
      
             // Save layer original position

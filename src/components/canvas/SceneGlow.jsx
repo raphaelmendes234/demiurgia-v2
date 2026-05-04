@@ -41,14 +41,17 @@ export function SceneGlow({ sceneElements }) {
     sceneElements.traverse((child) => {
       if (child.isMesh) {
         const config = SCENE_CONFIG[child.name];
-        if (config && config.glow) {
-          child.material = child.material.clone();
-          const m = child.material;
+        const tex = textureMap[child.name]; 
 
-          m.emissiveMap = textureMap[child.name] || null;
+        if (config && config.glow) {
+          const m = child.material;
+          // Si la texture n'est pas encore prête, on met l'intensité à 0
+          m.emissiveMap = tex || null;
+          m.emissiveIntensity = tex ? config.glow.emissiveIntensity : 0;
           m.emissive = new THREE.Color(config.glow.emissiveColor);
-          m.emissiveIntensity = config.glow.emissiveIntensity;
-          m.opacity = config.glow.opacity;
+        
+          // Important pour éviter le look "noir et blanc" sale
+          m.color = m.color;
           m.toneMapped = false;
           m.transparent = true;
           m.needsUpdate = true;
