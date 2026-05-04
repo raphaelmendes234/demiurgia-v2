@@ -53,7 +53,7 @@ export const SCENE_CONFIG = {
     clickSound: "",
 
     glow: {
-      mask: "/assets/images/emission/vieux_emissive2.png",
+      mask: "/assets/images/emission/elders_emissive2.png",
       emissiveColor: "#0fd15d",
       emissiveIntensity: 4,
     },
@@ -91,6 +91,12 @@ export const SCENE_CONFIG = {
 
     hoverSound: "",
     clickSound: "",
+
+     glow: {
+      mask: "/assets/images/emission/talismanTree_emissive2.png",
+      emissiveColor: "#0fd15d",
+      emissiveIntensity: 4,
+    },
   },
 
   /**
@@ -119,6 +125,12 @@ export const SCENE_CONFIG = {
 
     hoverSound: "",
     clickSound: "",
+
+     glow: {
+      mask: "/assets/images/emission/leader_emissive2.png",
+      emissiveColor: "#0fd15d",
+      emissiveIntensity: 4,
+    },
   },
   INT_SingingMen_Acting : {
     name: "INT_SingingMen",
@@ -127,6 +139,12 @@ export const SCENE_CONFIG = {
 
     hoverSound: "",
     clickSound: "",
+
+     glow: {
+      mask: "/assets/images/emission/acting_emissive2.png",
+      emissiveColor: "#0fd15d",
+      emissiveIntensity: 4,
+    },
   },
   INT_SingingMen_Standing : {
     name: "INT_SingingMen",
@@ -135,6 +153,12 @@ export const SCENE_CONFIG = {
 
     hoverSound: "",
     clickSound: "",
+
+     glow: {
+      mask: "/assets/images/emission/standing_emissive2.png",
+      emissiveColor: "#0fd15d",
+      emissiveIntensity: 4,
+    },
   },
   INT_SingingMen_Sitting : {
     name: "INT_SingingMen",
@@ -143,6 +167,12 @@ export const SCENE_CONFIG = {
 
     hoverSound: "",
     clickSound: "",
+
+     glow: {
+      mask: "/assets/images/emission/sitting_emissive2.png",
+      emissiveColor: "#0fd15d",
+      emissiveIntensity: 4,
+    },
   },
 
   /**
@@ -155,6 +185,12 @@ export const SCENE_CONFIG = {
 
     hoverSound: "",
     clickSound: "",
+
+     glow: {
+      mask: "/assets/images/emission/autel_emissive2.png",
+      emissiveColor: "#0fd15d",
+      emissiveIntensity: 4,
+    },
   },
   INT_Gifts: {
     name: "INT_Gifts",
