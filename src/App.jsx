@@ -16,6 +16,7 @@ import { Experience } from "./components/canvas/Experience";
 import { GlobalSoundController } from "./components/GlobalSoundController";
 import { CustomCursor } from "./components/CustomCursor";
 import { Test } from "./components/test/Test";
+import Test2 from "./components/Test2";
 
 export default function App() {
 
@@ -27,7 +28,7 @@ export default function App() {
       <div style={{ width: "100vw", height: "100vh" }}>
         <Debug />
 
-        <CustomCursor />
+        {/* <CustomCursor /> */}
 
         {/* <LoadingScreen /> */}
         

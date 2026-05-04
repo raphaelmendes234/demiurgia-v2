@@ -3,6 +3,7 @@ import { Canvas } from '@react-three/fiber';
 import { DialogueSystem } from './DialogueSystem';
 import { CharacterTarget } from "./CharacterTarget";
 
+
 export function Test() {
 
     const setTest = useExperienceStore((state) => state.setTest)
@@ -19,7 +20,7 @@ export function Test() {
         <ambientLight intensity={0.5} />
         <pointLight position={[10, 10, 10]} />
 
-        <CharacterTarget id="hades" position={[-2, 0, 0]} />
+        <CharacterTarget id="zeus" position={[-2, 0, 0]} />
       </Canvas>
 
       <DialogueSystem />

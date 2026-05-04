@@ -1,11 +1,10 @@
 import { create } from 'zustand';
 
 const CHARACTER_DATA = {
-  hades: {
-    name: "Hadès",
+  zeus: {
+    name: "Zeus",
     text: "Nul ne sort des Enfers, mon fils. Pas même toi.",
     image: "/assets/images/character/1.webp",
-    color: "#008b58"
   },
   
 };

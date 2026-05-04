@@ -4,7 +4,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { CharacterComponent } from "./CharacterComponent";
 import { useGameStore } from "../../stores/useGameStore";
 import { DialogueBox3D } from "./DialogueBox3D";
-import ExitButtonIcon from "../ui/ExitButtonIcon";
+import CloseButtonIcon from "../ui/CloseButtonIcon";
 // import { DialogueBox } from "./DialogueBox";
 
 export const DialogueSystem = () => {
@@ -34,7 +34,7 @@ export const DialogueSystem = () => {
             className="dialogue-close-btn"
             onClick={closeDialogue}
           >
-            <ExitButtonIcon />
+            <CloseButtonIcon />
           </motion.button>
 
           <div className="dialogue-content">
