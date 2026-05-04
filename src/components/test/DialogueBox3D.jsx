@@ -2,7 +2,6 @@ import { Text, useTexture } from "@react-three/drei";
 import { useRef } from "react";
 
 export const DialogueBox3D = ({ name, text }) => {
-  // Chargement de ton image
 const texture = useTexture("/assets/ui/2.png");
   return (
     <group position={[0, -0.9, 0]}> {/* Positionné en bas de l'écran */}
