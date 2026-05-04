@@ -27,6 +27,7 @@ const POSITIONS = {
 };
 
 export function Scene({ name, glb, active, before = "right", after = "left" }) {
+  const setIsTransitioning = useExperienceStore((state) => state.setIsTransitioning)
   const setCursor = useCursorStore((state) => state.setCursorType);
   const { scene } = useGLTF(glb);
   const prevActive = useRef(false);
@@ -37,9 +38,19 @@ export function Scene({ name, glb, active, before = "right", after = "left" }) {
   );
 
   // Setting initial position
-  useEffect(() => {
-    if (!active) setInitialMeshesPosition(meshes, before, POSITIONS);
-  }, []);
+  useLayoutEffect(() => {
+    const direction = useExperienceStore.getState().direction;
+    
+    if (!active) {
+      // Inactive : placed to the side
+      setInitialMeshesPosition(meshes, before, POSITIONS);
+    } else if (active && !prevActive.current) {
+      // Active : placed on starting point
+      // Before the first render happen
+      const startPosName = direction === "FORWARD" ? before : after;
+      setInitialMeshesPosition(meshes, startPosName, POSITIONS);
+    }
+  }, [meshes, active, before, after]);
 
   // Scene transitions : animate layers with stagger
   useEffect(() => {
@@ -49,16 +60,17 @@ export function Scene({ name, glb, active, before = "right", after = "left" }) {
     // Scene becomes ACTIVE (arrives)
     if (active && !prevActive.current) {
       console.log(`[${name}] ACTIVE`);
-      const startPos =
-        direction === "FORWARD" ? POSITIONS[before] : POSITIONS[after];
-      animateSceneLayers(meshes, startPos, POSITIONS.center, true, 0.4);
+      const startPos = direction === "FORWARD" ? POSITIONS[before] : POSITIONS[after];
+      useExperienceStore.getState().setIsTransitioning(true) // Security lock at the start of the animation
+      animateSceneLayers(meshes, startPos, POSITIONS.center, true, 0.4, () => { 
+        setIsTransitioning(false)
+      });
       prevActive.current = true;
     }
 
     // Scene becomes INACTIVE (leaves)
     else if (!active && prevActive.current) {
-      const endPos =
-        direction === "FORWARD" ? POSITIONS[after] : POSITIONS[before];
+      const endPos = direction === "FORWARD" ? POSITIONS[after] : POSITIONS[before];
       animateSceneLayers(meshes, POSITIONS.center, endPos, false, 0);
       prevActive.current = false;
     }

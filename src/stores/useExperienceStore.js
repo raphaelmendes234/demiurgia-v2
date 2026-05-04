@@ -21,45 +21,70 @@ export const useExperienceStore = create((set, get) => ({
   currentScene: "sceneMenu",
   gameIndex: 0,
   direction: "FORWARD",
+  isTransitioning: false,
   activeCharacter: null, 
 
   // --- PHASES NAVIGATION ---
-  setMenu: () => set({ 
-    phase: PHASES.MENU,
-    currentScene: "sceneMenu",
-    gameIndex: 0,
-    direction: "FORWARD"
-  }),
+  setMenu: () => {
+    if (get().isTransitioning) return
 
-  setContext: () => set({ 
-    phase: PHASES.CONTEXT,
-  }),
+    set({
+      phase: PHASES.MENU,
+      currentScene: "sceneMenu",
+      gameIndex: 0,
+      direction: "FORWARD",
+      isTransitioning: true
+    })
+  },
 
-  setGame: () => set({ 
-    phase: PHASES.GAME, 
-    currentScene: GAME_SCENES[0],
-    gameIndex: 0,
-    direction: "FORWARD"
-  }),
+  setContext: () => {
+    if (get().isTransitioning) return
 
-  setEnd: () => set({ 
-    phase: PHASES.END, 
-    currentScene: "sceneEnd",
-    direction: "FORWARD"
+    set({ 
+      phase: PHASES.CONTEXT,
+    });
+  },
+
+  setGame: () => {
+    if (get().isTransitioning) return
+
+    set({
+      phase: PHASES.GAME, 
+      currentScene: GAME_SCENES[0],
+      gameIndex: 0,
+      direction: "FORWARD",
+      isTransitioning: true
+    })
+  },
+
+  setEnd: () => {
+    if (get().isTransitioning) return
+
+    set({
+      phase: PHASES.END, 
+      currentScene: "sceneEnd",
+      direction: "FORWARD",
+      isTransitioning: true
+    })
+  },
+
+  setIsTransitioning: (val) => set({
+    isTransitioning: val
   }),
 
   // --- GAME NAVIGATION (game scenes) ---
   nextScene: () => {
-    const { phase, gameIndex } = get();
+    const { phase, gameIndex, isTransitioning } = get();
     
-    if (phase !== PHASES.GAME) return;
+    if (phase !== PHASES.GAME || isTransitioning) return;
 
     if (gameIndex < GAME_SCENES.length - 1) {
       const nextIdx = gameIndex + 1;
       set({ 
         gameIndex: nextIdx, 
         currentScene: GAME_SCENES[nextIdx],
-        direction: "FORWARD"
+        direction: "FORWARD",
+        isTransitioning: true
       });
     } else {
       get().setEnd();
@@ -67,15 +92,16 @@ export const useExperienceStore = create((set, get) => ({
   },
 
   prevScene: () => {
-    const { phase, gameIndex } = get();
+    const { phase, gameIndex, isTransitioning } = get();
     
-    if (phase !== PHASES.GAME || gameIndex === 0) return;
+    if (phase !== PHASES.GAME || gameIndex === 0 || isTransitioning) return;
 
     const prevIdx = gameIndex - 1;
     set({ 
       gameIndex: prevIdx, 
       currentScene: GAME_SCENES[prevIdx],
-      direction: "BACKWARD"
+      direction: "BACKWARD",
+      isTransitioning: true
     });
   },
 
