@@ -42,9 +42,9 @@ export function Experience() {
                 <CameraHandler />
                 {/* <OrbitControls />  */}
                     
-                {/* <Suspense fallback={null}>
+                <Suspense fallback={null}>
                     <ScenesManager/>
-                </Suspense> */}
+                </Suspense>
             </Canvas>
         </>
     )
