@@ -78,9 +78,10 @@ export function Scene({ name, glb, active, before = "right", after = "left" }) {
     }
   };
 
-  const handleClick = (e) => {
-    if (e.object.name.startsWith("INT_")) {
-      console.log("obj :", e.object.name);
+    const handleClick = (e) => {
+        if (e.object.name.startsWith('INT_')) {
+            useExperienceStore.getState().openDialogue(e.object.name)
+        }
     }
   };
 

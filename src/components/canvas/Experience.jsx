@@ -5,6 +5,7 @@ import { OrbitControls } from "@react-three/drei";
 import { ScenesManager } from "./ScenesManager";
 import { useControls,folder } from "leva";
 import { Bloom, EffectComposer } from "@react-three/postprocessing";
+import { DialogueSystem } from "../character/DialogueSystem";
 
 
 function CameraHandler() {
@@ -42,26 +43,30 @@ export function Experience() {
   // });
 
   return (
-    <Canvas camera={{ position: [0.02, 0, 4.35], fov: 21 }}>
-      <color attach="background" args={["#111"]} />
-      
-      <ambientLight intensity={0.8} color={"white"} /> 
+    <>
+      <DialogueSystem />
 
-      <CameraHandler />
+      <Canvas camera={{ position: [0.02, 0, 4.35], fov: 21 }}>
+        <color attach="background" args={["#111"]} />
+        
+        <ambientLight intensity={0.8} color={"white"} /> 
 
-      <Suspense fallback={null}>
-        <ScenesManager />
-      </Suspense>
-      
+        <CameraHandler />
 
-      <EffectComposer>
-       <Bloom
-          mipmapBlur
-          intensity={3.0}         
-          radius={0.60}       
-          luminanceThreshold={0.80} 
-        />
-      </EffectComposer>
-    </Canvas>
+        <Suspense fallback={null}>
+          <ScenesManager />
+        </Suspense>
+        
+
+        <EffectComposer>
+        <Bloom
+            mipmapBlur
+            intensity={3.0}         
+            radius={0.60}       
+            luminanceThreshold={0.80} 
+          />
+        </EffectComposer>
+      </Canvas>
+    </>
   );
 }
