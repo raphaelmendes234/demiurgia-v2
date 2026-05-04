@@ -1,0 +1,42 @@
+.dialogueBox{
+    &-container {
+      position: relative;
+      z-index: 10;
+      width: 800px; 
+      height: 280px;
+      padding: 60px 80px;
+      background: transparent;
+      pointer-events: none;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      margin-bottom: 20px;
+      background-color: rgb(93, 136, 93);
+    }
+    &-name {
+      font-family: "Georgia", serif;
+      font-size: 28px;
+      color: #ffe082;
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      margin-bottom: 5px;
+    }
+    &-text {
+      font-family: "Trebuchet MS", sans-serif;
+      font-size: 20px;
+      line-height: 1.5;
+      color: white;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+      margin: 0;
+    }
+    &-divider {
+      width: 150px;
+      height: 2px;
+      background: linear-gradient(to right, #ffe082, transparent);
+      margin-bottom: 15px;
+    }
+}
+
+
+
+
