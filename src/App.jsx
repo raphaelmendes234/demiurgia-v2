@@ -22,11 +22,11 @@ export default function App() {
 
   return (
     <>
-       <GlobalSoundController /> 
+      <GlobalSoundController /> 
       <div style={{ width: "100vw", height: "100vh" }}>
         <Debug />
 
-         {/* <CustomCursor />  */}
+         <CustomCursor /> 
 
          <LoadingScreen /> 
         

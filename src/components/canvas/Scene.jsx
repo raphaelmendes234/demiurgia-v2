@@ -1,7 +1,14 @@
 import { useEffect, useLayoutEffect, useMemo, useRef } from "react";
+import { useFrame } from "@react-three/fiber";
 import { useGLTF, useTexture } from "@react-three/drei";
-import { useExperienceStore } from "../../stores/useExperienceStore";
+
+import * as THREE from "three";
 import { gsap } from "gsap";
+
+import { useExperienceStore } from "../../stores/useExperienceStore";
+import { SCENE_CONFIG } from "../../data/sceneConfig";
+import { useCursorStore } from "../../stores/useCursorStore";
+
 import {
   animateSceneLayers,
   prepareSceneLayers,
@@ -9,10 +16,6 @@ import {
   mousePointer,
   updateSceneLayers,
 } from "../../utils/scene";
-import { useFrame } from "@react-three/fiber";
-import { useCursorStore } from "../../stores/useCursorStore";
-import { SCENE_CONFIG } from "../../data/sceneConfig";
-import * as THREE from "three";
 import { SceneGlow } from "./SceneGlow";
 
 const POSITIONS = {
@@ -79,11 +82,12 @@ export function Scene({ name, glb, active, before = "right", after = "left" }) {
   };
 
     const handleClick = (e) => {
+      e.stopPropagation();
         if (e.object.name.startsWith('INT_')) {
-            useExperienceStore.getState().openDialogue(e.object.name)
+          console.log(e.object.name)
+          useExperienceStore.getState().openDialogue(e.object.name)
         }
     }
-  };
 
   return (
     <group>

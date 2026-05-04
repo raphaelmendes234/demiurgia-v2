@@ -39,7 +39,7 @@ export const CustomCursor = () => {
 
   return (
     <div ref={cursorRef} className="cursor">
-      <img src={`/cursor/${cursorType}.jpg`} alt="" />
+      <img src={`/assets/images/cursor/${cursorType}.jpg`} alt="" />
     </div>
   )
 }
