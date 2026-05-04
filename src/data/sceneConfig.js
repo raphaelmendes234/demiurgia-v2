@@ -6,9 +6,8 @@ export const SCENE_CONFIG = {
 
     glow: {
       mask: "/assets/images/emission/women_emissive2.png",
-      emissiveColor: "#c720f1",
+      emissiveColor: "#0fd15d",
       emissiveIntensity: 4,
-      opacity: 1,
     },
   },
   INT_Elders: {
@@ -19,8 +18,7 @@ export const SCENE_CONFIG = {
     glow: {
       mask: "/assets/images/emission/vieux_emissive2.png",
       emissiveColor: "#0fd15d",
-      emissiveIntensity: 9,
-      opacity: 1,
+      emissiveIntensity: 4,
     },
   },
 };

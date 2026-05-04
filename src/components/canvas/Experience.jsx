@@ -32,21 +32,20 @@ function CameraHandler() {
 }
 
 export function Experience() {
-  const bloomSettings = useControls("Post-Process", {
-    Bloom: folder({
-      intensity: { value: 1.5, min: 0, max: 10 },
-      radius: { value: 0.4, min: 0, max: 1 },
-      luminanceThreshold: { value: 0.9, min: 0, max: 2 },
-      mipmapBlur: true,
-    }),
-  });
+  // const bloomSettings = useControls("Post-Process", {
+  //   Bloom: folder({
+  //     intensity: { value: 1.5, min: 0, max: 10 },
+  //     radius: { value: 0.4, min: 0, max: 1 },
+  //     luminanceThreshold: { value: 0.9, min: 0, max: 2 },
+  //     mipmapBlur: true,
+  //   }),
+  // });
 
   return (
     <Canvas camera={{ position: [0.02, 0, 4.35], fov: 21 }}>
       <color attach="background" args={["#111"]} />
       
-      {/* BAISSER L'INTENSITÉ ICI pour voir le glow */}
-      <ambientLight intensity={0.4} color={"white"} /> 
+      <ambientLight intensity={0.8} color={"white"} /> 
 
       <CameraHandler />
 
@@ -55,11 +54,11 @@ export function Experience() {
       </Suspense>
 
       <EffectComposer>
-        <Bloom
-          mipmapBlur={bloomSettings.mipmapBlur}
-          intensity={bloomSettings.intensity} // LIÉ À LEVA
-          radius={bloomSettings.radius}       // LIÉ À LEVA
-          luminanceThreshold={bloomSettings.luminanceThreshold} // LIÉ À LEVA
+       <Bloom
+          mipmapBlur
+          intensity={3.0}         
+          radius={0.60}       
+          luminanceThreshold={0.80} 
         />
       </EffectComposer>
     </Canvas>

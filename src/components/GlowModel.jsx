@@ -1,15 +1,11 @@
-export function GlowModel({ modelPath, name }) {
+import React, { useLayoutEffect } from 'react'
+import { useGLTF, useTexture } from '@react-three/drei'
+import * as THREE from 'three'
+import { SCENE_CONFIG } from '../data/sceneConfig'
+
+export function GlowModel({ modelPath }) {
   const { scene } = useGLTF(modelPath)
   
-  // On crée les contrôles Leva
-  const debug = useControls(`Scene: ${name}`, {
-    Modèle: folder({
-      emissiveColor: "#0fd15d",
-      emissiveIntensity: { value: 4, min: 0, max: 20 },
-      opacity: { value: 1, min: 0, max: 1 },
-    }),
-  });
-
   const textures = {}
   Object.keys(SCENE_CONFIG).forEach(key => {
     if(SCENE_CONFIG[key].glow) {
@@ -25,26 +21,21 @@ export function GlowModel({ modelPath, name }) {
         const config = SCENE_CONFIG[child.name]
         
         if (config && config.glow) {
-          // On clone pour éviter de modifier les autres instances
           child.material = child.material.clone()
           const m = child.material
 
-          m.emissiveMap = textures[child.name]
-          
-          // --- CONNEXION À LEVA ---
-          // On ignore le JSON et on prend les valeurs de 'debug'
-          m.emissive = new THREE.Color(debug.emissiveColor)
-          m.emissiveIntensity = debug.emissiveIntensity
-          m.opacity = debug.opacity
+          m.emissiveMap = textures[child.name] || null
+          m.emissive = new THREE.Color(config.glow.emissiveColor)
+          m.emissiveIntensity = config.glow.emissiveIntensity
           
           m.transparent = true
+          m.opacity = config.glow.opacity ?? 1
           m.toneMapped = false 
           m.needsUpdate = true
         }
       }
     })
-    // TRÈS IMPORTANT : On relance l'effet quand 'debug' change
-  }, [scene, textures, debug]) 
+  }, [scene, textures]) 
 
   return <primitive object={scene} />
 }

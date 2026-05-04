@@ -29,22 +29,10 @@ export function Scene({ name, glb, active, before = "right", after = "left" }) {
   const { scene } = useGLTF(glb);
   const prevActive = useRef(false);
 
-  // --- 1. DEBUG LEVA (Déplacé ici pour corriger l'erreur d'initialisation) ---
-  const debug = useControls(`Scene: ${name}`, {
-    Modèle: folder({
-      emissiveColor: "#0fd15d",
-      emissiveIntensity: { value: 4, min: 0, max: 20, step: 0.1 },
-      opacity: { value: 1, min: 0, max: 1, step: 0.01 },
-    }),
-  });
+  // 1. Préparation des éléments
+  const { sceneElements, meshes } = useMemo(() => prepareSceneLayers(scene), [scene]);
 
-  // --- 2. PRÉPARATION DES ÉLÉMENTS ---
-  const { sceneElements, meshes } = useMemo(
-    () => prepareSceneLayers(scene),
-    [scene],
-  );
-
-  // --- 3. GESTION DES TEXTURES D'ÉMISSION ---
+  // 2. Gestion des textures
   const neededTextures = useMemo(() => {
     const paths = {};
     sceneElements.traverse((child) => {
@@ -56,21 +44,13 @@ export function Scene({ name, glb, active, before = "right", after = "left" }) {
   }, [sceneElements]);
 
   const texturePaths = Object.values(neededTextures);
-
-  const loadedTextures = useTexture(
-    texturePaths.length > 0
-      ? texturePaths
-      : ["/assets/images/emission/women_emissive2.png"],
-  );
+  const loadedTextures = useTexture(texturePaths.length > 0 ? texturePaths : ["/assets/images/emission/women_emissive2.png"]);
 
   const textureMap = useMemo(() => {
     const map = {};
     if (texturePaths.length === 0) return map;
-
     Object.keys(neededTextures).forEach((meshName, index) => {
-      const tex = Array.isArray(loadedTextures)
-        ? loadedTextures[index]
-        : loadedTextures;
+      const tex = Array.isArray(loadedTextures) ? loadedTextures[index] : loadedTextures;
       if (tex) {
         tex.flipY = false;
         tex.colorSpace = THREE.SRGBColorSpace;
@@ -80,23 +60,22 @@ export function Scene({ name, glb, active, before = "right", after = "left" }) {
     return map;
   }, [neededTextures, loadedTextures, texturePaths]);
 
-  // --- 4. APPLICATION DU GLOW (AVEC OVERRIDE LEVA) ---
+  // 3. Application du Glow FIXE (via le JSON)
   useLayoutEffect(() => {
     sceneElements.traverse((child) => {
       if (child.isMesh) {
         const config = SCENE_CONFIG[child.name];
 
         if (config && config.glow) {
-          // On clone pour éviter les conflits entre scènes
           child.material = child.material.clone();
           const m = child.material;
 
           m.emissiveMap = textureMap[child.name] || null;
           
-          // Utilisation des valeurs de Leva en temps réel
-          m.emissive = new THREE.Color(debug.emissiveColor);
-          m.emissiveIntensity = debug.emissiveIntensity;
-          m.opacity = debug.opacity;
+          // On utilise maintenant uniquement les valeurs du JSON
+          m.emissive = new THREE.Color(config.glow.emissiveColor);
+          m.emissiveIntensity = config.glow.emissiveIntensity;
+          m.opacity = config.glow.opacity;
 
           m.toneMapped = false;
           m.transparent = true;
@@ -104,25 +83,21 @@ export function Scene({ name, glb, active, before = "right", after = "left" }) {
         }
       }
     });
-    // On écoute 'debug' pour mettre à jour Three.js quand tu bouges les sliders
-  }, [sceneElements, textureMap, debug]);
+  }, [sceneElements, textureMap]); // Plus de dépendance 'debug' ici
 
-  // --- 5. LOGIQUE DE TRANSITION & FRAME ---
+  // --- 6. LOGIQUE DE TRANSITION & FRAME ---
   useEffect(() => {
     if (!active) setInitialMeshesPosition(meshes, before, POSITIONS);
   }, [meshes, before, active]);
 
   useEffect(() => {
     const direction = useExperienceStore.getState().direction;
-
     if (active && !prevActive.current) {
-      const startPos =
-        direction === "FORWARD" ? POSITIONS[before] : POSITIONS[after];
+      const startPos = direction === "FORWARD" ? POSITIONS[before] : POSITIONS[after];
       animateSceneLayers(meshes, startPos, POSITIONS.center, true, 0.4);
       prevActive.current = true;
     } else if (!active && prevActive.current) {
-      const endPos =
-        direction === "FORWARD" ? POSITIONS[after] : POSITIONS[before];
+      const endPos = direction === "FORWARD" ? POSITIONS[after] : POSITIONS[before];
       animateSceneLayers(meshes, POSITIONS.center, endPos, false, 0);
       prevActive.current = false;
     }
@@ -134,18 +109,14 @@ export function Scene({ name, glb, active, before = "right", after = "left" }) {
     }
   });
 
-  // --- 6. HANDLERS D'INTERACTIONS ---
+  // --- 7. HANDLERS D'INTERACTIONS ---
   const handlePointerOver = (e) => {
     e.stopPropagation();
     const config = SCENE_CONFIG[e.object.name];
-
     if (config) {
       useCursorStore.getState().setIsHovering(true);
       if (config.cursor) useCursorStore.getState().setCursorType(config.cursor);
-
-      if (config.hoverSound) {
-        useSoundStore.getState().playInteractionSound(e.object.name, "hover");
-      }
+      if (config.hoverSound) useSoundStore.getState().playInteractionSound(e.object.name, "hover");
     }
   };
 
@@ -159,11 +130,8 @@ export function Scene({ name, glb, active, before = "right", after = "left" }) {
   const handleClick = (e) => {
     e.stopPropagation();
     const config = SCENE_CONFIG[e.object.name];
-
-    if (config) {
-      if (config.clickSound) {
-        useSoundStore.getState().playInteractionSound(e.object.name, "click");
-      }
+    if (config && config.clickSound) {
+      useSoundStore.getState().playInteractionSound(e.object.name, "click");
     }
   };
 
