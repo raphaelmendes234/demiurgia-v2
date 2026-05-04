@@ -3,49 +3,65 @@ import { Suspense, useEffect } from "react";
 import { OrbitControls } from "@react-three/drei";
 
 import { ScenesManager } from "./ScenesManager";
-import { useControls } from "leva";
+import { useControls,folder } from "leva";
+import { Bloom, EffectComposer } from "@react-three/postprocessing";
+
 
 function CameraHandler() {
-    const { camera } = useThree(); // Récupère l'instance réelle de la caméra
-    
-    const { xPosition, yPosition, zPosition, fov } = useControls("Camera", {
-        xPosition: { value: 0.02, min: -5, max: 5, step: 0.001 },
-        yPosition: { value: 0, min: -5, max: 5, step: 0.001 },
-        zPosition: { value: 4.35, min: 0, max: 20, step: 0.001 },
-        fov: { value: 21, min: 10, max: 120, step: 0.001 }
-    });
+  const { camera } = useThree(); // Récupère l'instance réelle de la caméra
 
-    useEffect(() => {
-        // On met à jour la position
-        camera.position.x = xPosition;
-        camera.position.y = yPosition;
-        camera.position.z = zPosition;
-        // On met à jour le FOV
-        camera.fov = fov;
-        // TRÈS IMPORTANT : On dit à Three.js de recalculer le rendu
-        camera.updateProjectionMatrix();
-    }, [xPosition, yPosition, zPosition, fov, camera]);
+  const { xPosition, yPosition, zPosition, fov } = useControls("Camera", {
+    xPosition: { value: 0.02, min: -5, max: 5, step: 0.001 },
+    yPosition: { value: 0, min: -5, max: 5, step: 0.001 },
+    zPosition: { value: 4.35, min: 0, max: 20, step: 0.001 },
+    fov: { value: 21, min: 10, max: 120, step: 0.001 },
+  });
 
-    return null; // Ce composant ne rend rien visuellement
+  useEffect(() => {
+    // On met à jour la position
+    camera.position.x = xPosition;
+    camera.position.y = yPosition;
+    camera.position.z = zPosition;
+    // On met à jour le FOV
+    camera.fov = fov;
+    // TRÈS IMPORTANT : On dit à Three.js de recalculer le rendu
+    camera.updateProjectionMatrix();
+  }, [xPosition, yPosition, zPosition, fov, camera]);
+
+  return null; // Ce composant ne rend rien visuellement
 }
 
 export function Experience() {
-    return (
-        <>
-            <Canvas
-                camera={{ position: [0.02, 0, 4.35], fov: 21 }}
-                onCreated={({ camera }) => { camera.lookAt(0.02, 0, -4.35) }}
-            >
-                <color attach="background" args={["#111"]} />
-                <ambientLight intensity={1} color={"white"} />
-                
-                <CameraHandler />
-                {/* <OrbitControls />  */}
-                    
-                <Suspense fallback={null}>
-                    <ScenesManager/>
-                </Suspense>
-            </Canvas>
-        </>
-    )
+  const bloomSettings = useControls("Post-Process", {
+    Bloom: folder({
+      intensity: { value: 1.5, min: 0, max: 10 },
+      radius: { value: 0.4, min: 0, max: 1 },
+      luminanceThreshold: { value: 0.9, min: 0, max: 2 },
+      mipmapBlur: true,
+    }),
+  });
+
+  return (
+    <Canvas camera={{ position: [0.02, 0, 4.35], fov: 21 }}>
+      <color attach="background" args={["#111"]} />
+      
+      {/* BAISSER L'INTENSITÉ ICI pour voir le glow */}
+      <ambientLight intensity={0.4} color={"white"} /> 
+
+      <CameraHandler />
+
+      <Suspense fallback={null}>
+        <ScenesManager />
+      </Suspense>
+
+      <EffectComposer>
+        <Bloom
+          mipmapBlur={bloomSettings.mipmapBlur}
+          intensity={bloomSettings.intensity} // LIÉ À LEVA
+          radius={bloomSettings.radius}       // LIÉ À LEVA
+          luminanceThreshold={bloomSettings.luminanceThreshold} // LIÉ À LEVA
+        />
+      </EffectComposer>
+    </Canvas>
+  );
 }

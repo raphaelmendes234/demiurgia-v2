@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useCursorStore } from "../../stores/useCursorStore";
 import { useExperienceStore } from "../../stores/useExperienceStore";
 import { useSoundStore } from "../../stores/useSoundStore";
-import { CursorButton } from "../CursorButton";
+import { CursorButton } from "../cursor/CursorButton";
 
 export function MenuScreen() {
   const setContext = useExperienceStore((state) => state.setContext)

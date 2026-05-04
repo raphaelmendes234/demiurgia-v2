@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react'
-import { useCursorStore } from '../stores/useCursorStore'
-import { useSoundStore } from '../stores/useSoundStore'
+import { useCursorStore } from '../../stores/useCursorStore'
+import { useSoundStore } from '../../stores/useSoundStore'
 
 export const CustomCursor = () => {
   const cursorRef = useRef(null)

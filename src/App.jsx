@@ -14,9 +14,9 @@ import { GameScreen } from "./components/screens/GameScreen";
 import { EndScreen } from "./components/screens/EndScreen";
 import { Experience } from "./components/canvas/Experience";
 import { GlobalSoundController } from "./components/GlobalSoundController";
-import { CustomCursor } from "./components/CustomCursor";
 import { Test } from "./components/test/Test";
 import Test2 from "./components/Test2";
+import { CustomCursor } from "./components/cursor/CustomCursor";
 
 export default function App() {
 
@@ -24,13 +24,13 @@ export default function App() {
 
   return (
     <>
-      {/* <GlobalSoundController /> */}
+       <GlobalSoundController /> 
       <div style={{ width: "100vw", height: "100vh" }}>
         <Debug />
 
-        {/* <CustomCursor /> */}
+         <CustomCursor /> 
 
-        {/* <LoadingScreen /> */}
+         <LoadingScreen /> 
         
         { phase === PHASES.TEST && <Test /> }
         { phase === PHASES.MENU && <MenuScreen /> }

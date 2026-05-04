@@ -1,6 +1,6 @@
 import { useEffect } from "react";
-import { useCursorStore } from "../stores/useCursorStore";
-import { useSoundStore } from "../stores/useSoundStore";
+import { useCursorStore } from "../../stores/useCursorStore";
+import { useSoundStore } from "../../stores/useSoundStore";
 
 
 export function CursorButton({ children, onClick, specialSound = false, ...props }) {
