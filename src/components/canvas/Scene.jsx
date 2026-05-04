@@ -1,39 +1,31 @@
-import { useEffect, useLayoutEffect, useMemo, useRef } from "react";
-import { useGLTF, useTexture } from "@react-three/drei";
-import { useFrame } from "@react-three/fiber";
-import * as THREE from "three";
-import { folder, useControls } from "leva";
-
-import { useExperienceStore } from "../../stores/useExperienceStore";
-import { useCursorStore } from "../../stores/useCursorStore";
-import { useSoundStore } from "../../stores/useSoundStore";
-
+import { useEffect, useLayoutEffect, useMemo, useRef } from "react"
+import { useGLTF, useTexture } from "@react-three/drei"
+import { useExperienceStore } from "../../stores/useExperienceStore"
+import { gsap } from "gsap"
+import { animateSceneLayers, prepareSceneLayers, setInitialMeshesPosition, mousePointer, updateSceneLayers } from "../../utils/scene"
+import { useFrame } from "@react-three/fiber"
+import { useCursorStore } from "../../stores/useCursorStore"
 import { SCENE_CONFIG } from "../../data/sceneConfig";
-import {
-  animateSceneLayers,
-  prepareSceneLayers,
-  setInitialMeshesPosition,
-  mousePointer,
-  updateSceneLayers,
-} from "../../utils/scene";
+import * as THREE from "three"
+
 
 const POSITIONS = {
-  top: { x: 0, y: 10, z: 0 },
-  bottom: { x: 0, y: -10, z: 0 },
-  left: { x: -10, y: 0, z: 0 },
-  right: { x: 10, y: 0, z: 0 },
-  center: { x: 0, y: 0, z: 0 },
-};
+    top:    { x: 0,   y: 10, z: 0 },
+    bottom: { x: 0,   y: -10,z: 0 },
+    left:   { x: -10, y: 0,  z: 0 },
+    right:  { x: 10,  y: 0,  z: 0 },
+    center: { x: 0,   y: 0,  z: 0 }
+}
 
 export function Scene({ name, glb, active, before = "right", after = "left" }) {
-  const { scene } = useGLTF(glb);
-  const prevActive = useRef(false);
+    const setCursor = useCursorStore((state) => state.setCursorType)
+    const { scene } = useGLTF(glb)
+    const prevActive = useRef(false)
 
-  // 1. Préparation des éléments
-  const { sceneElements, meshes } = useMemo(() => prepareSceneLayers(scene), [scene]);
+    // Prepare and clone scene pour isolation des calques
+    const { sceneElements, meshes } = useMemo(() => prepareSceneLayers(scene), [scene])
 
-  // 2. Gestion des textures
-  const neededTextures = useMemo(() => {
+    const neededTextures = useMemo(() => {
     const paths = {};
     sceneElements.traverse((child) => {
       if (child.isMesh && SCENE_CONFIG[child.name]?.glow) {
@@ -60,8 +52,8 @@ export function Scene({ name, glb, active, before = "right", after = "left" }) {
     return map;
   }, [neededTextures, loadedTextures, texturePaths]);
 
-  // 3. Application du Glow FIXE (via le JSON)
-  useLayoutEffect(() => {
+
+    useLayoutEffect(() => {
     sceneElements.traverse((child) => {
       if (child.isMesh) {
         const config = SCENE_CONFIG[child.name];
@@ -83,68 +75,66 @@ export function Scene({ name, glb, active, before = "right", after = "left" }) {
         }
       }
     });
-  }, [sceneElements, textureMap]); // Plus de dépendance 'debug' ici
+  }, [sceneElements, textureMap]);
 
-  // --- 6. LOGIQUE DE TRANSITION & FRAME ---
-  useEffect(() => {
-    if (!active) setInitialMeshesPosition(meshes, before, POSITIONS);
-  }, [meshes, before, active]);
+    // Setting initial position
+    useEffect(() => {
+        if (!active) setInitialMeshesPosition(meshes, before, POSITIONS)
+    }, [])
 
-  useEffect(() => {
-    const direction = useExperienceStore.getState().direction;
-    if (active && !prevActive.current) {
-      const startPos = direction === "FORWARD" ? POSITIONS[before] : POSITIONS[after];
-      animateSceneLayers(meshes, startPos, POSITIONS.center, true, 0.4);
-      prevActive.current = true;
-    } else if (!active && prevActive.current) {
-      const endPos = direction === "FORWARD" ? POSITIONS[after] : POSITIONS[before];
-      animateSceneLayers(meshes, POSITIONS.center, endPos, false, 0);
-      prevActive.current = false;
+    // Scene transitions : animate layers with stagger
+    useEffect(() => {
+        // Retrieve swap direction
+        const direction = useExperienceStore.getState().direction
+
+        // Scene becomes ACTIVE (arrives)
+        if (active && !prevActive.current) {
+            console.log(`[${name}] ACTIVE`)
+            const startPos = direction === "FORWARD" ? POSITIONS[before] : POSITIONS[after]
+            animateSceneLayers(meshes, startPos, POSITIONS.center, true, 0.4)
+            prevActive.current = true
+        }
+
+        // Scene becomes INACTIVE (leaves)
+        else if (!active && prevActive.current) {
+            const endPos = direction === "FORWARD" ? POSITIONS[after] : POSITIONS[before]
+            animateSceneLayers(meshes, POSITIONS.center, endPos, false, 0)
+            prevActive.current = false
+        }
+    }, [active, meshes])
+    
+    useFrame(() => {
+        updateSceneLayers(meshes, mousePointer, 0.1, true)
+    })
+
+    const handlePointerOver = (e) => {
+        e.stopPropagation()
+        if (e.object.name.startsWith('INT_')) {
+            useCursorStore.getState().setIsHovering(true)
+        }
     }
-  }, [active, meshes, before, after]);
 
-  useFrame(() => {
-    if (active) {
-      updateSceneLayers(meshes, mousePointer, 0.1, true);
+    const handlePointerOut = (e) => {
+        if (e.object.name.startsWith('INT_')) {
+            useCursorStore.getState().setIsHovering(false)
+        }
     }
-  });
 
-  // --- 7. HANDLERS D'INTERACTIONS ---
-  const handlePointerOver = (e) => {
-    e.stopPropagation();
-    const config = SCENE_CONFIG[e.object.name];
-    if (config) {
-      useCursorStore.getState().setIsHovering(true);
-      if (config.cursor) useCursorStore.getState().setCursorType(config.cursor);
-      if (config.hoverSound) useSoundStore.getState().playInteractionSound(e.object.name, "hover");
+    const handleClick = (e) => {
+        if (e.object.name.startsWith('INT_')) {
+            console.log("obj :", e.object.name)
+        }
     }
-  };
 
-  const handlePointerOut = (e) => {
-    if (SCENE_CONFIG[e.object.name]) {
-      useCursorStore.getState().setIsHovering(false);
-      useCursorStore.getState().setCursorType("default");
-    }
-  };
-
-  const handleClick = (e) => {
-    e.stopPropagation();
-    const config = SCENE_CONFIG[e.object.name];
-    if (config && config.clickSound) {
-      useSoundStore.getState().playInteractionSound(e.object.name, "click");
-    }
-  };
-
-  return (
-    <primitive
-      object={sceneElements}
-      name={name}
-      onPointerOver={handlePointerOver}
-      onPointerOut={handlePointerOut}
-      onClick={handleClick}
-      visible={active || prevActive.current}
-    />
-  );
+    return (
+        <primitive 
+            object={sceneElements} 
+            name={name}
+            onPointerOver={handlePointerOver}
+            onPointerOut={handlePointerOut}
+            onClick={handleClick}
+        />
+    )
 }
 
-useGLTF.preload = (url) => useGLTF.preload(url);
+useGLTF.preload = (url) => useGLTF.preload(url)
