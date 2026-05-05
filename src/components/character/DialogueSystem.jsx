@@ -10,11 +10,14 @@ import { DialogueBox3D } from "./DialogueBox3D";
 import { CloseButtonComponent } from "../ui/CloseButtonComponent";
 import InfoButtonIcon from "../ui/InfoButtonIcon";
 import { InfoPanel3D } from "./InfoPanel";
+import { useEffect } from "react";
+import { useSoundStore } from "../../stores/useSoundStore";
 
 export const DialogueSystem = () => {
 	const [isPanelOpen, setIsPanelOpen] = useState(false);
 	const activeCharacter = useExperienceStore((state) => state.activeCharacter);
 	const closeDialogue = useExperienceStore((state) => state.closeDialogue);
+	const setDucking = useSoundStore((state) => state.setDucking);
 
 	const character = activeCharacter ? SCENE_CONFIG[activeCharacter] : null;
 
@@ -22,6 +25,14 @@ export const DialogueSystem = () => {
 		closeDialogue();
 		setIsPanelOpen(false);
 	};
+
+  useEffect(() => {
+    if (activeCharacter) {
+      setDucking(true);
+    } else {
+      setDucking(false);
+    }
+  }, [activeCharacter, setDucking]);
 
 	return (
 		<AnimatePresence>

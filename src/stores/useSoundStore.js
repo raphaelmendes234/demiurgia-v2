@@ -1,5 +1,6 @@
 import { create } from "zustand";
 import { Howl, Howler } from "howler";
+import { gsap } from "gsap";
 
 const uiClick = new Howl({
   src: ["/sounds/ui/UI_Click.webm"],
@@ -20,7 +21,7 @@ const ambientSound = new Howl({
 const ambientSound2 = new Howl({
   src: ["/sounds/ambiant/3_caelid.webm"],
   loop: true,
-  volume: 0.1,
+  volume: 0.2,
 });
 
 const itemPickup = new Howl({
@@ -43,10 +44,21 @@ const uiHover = new Howl({
   volume: 0.2,
 });
 
-
 export const useSoundStore = create((set, get) => ({
   isMuted: false,
   _isSpecificPlaying: false,
+  isDucked: false,
+
+  setDucking: (active) => {
+    const targetVolume = active ? 0.15 : 1.0;
+    set({ isDucked: active });
+
+    gsap.to(Howler, {
+      duration: 1.5,
+      volume: targetVolume,
+      ease: "power1.in",
+    });
+  },
 
   playClick: (isGlobal = false) => {
     const { isMuted } = get();
@@ -96,12 +108,13 @@ export const useSoundStore = create((set, get) => ({
   },
 
   startAmbience: () => {
+    Howler.volume(get().isDucked ? 0.2 : 1.0);
     if (!ambientSound.playing()) {
       ambientSound.play();
     }
-      if (!ambientSound2.playing()) {
-        ambientSound2.play();
-      }
+    if (!ambientSound2.playing()) {
+      ambientSound2.play();
+    }
   },
 
   stopAmbience: () => {
