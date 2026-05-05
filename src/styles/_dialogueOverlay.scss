@@ -8,7 +8,14 @@
     justify-content: flex-end;
     align-items: center;
     padding-bottom: 40px;
-    background-color: red;
+  }
+  &-overlay::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(4px);
+    z-index: 0;
   }
 
   &-content {
@@ -25,21 +32,18 @@
     z-index: 1100;
     display: flex;
     align-items: center;
-    gap: 12px;
     background: none;
     border: none;
-    color: #ffe082;
     cursor: pointer;
-    text-transform: uppercase;
-    font-family: "Georgia", serif;
-    font-size: 14px;
     pointer-events: auto;
+    width: 50px;
+    height: auto;
   }
   &-close-btn svg {
-    width: 40px;
-    height: 40px;
-    padding: 8px;
-    border-radius: 50%;
+    transition: all 0.2s ease;
+  }
+
+  &-close-btn:hover svg {
+    scale: (1.1);
   }
 }
-
