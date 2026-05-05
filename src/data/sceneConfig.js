@@ -4,9 +4,10 @@ export const SCENE_CONFIG = {
    */
   INT_Women: {
     // Content
-    name: "INT_Women",
+    name: "Women",
     dialogue: "La place des femmes c'est à la couizine",
     image: "/assets/images/character/scene1/Woman.png",
+    info: "Voivizvizv",
 
     // Sound
     hoverSound: "",
@@ -21,7 +22,7 @@ export const SCENE_CONFIG = {
     },
   },
   INT_Backpack: {
-    name: "INT_Backpack",
+    name: "Backpack",
     dialogue: "Backpack",
     image: "/assets/images/character/scene1/Backpack.png",
 
@@ -29,7 +30,7 @@ export const SCENE_CONFIG = {
     clickSound: "",
   },
   INT_Rope: {
-    name: "INT_Rope",
+    name: "Rope",
     dialogue: "Rope",
     image: "/assets/images/character/scene1/Rope.png",
 
@@ -37,7 +38,7 @@ export const SCENE_CONFIG = {
     clickSound: "",
   },
   INT_Dog: {
-    name: "INT_Dog",
+    name: "Dog",
     dialogue: "Dog",
     image: "/assets/images/character/scene1/Dog.png",
 
@@ -45,7 +46,7 @@ export const SCENE_CONFIG = {
     clickSound: "",
   },
   INT_Elders: {
-    name: "INT_Elders",
+    name: "Elders",
     dialogue: "Vieux",
     image: "/assets/images/character/scene1/Elders.png",
 
@@ -63,7 +64,7 @@ export const SCENE_CONFIG = {
    * SCENE2
    */
   INT_Childrens: {
-    name: "INT_Childrens",
+    name: "Childrens",
     dialogue: "Enfants",
     image: "/assets/images/character/scene2/Childrens.png",
 
@@ -77,7 +78,7 @@ export const SCENE_CONFIG = {
     },
   },
   INT_Reindeer: {
-    name: "INT_Reindeer",
+    name: "Reindeer",
     dialogue: "Reindeer",
     image: "/assets/images/character/scene2/Reindeer.png",
 
@@ -85,7 +86,7 @@ export const SCENE_CONFIG = {
     clickSound: "",
   },
   INT_TalismanTree: {
-    name: "INT_TalismanTree",
+    name: "TalismanTree",
     dialogue: "TalismanTree",
     image: "/assets/images/character/scene2/TalismanTree.png",
 
@@ -103,7 +104,7 @@ export const SCENE_CONFIG = {
    * SCENE3
    */
   INT_Sled: {
-    name: "INT_Sled",
+    name: "Sled",
     dialogue: "Sled",
     image: "/assets/images/character/scene3/Sled.png",
 
@@ -111,7 +112,7 @@ export const SCENE_CONFIG = {
     clickSound: "",
   },
   INT_Fire: {
-    name: "INT_Fire",
+    name: "Fire",
     dialogue: "Fire",
     image: "/assets/images/character/scene3/Fire.png",
 
@@ -119,7 +120,7 @@ export const SCENE_CONFIG = {
     clickSound: "",
   },
   INT_Leader: {
-    name: "INT_Leader",
+    name: "Leader",
     dialogue: "Leader",
     image: "/assets/images/character/scene3/Leader.png",
 
@@ -133,7 +134,7 @@ export const SCENE_CONFIG = {
     },
   },
   INT_SingingMen_Acting : {
-    name: "INT_SingingMen",
+    name: "SingingMen",
     dialogue: "SingingMen",
     image: "/assets/images/character/scene3/SingingMen.png",
 
@@ -147,7 +148,7 @@ export const SCENE_CONFIG = {
     },
   },
   INT_SingingMen_Standing : {
-    name: "INT_SingingMen",
+    name: "SingingMen",
     dialogue: "SingingMen",
     image: "/assets/images/character/scene3/SingingMen.png",
 
@@ -161,7 +162,7 @@ export const SCENE_CONFIG = {
     },
   },
   INT_SingingMen_Sitting : {
-    name: "INT_SingingMen",
+    name: "SingingMen",
     dialogue: "SingingMen",
     image: "/assets/images/character/scene3/SingingMen.png",
 
@@ -179,7 +180,7 @@ export const SCENE_CONFIG = {
    * SCENE4
    */
   INT_Autel: {
-    name: "INT_Autel",
+    name: "Autel",
     dialogue: "Autel",
     image: "/assets/images/character/scene4/Autel.png",
 
@@ -193,7 +194,7 @@ export const SCENE_CONFIG = {
     },
   },
   INT_Gifts: {
-    name: "INT_Gifts",
+    name: "Gifts",
     dialogue: "Gifts",
     image: "/assets/images/character/scene4/Gifts.png",
 

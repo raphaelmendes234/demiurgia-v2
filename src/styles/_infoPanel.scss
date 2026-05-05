@@ -1,0 +1,49 @@
+.infoPanel {
+	&-container {
+		padding: 20px;
+		color: white;
+		overflow: hidden;
+		display: flex;
+		justify-content: flex-start;
+		align-items: flex-start;
+		gap: 24px;
+	}
+
+	&-open-btn {
+		position: absolute;
+		top: 40px;
+		right: 40px;
+		z-index: 1100;
+		display: flex;
+		align-items: center;
+		gap: 12px;
+		background: none;
+		border: none;
+		color: #ffe082;
+		cursor: pointer;
+		text-transform: uppercase;
+		font-family: "Georgia", serif;
+		font-size: 14px;
+		pointer-events: auto;
+	}
+
+	&-close-btn {
+		display: flex;
+		align-items: center;
+		gap: 12px;
+		background: none;
+		border: none;
+		color: #ffe082;
+		cursor: pointer;
+		text-transform: uppercase;
+		font-family: "Georgia", serif;
+		font-size: 14px;
+		pointer-events: auto;
+	}
+
+	&-open-btn svg {
+		width: 40px;
+		height: 40px;
+		padding: 8px;
+	}
+}
