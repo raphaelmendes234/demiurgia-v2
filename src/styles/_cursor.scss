@@ -1,10 +1,10 @@
 .cursor {
-  position: fixed;
-  pointer-events: none; /* Indispensable pour ne pas cliquer sur le curseur lui-même */
-  z-index: 9999;
+	position: fixed;
+	pointer-events: none; /* Indispensable pour ne pas cliquer sur le curseur lui-même */
+	z-index: 9999;
 
-  img {
-    width: 50px;
-    height: 50px;
-  }
+	img {
+		width: 75px;
+		height: 75px;
+	}
 }

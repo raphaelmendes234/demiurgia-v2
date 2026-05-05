@@ -1,25 +1,28 @@
-*
-{
-    margin: 0;
-    padding: 0;
-    // cursor: none !important;
+* {
+	margin: 0;
+	padding: 0;
+	cursor: none !important;
 }
 
 html,
 body,
-#root
-{
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    font-family: 'Inter', sans-serif;
+#root {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	font-family: "Inter", sans-serif;
 }
 
-h1, h2, h3, h4, h5, h6 {
-  font-family: 'Cinzel Decorative', cursive;
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+	font-family: "Cinzel Decorative", cursive;
 }
 p {
-  font-family: 'Cormorant', serif;
+	font-family: "Cormorant", serif;
 }

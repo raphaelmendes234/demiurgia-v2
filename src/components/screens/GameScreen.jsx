@@ -1,44 +1,50 @@
-import { useExperienceStore, GAME_SCENES } from "../../stores/useExperienceStore"
+import {
+	useExperienceStore,
+	GAME_SCENES,
+} from "../../stores/useExperienceStore";
+import { CursorButton } from "../cursor/CursorButton";
 
 export function GameScreen() {
-    const nextScene = useExperienceStore((state) => state.nextScene)
-    const prevScene = useExperienceStore((state) => state.prevScene)
-    const gameIndex = useExperienceStore((state) => state.gameIndex)
-    const isTransitioning = useExperienceStore((state) => state.isTransitioning)
-    
-    const totalScenes = GAME_SCENES.length
+	const nextScene = useExperienceStore((state) => state.nextScene);
+	const prevScene = useExperienceStore((state) => state.prevScene);
+	const gameIndex = useExperienceStore((state) => state.gameIndex);
+	const isTransitioning = useExperienceStore((state) => state.isTransitioning);
 
-    const handleNextClick = () => {
-        nextScene()
-    }
+	const totalScenes = GAME_SCENES.length;
 
-    const handlePrevClick = () => {
-        prevScene()
-    }
+	const handleNextClick = () => {
+		nextScene();
+	};
 
-    return (
-        <div className="game__screen">
-            <span className="utils__screenInfo">GAME SCREEN | Scene {gameIndex + 1} / {totalScenes}</span>
+	const handlePrevClick = () => {
+		prevScene();
+	};
 
-            <div className="game__nav">
-                {gameIndex !== 0 && (
-                    <button 
-                        onClick={handlePrevClick}
-                        disabled={isTransitioning}
-                        style={{ opacity: isTransitioning ? 0.5 : 1 }}
-                    >
-                        Précédent
-                    </button>
-                )}
+	return (
+		<div className="game__screen">
+			<span className="utils__screenInfo">
+				GAME SCREEN | Scene {gameIndex + 1} / {totalScenes}
+			</span>
 
-                <button 
-                    onClick={handleNextClick}
-                    disabled={isTransitioning}
-                    style={{ opacity: isTransitioning ? 0.5 : 1 }}
-                >
-                    {gameIndex === totalScenes - 1 ? "Terminer l'aventure" : "Suivant"}
-                </button>
-            </div>
-        </div>
-    )
+			<div className="game__nav">
+				{gameIndex !== 0 && (
+					<CursorButton
+						onClick={handlePrevClick}
+						disabled={isTransitioning}
+						style={{ opacity: isTransitioning ? 0.5 : 1 }}
+					>
+						Précédent
+					</CursorButton>
+				)}
+
+				<CursorButton
+					onClick={handleNextClick}
+					disabled={isTransitioning}
+					style={{ opacity: isTransitioning ? 0.5 : 1 }}
+				>
+					{gameIndex === totalScenes - 1 ? "Terminer l'aventure" : "Suivant"}
+				</CursorButton>
+			</div>
+		</div>
+	);
 }
