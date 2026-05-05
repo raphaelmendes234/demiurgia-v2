@@ -9,6 +9,7 @@ export function CursorButton({
 	...props
 }) {
 	const setIsHovering = useCursorStore((state) => state.setIsHovering);
+	const setCursorType = useCursorStore((state) => state.setCursorType);
 	const playSuccess = useSoundStore((state) => state.playSuccess);
 
 	// Unmount
@@ -20,6 +21,7 @@ export function CursorButton({
 
 	const handlePointerDown = (e) => {
 		e.stopPropagation();
+		setCursorType("click");
 		// Si c'est un bouton important, on joue le son magique
 		if (specialSound) {
 			playSuccess();
