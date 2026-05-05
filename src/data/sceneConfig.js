@@ -26,7 +26,7 @@ export const SCENE_CONFIG = {
     image: "/assets/images/character/scene1/Backpack.png",
 
     hoverSound: "",
-    clickSound: "",
+    clickSound: "pickup",
   },
   INT_Rope: {
     name: "INT_Rope",
@@ -92,7 +92,7 @@ export const SCENE_CONFIG = {
     hoverSound: "",
     clickSound: "",
 
-     glow: {
+    glow: {
       mask: "/assets/images/emission/talismanTree_emissive2.png",
       emissiveColor: "#0fd15d",
       emissiveIntensity: 4,
@@ -126,13 +126,13 @@ export const SCENE_CONFIG = {
     hoverSound: "",
     clickSound: "",
 
-     glow: {
+    glow: {
       mask: "/assets/images/emission/leader_emissive2.png",
       emissiveColor: "#0fd15d",
       emissiveIntensity: 4,
     },
   },
-  INT_SingingMen_Acting : {
+  INT_SingingMen_Acting: {
     name: "INT_SingingMen",
     dialogue: "SingingMen",
     image: "/assets/images/character/scene3/SingingMen.png",
@@ -140,13 +140,13 @@ export const SCENE_CONFIG = {
     hoverSound: "",
     clickSound: "",
 
-     glow: {
+    glow: {
       mask: "/assets/images/emission/acting_emissive2.png",
       emissiveColor: "#0fd15d",
       emissiveIntensity: 4,
     },
   },
-  INT_SingingMen_Standing : {
+  INT_SingingMen_Standing: {
     name: "INT_SingingMen",
     dialogue: "SingingMen",
     image: "/assets/images/character/scene3/SingingMen.png",
@@ -154,13 +154,13 @@ export const SCENE_CONFIG = {
     hoverSound: "",
     clickSound: "",
 
-     glow: {
+    glow: {
       mask: "/assets/images/emission/standing_emissive2.png",
       emissiveColor: "#0fd15d",
       emissiveIntensity: 4,
     },
   },
-  INT_SingingMen_Sitting : {
+  INT_SingingMen_Sitting: {
     name: "INT_SingingMen",
     dialogue: "SingingMen",
     image: "/assets/images/character/scene3/SingingMen.png",
@@ -168,7 +168,7 @@ export const SCENE_CONFIG = {
     hoverSound: "",
     clickSound: "",
 
-     glow: {
+    glow: {
       mask: "/assets/images/emission/sitting_emissive2.png",
       emissiveColor: "#0fd15d",
       emissiveIntensity: 4,
@@ -186,7 +186,7 @@ export const SCENE_CONFIG = {
     hoverSound: "",
     clickSound: "",
 
-     glow: {
+    glow: {
       mask: "/assets/images/emission/autel_emissive2.png",
       emissiveColor: "#0fd15d",
       emissiveIntensity: 4,

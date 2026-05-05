@@ -8,6 +8,7 @@ import { SCENE_CONFIG } from "../../data/sceneConfig";
 import { CharacterComponent } from "./CharacterComponent";
 import { DialogueBox3D } from "./DialogueBox3D";
 import CloseButtonIcon from "../ui/CloseButtonIcon";
+import { CloseButtonComponent } from "../ui/CloseButtonComponent";
 
 export const DialogueSystem = () => {
   const activeCharacter = useExperienceStore((state) => state.activeCharacter);
@@ -31,15 +32,7 @@ export const DialogueSystem = () => {
           transition={{ duration: 0.5, ease: "easeOut" }}
           className="dialogue-overlay"
         >
-          <motion.button
-            initial={{ opacity: 0, x: -30 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: 0.2 }}
-            className="dialogue-close-btn"
-            onClick={closeDialogue}
-          >
-            <CloseButtonIcon />
-          </motion.button>
+        <CloseButtonComponent onClick={closeDialogue} />
 
           <div className="dialogue-content">
             <Canvas camera={{ position: [0, 0, 5], fov: 45 }}>

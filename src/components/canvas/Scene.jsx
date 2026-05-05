@@ -17,6 +17,7 @@ import {
   updateSceneLayers,
 } from "../../utils/scene";
 import { SceneGlow } from "./SceneGlow";
+import { useSoundStore } from "../../stores/useSoundStore";
 
 const POSITIONS = {
   top: { x: 0, y: 10, z: 0 },
@@ -93,13 +94,26 @@ export function Scene({ name, glb, active, before = "right", after = "left" }) {
     }
   };
 
-    const handleClick = (e) => {
-      e.stopPropagation();
-        if (e.object.name.startsWith('INT_')) {
-          console.log(e.object.name)
-          useExperienceStore.getState().openDialogue(e.object.name)
-        }
+  const handleClick = (e) => {
+  e.stopPropagation();
+  const objName = e.object.name;
+
+  if (objName.startsWith('INT_')) {
+    // 1. Récupérer la config
+    const config = SCENE_CONFIG[objName];
+    
+    // 2. Jouer le son dynamiquement via le mot-clé
+    if (config?.clickSound) {
+      useSoundStore.getState().playSound(config.clickSound);
+    } else {
+      // Optionnel : son par défaut si rien n'est renseigné
+      useSoundStore.getState().playSound('click'); 
     }
+
+    // 3. Ouvrir le dialogue
+    useExperienceStore.getState().openDialogue(objName);
+  }
+};
 
   return (
     <group>
