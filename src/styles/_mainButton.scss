@@ -1,0 +1,69 @@
+.fantasy-btn-container {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  display: inline-block;
+  transition: transform 0.1s ease;
+  filter: drop-shadow(0 4px 6px rgba(0,0,0,0.3));
+  z-index: 9999;
+}
+
+.fantasy-btn-container:hover {
+  transform: scale(1.02);
+  filter: brightness(1.2) drop-shadow(0 6px 12px rgba(157, 238, 209, 0.2));
+}
+
+.fantasy-btn-container:active {
+  transform: scale(0.98);
+}
+
+.fantasy-btn-wrapper {
+  display: flex;
+  height: 80px;
+  align-items: stretch;
+}
+
+.btn-part {
+  height: 100%;
+}
+
+.side-left, .side-right {
+  flex: 0 0 auto;
+  width: auto;
+}
+
+.side-left svg, .side-right svg {
+  height: 100%;
+  display: block;
+}
+
+.center-fill {
+  flex: 1 1 auto;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 -2px; /* Pour éviter les micro-fissures entre les morceaux */
+}
+
+.center-fill svg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+
+.fantasy-btn-text {
+  position: relative;
+  z-index: 2;
+  color: #9deed1;
+  font-size: 1.5rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  padding: 0 10px;
+  white-space: nowrap;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+}
