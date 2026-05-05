@@ -28,7 +28,9 @@ const POSITIONS = {
 };
 
 export function Scene({ name, glb, active, before = "right", after = "left" }) {
-  const setIsTransitioning = useExperienceStore((state) => state.setIsTransitioning)
+  const setIsTransitioning = useExperienceStore(
+    (state) => state.setIsTransitioning,
+  );
   const setCursor = useCursorStore((state) => state.setCursorType);
   const { scene } = useGLTF(glb);
   const prevActive = useRef(false);
@@ -41,7 +43,7 @@ export function Scene({ name, glb, active, before = "right", after = "left" }) {
   // Setting initial position
   useLayoutEffect(() => {
     const direction = useExperienceStore.getState().direction;
-    
+
     if (!active) {
       // Inactive : placed to the side
       setInitialMeshesPosition(meshes, before, POSITIONS);
@@ -61,17 +63,19 @@ export function Scene({ name, glb, active, before = "right", after = "left" }) {
     // Scene becomes ACTIVE (arrives)
     if (active && !prevActive.current) {
       console.log(`[${name}] ACTIVE`);
-      const startPos = direction === "FORWARD" ? POSITIONS[before] : POSITIONS[after];
-      useExperienceStore.getState().setIsTransitioning(true) // Security lock at the start of the animation
-      animateSceneLayers(meshes, startPos, POSITIONS.center, true, 0.4, () => { 
-        setIsTransitioning(false)
+      const startPos =
+        direction === "FORWARD" ? POSITIONS[before] : POSITIONS[after];
+      useExperienceStore.getState().setIsTransitioning(true); // Security lock at the start of the animation
+      animateSceneLayers(meshes, startPos, POSITIONS.center, true, 0.4, () => {
+        setIsTransitioning(false);
       });
       prevActive.current = true;
     }
 
     // Scene becomes INACTIVE (leaves)
     else if (!active && prevActive.current) {
-      const endPos = direction === "FORWARD" ? POSITIONS[after] : POSITIONS[before];
+      const endPos =
+        direction === "FORWARD" ? POSITIONS[after] : POSITIONS[before];
       animateSceneLayers(meshes, POSITIONS.center, endPos, false, 0);
       prevActive.current = false;
     }
@@ -85,6 +89,7 @@ export function Scene({ name, glb, active, before = "right", after = "left" }) {
     e.stopPropagation();
     if (e.object.name.startsWith("INT_")) {
       useCursorStore.getState().setIsHovering(true);
+      useSoundStore.getState().playSound("hover");
     }
   };
 
@@ -95,25 +100,22 @@ export function Scene({ name, glb, active, before = "right", after = "left" }) {
   };
 
   const handleClick = (e) => {
-  e.stopPropagation();
-  const objName = e.object.name;
+    e.stopPropagation();
+    const objName = e.object.name;
 
-  if (objName.startsWith('INT_')) {
-    // 1. Récupérer la config
-    const config = SCENE_CONFIG[objName];
-    
-    // 2. Jouer le son dynamiquement via le mot-clé
-    if (config?.clickSound) {
-      useSoundStore.getState().playSound(config.clickSound);
-    } else {
-      // Optionnel : son par défaut si rien n'est renseigné
-      useSoundStore.getState().playSound('click'); 
+    if (objName.startsWith("INT_")) {
+      const config = SCENE_CONFIG[objName];
+
+      if (config?.clickSound) {
+        useSoundStore.getState().playSound(config.clickSound);
+      } else {
+        useSoundStore.getState().playSound("click");
+      }
+
+      // 3. Ouvrir le dialogue
+      useExperienceStore.getState().openDialogue(objName);
     }
-
-    // 3. Ouvrir le dialogue
-    useExperienceStore.getState().openDialogue(objName);
-  }
-};
+  };
 
   return (
     <group>

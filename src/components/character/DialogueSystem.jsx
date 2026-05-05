@@ -7,7 +7,6 @@ import { SCENE_CONFIG } from "../../data/sceneConfig";
 
 import { CharacterComponent } from "./CharacterComponent";
 import { DialogueBox3D } from "./DialogueBox3D";
-import CloseButtonIcon from "../ui/CloseButtonIcon";
 import { CloseButtonComponent } from "../ui/CloseButtonComponent";
 
 export const DialogueSystem = () => {

@@ -42,7 +42,7 @@ export const SCENE_CONFIG = {
     image: "/assets/images/character/scene1/Dog.png",
 
     hoverSound: "",
-    clickSound: "",
+    clickSound: "dog",
   },
   INT_Elders: {
     name: "INT_Elders",

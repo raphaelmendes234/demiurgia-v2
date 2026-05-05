@@ -8,8 +8,14 @@ export const CloseButtonComponent = ({ onClick }) => {
     playSound("close");
     onClick();
   };
+
+  const handlePointerOver = (e) => {
+    playSound("hover");
+    
+  };
+
   return (
-    <button onClick={handleClick} className="dialogue-close-btn">
+    <button onClick={handleClick} onPointerEnter={handlePointerOver} className="dialogue-close-btn">
       <CloseButtonIcon />
     </button>
   );

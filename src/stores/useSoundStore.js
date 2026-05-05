@@ -17,15 +17,32 @@ const ambientSound = new Howl({
   volume: 0.3,
 });
 
+const ambientSound2 = new Howl({
+  src: ["/sounds/ambiant/3_caelid.webm"],
+  loop: true,
+  volume: 0.1,
+});
+
 const itemPickup = new Howl({
   src: ["/sounds/itemTarget/1_OpenBag.webm"],
   volume: 0.5,
 });
 
-const uiClose = new Howl({
-  src: ["/sounds/ui/UI_ClickWood.webm"],
+const itemDog = new Howl({
+  src: ["/sounds/itemTarget/2_Wouaf.webm"],
   volume: 0.5,
 });
+
+const uiClose = new Howl({
+  src: ["/sounds/ui/UI_ClickWood.webm"],
+  volume: 0.3,
+});
+
+const uiHover = new Howl({
+  src: ["/sounds/ui/UI_Hover.webm"],
+  volume: 0.2,
+});
+
 
 export const useSoundStore = create((set, get) => ({
   isMuted: false,
@@ -55,6 +72,8 @@ export const useSoundStore = create((set, get) => ({
       pickup: itemPickup,
       click: uiClick,
       close: uiClose,
+      dog: itemDog,
+      hover: uiHover,
     };
 
     const selectedSound = sounds[soundName] || uiClick;
@@ -80,10 +99,14 @@ export const useSoundStore = create((set, get) => ({
     if (!ambientSound.playing()) {
       ambientSound.play();
     }
+      if (!ambientSound2.playing()) {
+        ambientSound2.play();
+      }
   },
 
   stopAmbience: () => {
     ambientSound.stop();
+    ambientSound2.stop();
   },
 
   toggleMute: () => {
