@@ -1,6 +1,6 @@
 import React from "react";
 
-const MainButton = ({ text, onClick, className = "" }) => {
+const MainButton = ({ children, onClick, className = "", ...props }) => {
   // On stocke le contenu visuel dans une constante pour ne pas répéter 3x le gros bloc de code
   const SvgContent = (
     <g className="cls-8">
@@ -345,7 +345,12 @@ const MainButton = ({ text, onClick, className = "" }) => {
         </defs>
       </svg>
 
-      <div className="fantasy-btn-wrapper">
+      <div
+        onClick={onClick}
+        {...props} // CRUCIAL : On applique les événements ici
+        style={{ cursor: "pointer" }}
+        className="fantasy-btn-wrapper"
+      >
         {/* Bord Gauche */}
         <div className="btn-part side-left">
           <svg viewBox="0 14.57 250 540.56" preserveAspectRatio="xMinYMid meet">
@@ -358,7 +363,7 @@ const MainButton = ({ text, onClick, className = "" }) => {
           <svg viewBox="920 14.57 10 540.56" preserveAspectRatio="none">
             {SvgContent}
           </svg>
-          <p className="fantasy-btn-text">{text}</p>
+          <p className="fantasy-btn-text">{children}</p>
         </div>
 
         {/* Bord Droit */}
