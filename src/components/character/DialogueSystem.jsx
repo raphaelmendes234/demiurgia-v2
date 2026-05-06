@@ -45,12 +45,6 @@ export const DialogueSystem = () => {
 						<button
 							className="infoPanel-open-btn"
 							onClick={() => setIsPanelOpen(true)}
-							style={{
-								position: "absolute",
-								right: "40px",
-								top: "40px",
-								zIndex: 10,
-							}}
 						>
 							<InfoButtonIcon />
 						</button>
@@ -64,8 +58,8 @@ export const DialogueSystem = () => {
 								<InfoPanel3D
 									isOpen={isPanelOpen}
 									setIsOpen={setIsPanelOpen}
-									characterName={character.name}
-									characterInfo={character.info}
+									characterName={character.infoName}
+									characterInfo={character.infoText}
 								/>
 								<DialogueBox3D name={character.name} text={character.text} />
 							</Suspense>

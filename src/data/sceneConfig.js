@@ -7,7 +7,8 @@ export const SCENE_CONFIG = {
     name: "Women",
     dialogue: "La place des femmes c'est à la couizine",
     image: "/assets/images/character/scene1/Woman.png",
-    info: "Voivizvizv",
+    infoName: "COMING SOON",
+    infoText: "COMING SOON",
 
     // Sound
     hoverSound: "",
@@ -25,6 +26,8 @@ export const SCENE_CONFIG = {
     name: "Backpack",
     dialogue: "Backpack",
     image: "/assets/images/character/scene1/Backpack.png",
+    infoName: "COMING SOON",
+    infoText: "COMING SOON",
 
     hoverSound: "",
     clickSound: "pickup",
@@ -33,6 +36,8 @@ export const SCENE_CONFIG = {
     name: "Rope",
     dialogue: "Rope",
     image: "/assets/images/character/scene1/Rope.png",
+    infoName: "COMING SOON",
+    infoText: "COMING SOON",
 
     hoverSound: "",
     clickSound: "",
@@ -41,6 +46,8 @@ export const SCENE_CONFIG = {
     name: "Dog",
     dialogue: "Dog",
     image: "/assets/images/character/scene1/Dog.png",
+    infoName: "COMING SOON",
+    infoText: "COMING SOON",
 
     hoverSound: "",
     clickSound: "dog",
@@ -49,7 +56,9 @@ export const SCENE_CONFIG = {
     name: "Elders",
     dialogue: "Vieux",
     image: "/assets/images/character/scene1/Elders.png",
-
+    infoName: "COMING SOON",
+    infoText: "COMING SOON",
+    
     hoverSound: "",
     clickSound: "",
 
@@ -67,7 +76,9 @@ export const SCENE_CONFIG = {
     name: "Childrens",
     dialogue: "Enfants",
     image: "/assets/images/character/scene2/Childrens.png",
-
+    infoName: "COMING SOON",
+    infoText: "COMING SOON",
+    
     hoverSound: "",
     clickSound: "",
 
@@ -81,7 +92,9 @@ export const SCENE_CONFIG = {
     name: "Reindeer",
     dialogue: "Reindeer",
     image: "/assets/images/character/scene2/Reindeer.png",
-
+    infoName: "COMING SOON",
+    infoText: "COMING SOON",
+    
     hoverSound: "",
     clickSound: "",
   },
@@ -89,7 +102,9 @@ export const SCENE_CONFIG = {
     name: "TalismanTree",
     dialogue: "TalismanTree",
     image: "/assets/images/character/scene2/TalismanTree.png",
-
+    infoName: "COMING SOON",
+    infoText: "COMING SOON",
+    
     hoverSound: "",
     clickSound: "",
 
@@ -107,7 +122,9 @@ export const SCENE_CONFIG = {
     name: "Sled",
     dialogue: "Sled",
     image: "/assets/images/character/scene3/Sled.png",
-
+    infoName: "COMING SOON",
+    infoText: "COMING SOON",
+    
     hoverSound: "",
     clickSound: "",
   },
@@ -115,7 +132,9 @@ export const SCENE_CONFIG = {
     name: "Fire",
     dialogue: "Fire",
     image: "/assets/images/character/scene3/Fire.png",
-
+    infoName: "COMING SOON",
+    infoText: "COMING SOON",
+    
     hoverSound: "",
     clickSound: "",
   },
@@ -123,7 +142,9 @@ export const SCENE_CONFIG = {
     name: "Leader",
     dialogue: "Leader",
     image: "/assets/images/character/scene3/Leader.png",
-
+    infoName: "COMING SOON",
+    infoText: "COMING SOON",
+    
     hoverSound: "",
     clickSound: "",
 
@@ -137,7 +158,9 @@ export const SCENE_CONFIG = {
     name: "SingingMen",
     dialogue: "SingingMen",
     image: "/assets/images/character/scene3/SingingMen.png",
-
+    infoName: "COMING SOON",
+    infoText: "COMING SOON",
+    
     hoverSound: "",
     clickSound: "",
 
@@ -151,7 +174,9 @@ export const SCENE_CONFIG = {
     name: "SingingMen",
     dialogue: "SingingMen",
     image: "/assets/images/character/scene3/SingingMen.png",
-
+    infoName: "COMING SOON",
+    infoText: "COMING SOON",
+    
     hoverSound: "",
     clickSound: "",
 
@@ -165,7 +190,9 @@ export const SCENE_CONFIG = {
     name: "SingingMen",
     dialogue: "SingingMen",
     image: "/assets/images/character/scene3/SingingMen.png",
-
+    infoName: "COMING SOON",
+    infoText: "COMING SOON",
+    
     hoverSound: "",
     clickSound: "",
 
@@ -183,7 +210,9 @@ export const SCENE_CONFIG = {
     name: "Autel",
     dialogue: "Autel",
     image: "/assets/images/character/scene4/Autel.png",
-
+    infoName: "COMING SOON",
+    infoText: "COMING SOON",
+    
     hoverSound: "",
     clickSound: "",
 
@@ -197,6 +226,8 @@ export const SCENE_CONFIG = {
     name: "Gifts",
     dialogue: "Gifts",
     image: "/assets/images/character/scene4/Gifts.png",
+    infoName: "COMING SOON",
+    infoText: "COMING SOON",
 
     hoverSound: "",
     clickSound: "",
