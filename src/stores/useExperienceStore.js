@@ -26,45 +26,41 @@ export const useExperienceStore = create((set, get) => ({
 
   // --- PHASES NAVIGATION ---
   setMenu: () => {
-    if (get().isTransitioning) return
-
+    if (get().isTransitioning) return;
     set({
       phase: PHASES.MENU,
       currentScene: "sceneMenu",
       gameIndex: 0,
       direction: "FORWARD",
-      isTransitioning: true
     })
   },
 
   setContext: () => {
-    if (get().isTransitioning) return
-
+    if (get().isTransitioning) return;
     set({ 
       phase: PHASES.CONTEXT,
+      currentScene: "sceneMenu",
+      gameIndex: 0,
+      direction: "FORWARD",
     });
   },
 
   setGame: () => {
-    if (get().isTransitioning) return
-
+    if (get().isTransitioning) return;
     set({
       phase: PHASES.GAME, 
       currentScene: GAME_SCENES[0],
       gameIndex: 0,
       direction: "FORWARD",
-      isTransitioning: true
     })
   },
 
   setEnd: () => {
-    if (get().isTransitioning) return
-
+    if (get().isTransitioning) return;
     set({
       phase: PHASES.END, 
       currentScene: "sceneEnd",
       direction: "FORWARD",
-      isTransitioning: true
     })
   },
 
@@ -84,7 +80,6 @@ export const useExperienceStore = create((set, get) => ({
         gameIndex: nextIdx, 
         currentScene: GAME_SCENES[nextIdx],
         direction: "FORWARD",
-        isTransitioning: true
       });
     } else {
       get().setEnd();
@@ -101,7 +96,6 @@ export const useExperienceStore = create((set, get) => ({
       gameIndex: prevIdx, 
       currentScene: GAME_SCENES[prevIdx],
       direction: "BACKWARD",
-      isTransitioning: true
     });
   },
 
