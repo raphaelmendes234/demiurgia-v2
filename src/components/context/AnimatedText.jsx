@@ -119,7 +119,7 @@ export function AnimatedText({ content }) {
 				ease: "power3.out",
 				delay: 0.8,
 			},
-			0.2,
+			0,
 		);
 
 		// Animation fond
@@ -130,7 +130,7 @@ export function AnimatedText({ content }) {
 				duration: 1.5,
 				ease: "power2.out",
 			},
-			0.2,
+			0,
 		);
 
 		// Animation du texte
@@ -141,7 +141,7 @@ export function AnimatedText({ content }) {
 				duration: 1.5,
 				ease: "power2.out",
 			},
-			0.2,
+			0,
 		);
 
 		tl.to(
