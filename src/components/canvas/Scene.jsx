@@ -57,13 +57,10 @@ export function Scene({ name, glb, active, before = "right", after = "left" }) {
     }
   }, [meshes, active, before, after]);
 
-  // Scene transitions : animate layers with stagger
   useEffect(() => {
   const direction = useExperienceStore.getState().direction;
 
-  // Quand la scène devient ACTIVE
   if (active && !prevActive.current) {
-    // --- ON ACTIVE LES SONS DE LA SCÈNE ICI ---
     updateSceneSounds(name); 
 
     const startPos = direction === "FORWARD" ? POSITIONS[before] : POSITIONS[after];
@@ -75,7 +72,6 @@ export function Scene({ name, glb, active, before = "right", after = "left" }) {
     prevActive.current = true;
   }
   
-  // Quand la scène devient INACTIVE
   else if (!active && prevActive.current) {
     const endPos = direction === "FORWARD" ? POSITIONS[after] : POSITIONS[before];
     animateSceneLayers(meshes, POSITIONS.center, endPos, false, 0);

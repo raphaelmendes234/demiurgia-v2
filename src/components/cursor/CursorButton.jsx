@@ -3,40 +3,37 @@ import { useCursorStore } from "../../stores/useCursorStore";
 import { useSoundStore } from "../../stores/useSoundStore";
 
 export function CursorButton({
-	children,
-	onClick,
-	specialSound = false,
-	...props
+  children,
+  onClick,
+  onPointerEnter,
+  specialSound = false,
+  ...props
 }) {
-	const setIsHovering = useCursorStore((state) => state.setIsHovering);
-	const playSuccess = useSoundStore((state) => state.playSuccess);
+  const setIsHovering = useCursorStore((state) => state.setIsHovering);
 
-	// Unmount
-	useEffect(() => {
-		return () => {
-			setIsHovering(false);
-		};
-	}, [setIsHovering]);
+  useEffect(() => {
+    return () => setIsHovering(false);
+  }, [setIsHovering]);
 
-	const handlePointerDown = (e) => {
-		e.stopPropagation();
-		// Si c'est un bouton important, on joue le son magique
-		if (specialSound) {
-			playSuccess();
-		}
+  const handlePointerEnter = (e) => {
+    setIsHovering(true);
+    if (onPointerEnter) onPointerEnter(e);
+  };
 
-		if (props.onPointerDown) props.onPointerDown(e);
-	};
+  const handlePointerDown = (e) => {
+    e.stopPropagation();
+    if (props.onPointerDown) props.onPointerDown(e);
+  };
 
-	return (
-		<button
-			{...props}
-			onPointerEnter={() => setIsHovering(true)}
-			onPointerLeave={() => setIsHovering(false)}
-			onPointerDown={handlePointerDown}
-			onClick={onClick}
-		>
-			{children}
-		</button>
-	);
+  return (
+    <button
+      {...props}
+      onPointerEnter={handlePointerEnter}
+      onPointerLeave={() => setIsHovering(false)}
+      onPointerDown={handlePointerDown}
+      onClick={onClick}
+    >
+      {children}
+    </button>
+  );
 }

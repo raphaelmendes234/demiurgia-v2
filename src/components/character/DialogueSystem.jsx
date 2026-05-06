@@ -53,8 +53,6 @@ export const DialogueSystem = () => {
 				>
 					<CloseButtonComponent onClick={closeDialogue} />
 
-          <MainButton text={"ui"} />
-
 					{!isPanelOpen && (
 						<button
 							className="infoPanel-open-btn"
