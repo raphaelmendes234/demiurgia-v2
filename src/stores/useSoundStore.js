@@ -18,11 +18,13 @@ const magicClick = new Howl({
 const ambientSound = new Howl({
   src: ["/sounds/ambiant/3_WindAmbiant2.webm"],
   loop: true,
+  volume: 0.4,
 });
 
 const ambientSound2 = new Howl({
   src: ["/sounds/ambiant/4_AnimalsAmbiant.webm"],
   loop: true,
+  volume: 1,
 });
 
 const uiClose = new Howl({
@@ -32,12 +34,12 @@ const uiClose = new Howl({
 
 const uiHover = new Howl({
   src: ["/sounds/ui/UI_Hover.webm"],
-  volume: 0.1,
+  volume: 0.3,
 });
 
 const uiSwooshScene = new Howl({
   src: ["/sounds/ui/UI_Swoosh_SF_SpeedUp2.webm"],
-  volume: 0.2,
+  volume: 0.5,
 });
 
 // --- SONS SPÉCIFIQUES AUX SCÈNES POUR L'AMBIANCE TAH RONALDO PRIME ---
@@ -50,7 +52,7 @@ const SCENE_LAYERS = {
         loop: true,
         volume: 0,
       }),
-      maxVolume: 0.01,
+      maxVolume: 0.09,
     },
     {
       sound: new Howl({
@@ -58,7 +60,7 @@ const SCENE_LAYERS = {
         loop: true,
         volume: 0,
       }),
-      maxVolume: 0.05,
+      maxVolume: 0.09,
     },
   ],
   scene3: [
@@ -68,7 +70,7 @@ const SCENE_LAYERS = {
         loop: true,
         volume: 0,
       }),
-      maxVolume: 0.7,
+      maxVolume: 0.9,
     },
     {
       sound: new Howl({
@@ -76,7 +78,7 @@ const SCENE_LAYERS = {
         loop: true,
         volume: 0,
       }),
-      maxVolume: 0.07,
+      maxVolume: 0.6,
     },
   ],
   scene4: [
@@ -86,7 +88,7 @@ const SCENE_LAYERS = {
         loop: true,
         volume: 0,
       }),
-      maxVolume: 0.01,
+      maxVolume: 0.07,
     },
     {
       sound: new Howl({
@@ -94,7 +96,7 @@ const SCENE_LAYERS = {
         loop: true,
         volume: 0,
       }),
-      maxVolume: 0.1,
+      maxVolume: 0.3,
     },
   ],
 };
@@ -132,51 +134,51 @@ const itemElders = new Howl({
 
 const itemChild = new Howl({
   src: ["/sounds/scene2/target/childGiggle.webm"],
-  volume: 0.5,
+  volume: 0.7,
 });
 
 const itemTalismanTree = new Howl({
   src: ["/sounds/scene2/target/TalismanTree.webm"],
-  volume: 0.4,
+  volume: 0.7,
 });
 
 const itemDeer = new Howl({
   src: ["/sounds/scene2/target/DeerGrunt.webm"],
-  volume: 0.5,
+  volume: 0.7,
 });
 
 //SCENE3
 
 const itemLeader = new Howl({
   src: ["/sounds/scene3/target/Sound_Hmmm_Male.webm"],
-  volume: 0.5,
+  volume: 0.7,
 });
 
 const itemSled = new Howl({
   src: ["/sounds/scene3/target/Sled_Pickup.webm"],
-  volume: 0.5,
+  volume: 0.7,
 });
 
 const itemFire = new Howl({
   src: ["/sounds/scene3/target/Swoosh_Fire_Cut.webm"],
-  volume: 0.5,
+  volume: 0.9,
 });
 
 const itemSinging = new Howl({
   src: ["/sounds/scene3/target/SingingMen.webm"],
-  volume: 0.5,
+  volume: 0.7,
 });
 
 // SCENE 4
 
 const itemAutel = new Howl({
   src: ["/sounds/scene4/target/Autel.webm"],
-  volume: 0.5,
+  volume: 0.7,
 });
 
 const itemGift = new Howl({
   src: ["/sounds/scene4/target/Gifts.webm"],
-  volume: 0.5,
+  volume: 0.7,
 });
 
 export const useSoundStore = create((set, get) => ({
@@ -290,16 +292,12 @@ export const useSoundStore = create((set, get) => ({
   },
   startAmbience: () => {
     Howler.volume(get().isDucked ? 0.15 : 1.0);
-    const FADE_DURATION = 5000;
+    const FADE_DURATION = 1000;
 
-    if (!ambientSound.playing()) {
-      ambientSound.play();
-      ambientSound.fade(0, 0.1, FADE_DURATION);
-    }
-
+    ambientSound.play();
     if (!ambientSound2.playing()) {
       ambientSound2.play();
-      ambientSound2.fade(0, 0.6, FADE_DURATION);
+      ambientSound2.fade(0, 1, FADE_DURATION);
     }
   },
 
