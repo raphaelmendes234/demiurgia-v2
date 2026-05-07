@@ -1,61 +1,101 @@
-.infoPanel {
-	&-container {
-		position: relative;
-		padding: 20px;
-		color: white;
-		overflow: hidden;
-		display: flex;
-		justify-content: flex-start;
-		align-items: flex-start;
-		gap: 24px;
-		overflow: visible;
-	}
+.panel-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(4px);
+  z-index: 99;
+  pointer-events: all;
+}
 
-	&-open-btn {
-		position: absolute;
-		top: 40px;
-		right: 40px;
-		z-index: 1100;
-		display: flex;
-		align-items: center;
-		gap: 12px;
-		background: none;
-		border: none;
-		color: #ffe082;
-		cursor: pointer;
-		font-family: "Georgia", serif;
-		font-size: 14px;
-		pointer-events: auto;
-		width: 50px;
-		height: auto;
-	}
+.info-panel-container {
+  position: fixed;
+  top: 0;
+  right: 0;
+  height: 100vh;
+  width: 420px;
+  z-index: 100;
 
-	&-close-btn {
-		position: absolute;
-		top: 30px;
-		left: -30px;
-		display: flex;
-		align-items: center;
-		gap: 12px;
-		background: none;
-		border: none;
-		color: #ffe082;
-		cursor: pointer;
-		text-transform: uppercase;
-		font-family: "Georgia", serif;
-		font-size: 14px;
-		pointer-events: auto;
-		width: 30px;
-		height: auto;
-	}
+  background-image: url("/assets/info/UI.png");
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
 
-	&-close-btn svg,
-	&-open-btn svg {
-		transition: all 0.2s ease;
-	}
+  padding: 80px 40px 60px 60px;
+  box-sizing: border-box;
+  filter: drop-shadow(-15px 0 20px rgba(0, 0, 0, 0.6));
+  pointer-events: all;
 
-	&-close-btn:hover svg,
-	&-open-btn:hover svg {
-		scale: (1.1);
-	}
+  .panel-content-wrapper {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    gap: 20px;
+  }
+
+  .character-title {
+    color: #f0e6d2;
+    font-size: 2.2rem;
+    text-align: center;
+    margin: 0;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    padding: 0;
+    margin: 0;
+  }
+
+  .character-portrait-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    overflow: hidden;
+
+    .character-portrait {
+      max-width: 140%;
+      height: auto;
+      object-fit: contain;
+    }
+  }
+
+  .character-description {
+    color: #d1cfc8;
+    line-height: 1.6;
+    font-size: 1.05rem;
+    flex: 1;
+    overflow-y: auto;
+    padding-right: 15px;
+
+    &::-webkit-scrollbar {
+      width: 4px;
+    }
+    &::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    &::-webkit-scrollbar-thumb {
+      background: #c9ad7f;
+      border-radius: 4px;
+    }
+  }
+
+  .panel-divider-container{
+     width: 100%;
+    display: flex;
+    justify-content: center;
+    overflow: hidden;
+
+    .panel-divider {
+      max-width: 100%;
+      height: auto;
+      object-fit: contain;
+    }
+  }
+
+  .panel-close-btn {
+    position: absolute;
+    width: 50px;
+    height: 50px;
+    top: 16px;
+    left: -24px;
+  }
 }

@@ -1,13 +1,13 @@
 import React from "react";
 import { useSoundStore } from "../../stores/useSoundStore";
-import CloseButtonIcon from "./CloseButtonIcon";
+import InfoButtonIcon from "./InfoButtonIcon";
 
-export const CloseButtonComponent = ({ onClick }) => {
-	const { playSound } = useSoundStore();
-	const handleClick = () => {
-		playSound("close");
-		onClick();
-	};
+export const InfoButtonComponent = ({ onClick }) => {
+  const { playSound } = useSoundStore();
+  const handleClick = () => {
+    playSound("close");
+    onClick();
+  };
 
   const handlePointerOver = (e) => {
     playSound("hover");
@@ -24,7 +24,7 @@ export const CloseButtonComponent = ({ onClick }) => {
         cursor: "pointer",
       }}
     >
-      <CloseButtonIcon />
+      <InfoButtonIcon />
     </button>
   );
 };

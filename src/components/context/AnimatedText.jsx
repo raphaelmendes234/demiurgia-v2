@@ -75,7 +75,7 @@ export function AnimatedText({ content }) {
 	const groupRef = useRef();
 	const textMaterialRef = useRef();
 	const bgMaterialRef = useRef();
-	const bgTexture = useTexture("/assets/images/context/context-box.svg");
+	const bgTexture = useTexture("/assets/images/context/context-box.png");
 
 	const uniforms = useMemo(
 		() => ({

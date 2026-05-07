@@ -7,8 +7,10 @@ export const SCENE_CONFIG = {
     name: "Women",
     dialogue: "La place des femmes c'est à la couizine",
     image: "/assets/images/character/scene1/Woman.png",
+    imageInfo: "/assets/images/character/scene1/1-5.png",
     infoName: "COMING SOON",
     infoText: "COMING SOON",
+    isObject: false,
 
     // Sound
     hoverSound: "",
@@ -25,6 +27,8 @@ export const SCENE_CONFIG = {
     name: "Backpack",
     dialogue: "Backpack",
     image: "/assets/images/character/scene1/Backpack.png",
+    imageInfo: "/assets/images/character/scene1/1-2.png",
+    isObject: true,
     infoName: "COMING SOON",
     infoText: "COMING SOON",
 
@@ -35,6 +39,8 @@ export const SCENE_CONFIG = {
     name: "Rope",
     dialogue: "Rope",
     image: "/assets/images/character/scene1/Rope.png",
+    imageInfo: "/assets/images/character/scene1/1-3.png",
+    isObject: true,
     infoName: "COMING SOON",
     infoText: "COMING SOON",
 
@@ -45,6 +51,8 @@ export const SCENE_CONFIG = {
     name: "Dog",
     dialogue: "Dog",
     image: "/assets/images/character/scene1/Dog.png",
+    imageInfo: "/assets/images/character/scene1/1-1.png",
+    isObject: true,
     infoName: "COMING SOON",
     infoText: "COMING SOON",
 
@@ -55,6 +63,8 @@ export const SCENE_CONFIG = {
     name: "Elders",
     dialogue: "Vieux",
     image: "/assets/images/character/scene1/Elders.png",
+    imageInfo: "/assets/images/character/scene1/1-4.png",
+    isObject: false,
     infoName: "COMING SOON",
     infoText: "COMING SOON",
     
@@ -75,6 +85,9 @@ export const SCENE_CONFIG = {
     name: "Childrens",
     dialogue: "Enfants",
     image: "/assets/images/character/scene2/Childrens.png",
+    imageInfo: "/assets/images/character/scene2/2-2.png",
+
+    isObject: false,
     infoName: "COMING SOON",
     infoText: "COMING SOON",
     
@@ -91,6 +104,8 @@ export const SCENE_CONFIG = {
     name: "Reindeer",
     dialogue: "Reindeer",
     image: "/assets/images/character/scene2/Reindeer.png",
+    imageInfo: "/assets/images/character/scene2/2-1.png",
+    isObject: true,
     infoName: "COMING SOON",
     infoText: "COMING SOON",
     
@@ -101,6 +116,8 @@ export const SCENE_CONFIG = {
     name: "TalismanTree",
     dialogue: "TalismanTree",
     image: "/assets/images/character/scene2/TalismanTree.png",
+    imageInfo: "/assets/images/character/scene2/2-3.png",
+    isObject: true,
     infoName: "COMING SOON",
     infoText: "COMING SOON",
     
@@ -121,6 +138,8 @@ export const SCENE_CONFIG = {
     name: "Sled",
     dialogue: "Sled",
     image: "/assets/images/character/scene3/Sled.png",
+    imageInfo: "/assets/images/character/scene3/3-2.png",
+    isObject: true,
     infoName: "COMING SOON",
     infoText: "COMING SOON",
     
@@ -131,6 +150,7 @@ export const SCENE_CONFIG = {
     name: "Fire",
     dialogue: "Fire",
     image: "/assets/images/character/scene3/Fire.png",
+    isObject: true,
     infoName: "COMING SOON",
     infoText: "COMING SOON",
     
@@ -141,6 +161,8 @@ export const SCENE_CONFIG = {
     name: "Leader",
     dialogue: "Leader",
     image: "/assets/images/character/scene3/Leader.png",
+    imageInfo: "/assets/images/character/scene3/3-3.png",
+    isObject: false,
     infoName: "COMING SOON",
     infoText: "COMING SOON",
     
@@ -153,10 +175,12 @@ export const SCENE_CONFIG = {
       emissiveIntensity: 4,
     },
   },
-  INT_SingingMen_Acting : {
+  INT_SingingMen_Acting: {
     name: "SingingMen",
     dialogue: "SingingMen",
     image: "/assets/images/character/scene3/SingingMen.png",
+    imageInfo: "/assets/images/character/scene3/3-1.png",
+    isObject: false,
     infoName: "COMING SOON",
     infoText: "COMING SOON",
     
@@ -169,10 +193,13 @@ export const SCENE_CONFIG = {
       emissiveIntensity: 4,
     },
   },
-  INT_SingingMen_Standing : {
+  INT_SingingMen_Standing: {
     name: "SingingMen",
     dialogue: "SingingMen",
     image: "/assets/images/character/scene3/SingingMen.png",
+    imageInfo: "/assets/images/character/scene3/3-1.png",
+
+    isObject: false,
     infoName: "COMING SOON",
     infoText: "COMING SOON",
     
@@ -185,10 +212,13 @@ export const SCENE_CONFIG = {
       emissiveIntensity: 4,
     },
   },
-  INT_SingingMen_Sitting : {
+  INT_SingingMen_Sitting: {
     name: "SingingMen",
     dialogue: "SingingMen",
     image: "/assets/images/character/scene3/SingingMen.png",
+    imageInfo: "/assets/images/character/scene3/3-1.png",
+
+    isObject: false,
     infoName: "COMING SOON",
     infoText: "COMING SOON",
     
@@ -209,6 +239,8 @@ export const SCENE_CONFIG = {
     name: "Autel",
     dialogue: "Autel",
     image: "/assets/images/character/scene4/Autel.png",
+      imageInfo: "/assets/images/character/scene4/4-1.png",
+    isObject: false,
     infoName: "COMING SOON",
     infoText: "COMING SOON",
     
@@ -225,6 +257,8 @@ export const SCENE_CONFIG = {
     name: "Gifts",
     dialogue: "Gifts",
     image: "/assets/images/character/scene4/Gifts.png",
+    imageInfo: "/assets/images/character/scene4/4-2.png",
+    isObject: true,
     infoName: "COMING SOON",
     infoText: "COMING SOON",
 
