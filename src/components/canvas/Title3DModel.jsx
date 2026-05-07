@@ -1,12 +1,17 @@
-import React, { useRef } from "react";
-import * as THREE from "three";
-import { useGLTF } from "@react-three/drei";
+import React, { useEffect, useRef } from "react";
 import { useFrame, useThree } from "@react-three/fiber";
-import "./material/SpectralMaterial.jsx";
-import "./material/AuroraMaterial.jsx";
+import { useGLTF } from "@react-three/drei";
+import * as THREE from "three";
+import { gsap } from "gsap";
+
+import { useExperienceStore, PHASES } from "../../stores/useExperienceStore";
+
+import "../material/AuroraMaterial.jsx";
+import "../material/SpectralMaterial.jsx";
 
 function AnimatedGroup({ children, position, rotation, scale = 1, delay = 0 }) {
 	const groupRef = useRef();
+
 	useFrame((state) => {
 		const t = state.clock.getElapsedTime();
 		if (groupRef.current) {
@@ -24,16 +29,49 @@ function AnimatedGroup({ children, position, rotation, scale = 1, delay = 0 }) {
 
 export default function Title3DModel(props) {
 	const { nodes } = useGLTF("/models/menu/Logo3D-V4.glb");
+	const phase = useExperienceStore((state) => state.phase);
+
 	const { viewport } = useThree();
+
+	const mainGroupRef = useRef();
 	const spectralRefs = useRef([]);
-	const auroraRef = useRef();
+	const backgroundMatRef = useRef();
+
+	useEffect(() => {
+		const isMenu = phase === PHASES.MENU;
+
+		// Animation position groupe entier
+		gsap.to(mainGroupRef.current.position, {
+			y: isMenu ? 0.4 : -0.2,
+			duration: 2,
+			ease: "power3.inOut",
+		});
+
+		// Animation opacité dégradé de fond
+		if (backgroundMatRef.current) {
+			gsap.to(backgroundMatRef.current.uniforms.uOpacity, {
+				value: isMenu ? 0.5 : 0,
+				duration: 1,
+			});
+		}
+
+		// Animation opacité (uAlpha) des lettres
+		spectralRefs.current.forEach((mat) => {
+			if (mat) {
+				gsap.to(mat, {
+					uDissolve: isMenu ? 0 : 1,
+					duration: 2.5,
+					ease: "none",
+				});
+			}
+		});
+	}, [phase]);
 
 	useFrame((state) => {
 		const t = state.clock.getElapsedTime();
 		spectralRefs.current.forEach((mat) => {
 			if (mat) mat.uTime = t;
 		});
-		if (auroraRef.current) auroraRef.current.uTime = t;
 	});
 
 	const letters = [
@@ -50,15 +88,18 @@ export default function Title3DModel(props) {
 
 	return (
 		<group
+			ref={mainGroupRef}
 			{...props}
 			rotation={[-0.4, 0, 0]}
 			dispose={null}
-			position={[0, 0.5, 0]}
-			scale={[0.7, 0.7, 0.7]}
+			position={[0, 0.4, -1]}
+			scale={[0.6, 0.6, 0.6]}
 		>
+			{/* DÉGRADÉ */}
 			<mesh position={[0, 0, -0.1]} scale={[5, 2, 1]}>
 				<planeGeometry args={[2, 2]} />
 				<shaderMaterial
+					ref={backgroundMatRef}
 					transparent
 					depthWrite={false}
 					uniforms={{
@@ -66,27 +107,28 @@ export default function Title3DModel(props) {
 						uOpacity: { value: 0.5 },
 					}}
 					vertexShader={`
-      varying vec2 vUv;
-      void main() {
-        vUv = uv;
-        gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
-      }
-    `}
+						varying vec2 vUv;
+						void main() {
+							vUv = uv;
+							gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+						}
+						`}
 					fragmentShader={`
-      varying vec2 vUv;
-      uniform vec3 uColor;
-      uniform float uOpacity;
-      void main() {
-        // Calcul de la distance par rapport au centre (0.5, 0.5)
-        float dist = distance(vUv, vec2(0.5));
-        // Création d'un dégradé radial doux
-        float mask = smoothstep(0.5, 0.2, dist);
-        gl_FragColor = vec4(uColor, mask * uOpacity);
-      }
-    `}
+						varying vec2 vUv;
+						uniform vec3 uColor;
+						uniform float uOpacity;
+						void main() {
+							// Calcul de la distance par rapport au centre (0.5, 0.5)
+							float dist = distance(vUv, vec2(0.5));
+							// Création d'un dégradé radial doux
+							float mask = smoothstep(0.5, 0.2, dist);
+							gl_FragColor = vec4(uColor, mask * uOpacity);
+						}
+						`}
 				/>
 			</mesh>
 
+			{/* LETTRES */}
 			{letters.map((item, index) => (
 				<AnimatedGroup
 					key={index}
@@ -117,6 +159,7 @@ export default function Title3DModel(props) {
 				</AnimatedGroup>
 			))}
 
+			{/* POINT DU I */}
 			{[
 				nodes.Main_1,
 				nodes.Main_2,
@@ -137,28 +180,12 @@ export default function Title3DModel(props) {
 							transparent
 							uAlpha={1}
 							uDistortion={0.002}
+							depthWrite={false}
 							blending={THREE.AdditiveBlending}
 						/>
 					</mesh>
 				</AnimatedGroup>
 			))}
-
-			<mesh
-				position={[0, 0, -0.01]}
-				// scale={[viewport.width, viewport.height, 1]}
-				scale={[4, 4, 1]}
-			>
-				<planeGeometry args={[1.2, 1.2, 64, 64]} />
-				<auroraMaterialImpl
-					ref={auroraRef}
-					transparent
-					uOpacity={0.4}
-					uColorA="#7b00ff"
-					uColorB="#01FDA9"
-					blending={THREE.AdditiveBlending}
-					depthWrite={false}
-				/>
-			</mesh>
 		</group>
 	);
 }

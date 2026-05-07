@@ -3,12 +3,14 @@ import { Canvas, useThree } from "@react-three/fiber";
 import { OrbitControls } from "@react-three/drei";
 import { useControls, folder } from "leva";
 
+import { DialogueSystem } from "../character/DialogueSystem";
 import { CameraHandler } from "../CameraHandler";
 import { ScenesManager } from "./ScenesManager";
-import { DialogueSystem } from "../character/DialogueSystem";
 import { TentaclePlane } from "./TentacleShader";
-import Title3DModel from "../Title3DModel";
+import Title3DModel from "./Title3DModel";
+
 import { Bloom, EffectComposer } from "@react-three/postprocessing";
+import { BackgroundPlane } from "./BackgroundPlane";
 
 export function Experience() {
 	return (
@@ -22,7 +24,8 @@ export function Experience() {
 				<CameraHandler />
 
 				<Suspense fallback={null}>
-					{/* <Title3DModel /> */}
+					<Title3DModel />
+					<BackgroundPlane />
 					<ScenesManager />
 					<TentaclePlane />
 				</Suspense>

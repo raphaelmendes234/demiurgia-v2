@@ -3,16 +3,17 @@ import { shaderMaterial } from "@react-three/drei";
 import { extend } from "@react-three/fiber";
 
 export const SpectralMaterialImpl = shaderMaterial(
-  {
-    uTime: 0,
-    uColorCenter: new THREE.Color("#00c684"), // Vert menthe clair
-    uColorEdge: new THREE.Color("#00eeff"), // Cyan
-    uAlpha: 0.7,
-    uDistortion: 0.05,
-    uGlowIntensity: 1.8, // Intensité de l'aura mystique
-  },
-  // Vertex Shader : Déformation fluide et stable
-  `
+	{
+		uTime: 0,
+		uColorCenter: new THREE.Color("#00c684"), // Vert menthe clair
+		uColorEdge: new THREE.Color("#00eeff"), // Cyan
+		uAlpha: 0.7,
+		uDissolve: 0.0,
+		uDistortion: 0.05,
+		uGlowIntensity: 1.8, // Intensité de l'aura mystique
+	},
+	// Vertex Shader : Déformation fluide et stable
+	`
   uniform float uTime;
   uniform float uDistortion;
   varying vec3 vNormal;
@@ -79,12 +80,79 @@ export const SpectralMaterialImpl = shaderMaterial(
     gl_Position = projectionMatrix * mvPosition;
   }
   `,
-  // Fragment Shader : Mystic Glow (Violet, Bleu, Vert)
-  `
+	// Fragment Shader : Mystic Glow (Violet, Bleu, Vert)
+	`
+  varying vec3 vNormal;
+  varying vec3 vViewPosition;
+  varying float vNoise;
+
   uniform float uTime;
   uniform vec3 uColorCenter;
   uniform vec3 uColorEdge;
   uniform float uAlpha;
+  uniform float uDissolve;      
+  uniform float uGlowIntensity;
+
+  void main() {
+    // 1. RE-MAPPING DU BRUIT
+    // On force le bruit à couvrir une plage large pour éviter le temps mort au début
+    float noise = vNoise * 0.5 + 0.5;
+    
+    // 2. LOGIQUE DE DISSOLVE AMÉLIORÉE
+    // On utilise uDissolve pour piloter un smoothstep. 
+    // On ajuste les bornes pour que l'effet commence instantanément dès que uDissolve > 0
+    float spread = 0.2; 
+    float threshold = uDissolve * (1.0 + spread); 
+    float alphaDissolve = smoothstep(threshold, threshold + spread, noise);
+
+    // Suppression immédiate des pixels "morts" (règle le problème du point du I)
+    if (alphaDissolve <= 0.0) discard;
+
+    // 3. BORDURE LUMINEUSE (GLOW)
+    // Elle doit suivre précisément la limite du dissolve
+    float edgeThickness = 0.03;
+    float glowEdge = smoothstep(0.0, edgeThickness, alphaDissolve) * (1.0 - smoothstep(edgeThickness, edgeThickness * 2.0, alphaDissolve));
+    // On ne veut le glow que si on est en train de dissoudre
+    glowEdge *= step(0.01, uDissolve) * step(uDissolve, 0.99);
+
+    // 4. CALCUL DES COULEURS (Inchangé mais intégré)
+    vec3 normal = normalize(vNormal);
+    vec3 viewDir = normalize(vViewPosition);
+    float fresnel = pow(1.0 - dot(normal, viewDir), 3.0);
+    
+    vec3 colorViolet = vec3(0.6, 0.2, 1.0);
+    vec3 colorBlue = vec3(0.1, 0.4, 1.0);
+    vec3 colorGreen = vec3(0.2, 1.0, 0.6);
+
+    float wave = sin(uTime * 0.4 + vNoise * 0.2) * 0.5 + 0.5;
+    vec3 mysticMix = mix(colorViolet, colorGreen, wave);
+    mysticMix = mix(mysticMix, colorBlue, cos(uTime * 0.3) * 0.5 + 0.5);
+
+    vec3 baseColor = mix(uColorCenter, uColorEdge, fresnel);
+    vec3 finalColor = baseColor + (mysticMix * fresnel * uGlowIntensity);
+    
+    // Ajout du Glow de bordure
+    finalColor += glowEdge * vec3(1.0, 2.5, 5.0) * uGlowIntensity;
+
+    // 5. ALPHA FINAL
+    // On multiplie par alphaDissolve pour que les bords s'estompent doucement
+    float finalAlpha = uAlpha * alphaDissolve;
+
+    gl_FragColor = vec4(finalColor, finalAlpha);
+  }
+  `,
+);
+
+extend({ SpectralMaterialImpl });
+
+// Ancien fragment shader (au cas où)
+/**
+ *
+  uniform float uTime;
+  uniform vec3 uColorCenter;
+  uniform vec3 uColorEdge;
+  uniform float uAlpha;
+  uniform float uDissolve;
   uniform float uGlowIntensity;
   varying vec3 vNormal;
   varying vec3 vViewPosition;
@@ -122,7 +190,5 @@ export const SpectralMaterialImpl = shaderMaterial(
 
     gl_FragColor = vec4(finalColor, alpha);
   }
-  `,
-);
-
-extend({ SpectralMaterialImpl });
+ *
+ */
