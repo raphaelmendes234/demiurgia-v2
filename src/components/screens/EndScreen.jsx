@@ -1,12 +1,16 @@
 import { useEffect, useState } from "react";
 import { useExperienceStore, PHASES } from "../../stores/useExperienceStore";
-import { CursorButton } from "../cursor/CursorButton";
+import { MainButtonComponent } from "../ui/MainButtonComponent";
 import { FrameMask } from "../canvas/FrameMask";
 import { Canvas } from "@react-three/fiber";
 
 export function EndScreen() {
 	const phase = useExperienceStore((state) => state.phase);
 	const setMenu = useExperienceStore((state) => state.setMenu);
+
+	const handleClick = () => {
+		setMenu();
+	};
 
 	const [isBlack, setIsBlack] = useState(false);
 	const [showCredits, setShowCredits] = useState(false);
@@ -36,7 +40,9 @@ export function EndScreen() {
 					<h1>FIN</h1>
 					<p>Merci d'avoir joué</p>
 					<div style={{ marginTop: "40px" }}>
-						<CursorButton onClick={setMenu}>RETOUR AU MENU</CursorButton>
+						<MainButtonComponent onClick={handleClick}>
+							RETOUR AU MENU
+						</MainButtonComponent>
 					</div>
 				</div>
 			)}

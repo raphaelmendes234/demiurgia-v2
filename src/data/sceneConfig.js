@@ -12,8 +12,7 @@ export const SCENE_CONFIG = {
 
     // Sound
     hoverSound: "",
-    clickSound: "",
-    cusor: "interact",
+    clickSound: "women",
 
     // Glow
     glow: {
@@ -40,7 +39,7 @@ export const SCENE_CONFIG = {
     infoText: "COMING SOON",
 
     hoverSound: "",
-    clickSound: "",
+    clickSound: "rope",
   },
   INT_Dog: {
     name: "Dog",
@@ -60,7 +59,7 @@ export const SCENE_CONFIG = {
     infoText: "COMING SOON",
     
     hoverSound: "",
-    clickSound: "",
+    clickSound: "elders",
 
     glow: {
       mask: "/assets/images/emission/elders_emissive2.png",
@@ -80,7 +79,7 @@ export const SCENE_CONFIG = {
     infoText: "COMING SOON",
     
     hoverSound: "",
-    clickSound: "",
+    clickSound: "child",
 
     glow: {
       mask: "/assets/images/emission/children_emissive2.png",
@@ -96,7 +95,7 @@ export const SCENE_CONFIG = {
     infoText: "COMING SOON",
     
     hoverSound: "",
-    clickSound: "",
+    clickSound: "deer",
   },
   INT_TalismanTree: {
     name: "TalismanTree",
@@ -106,7 +105,7 @@ export const SCENE_CONFIG = {
     infoText: "COMING SOON",
     
     hoverSound: "",
-    clickSound: "",
+    clickSound: "talismanTree",
 
     glow: {
       mask: "/assets/images/emission/talismanTree_emissive2.png",
@@ -126,7 +125,7 @@ export const SCENE_CONFIG = {
     infoText: "COMING SOON",
     
     hoverSound: "",
-    clickSound: "",
+    clickSound: "sled",
   },
   INT_Fire: {
     name: "Fire",
@@ -136,7 +135,7 @@ export const SCENE_CONFIG = {
     infoText: "COMING SOON",
     
     hoverSound: "",
-    clickSound: "",
+    clickSound: "fire",
   },
   INT_Leader: {
     name: "Leader",
@@ -146,7 +145,7 @@ export const SCENE_CONFIG = {
     infoText: "COMING SOON",
     
     hoverSound: "",
-    clickSound: "",
+    clickSound: "leader",
 
     glow: {
       mask: "/assets/images/emission/leader_emissive2.png",
@@ -162,7 +161,7 @@ export const SCENE_CONFIG = {
     infoText: "COMING SOON",
     
     hoverSound: "",
-    clickSound: "",
+    clickSound: "singing",
 
     glow: {
       mask: "/assets/images/emission/acting_emissive2.png",
@@ -178,7 +177,7 @@ export const SCENE_CONFIG = {
     infoText: "COMING SOON",
     
     hoverSound: "",
-    clickSound: "",
+    clickSound: "singing",
 
     glow: {
       mask: "/assets/images/emission/standing_emissive2.png",
@@ -194,7 +193,7 @@ export const SCENE_CONFIG = {
     infoText: "COMING SOON",
     
     hoverSound: "",
-    clickSound: "",
+    clickSound: "singing",
 
     glow: {
       mask: "/assets/images/emission/sitting_emissive2.png",
@@ -214,7 +213,7 @@ export const SCENE_CONFIG = {
     infoText: "COMING SOON",
     
     hoverSound: "",
-    clickSound: "",
+    clickSound: "autel",
 
     glow: {
       mask: "/assets/images/emission/autel_emissive2.png",
@@ -230,6 +229,6 @@ export const SCENE_CONFIG = {
     infoText: "COMING SOON",
 
     hoverSound: "",
-    clickSound: "",
+    clickSound: "gift",
   },
 };

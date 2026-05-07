@@ -2,18 +2,14 @@ import { Text, useTexture } from "@react-three/drei";
 import { useRef } from "react";
 
 export const DialogueBox3D = ({ name, text }) => {
-const texture = useTexture("/assets/ui/DialogueBloc.png");
+const texture = useTexture("/assets/ui/dialogue_character.png");
   return (
     <group position={[0, -0.9, 0]}> {/* Positionné en bas de l'écran */}
-      {/* LE CADRE (L'image blocText.png) */}
-      <mesh>
-        {/* L'image est large, on garde un ratio de 2:1 environ */}
+      <mesh scale={0.9}>
         <planeGeometry args={[4, 2]} /> 
         <meshBasicMaterial 
           map={texture} 
           transparent={true} 
-          // Si ton image a un fond noir au lieu de transparent :
-          // toneMapped={false}
         />
       </mesh>
 

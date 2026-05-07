@@ -2,92 +2,100 @@ import { useEffect, useState } from "react";
 import { Canvas } from "@react-three/fiber";
 import { useExperienceStore } from "../../stores/useExperienceStore";
 import { CONTEXT_STEPS } from "../../data/contextData";
-import { CursorButton } from "../cursor/CursorButton";
 import { BackgroundPlane } from "../context/BackgroundPlane";
 import { AnimatedText } from "../context/AnimatedText";
 import { gsap } from "gsap";
 import { div } from "framer-motion/client";
+import { MainButtonComponent } from "../ui/MainButtonComponent";
+import { useSoundStore } from "../../stores/useSoundStore";
 
 export function ContextScreen() {
-	const [currentIndex, setCurrentIndex] = useState(0);
-	const currentStep = CONTEXT_STEPS[currentIndex];
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const currentStep = CONTEXT_STEPS[currentIndex];
 
-	const setGame = useExperienceStore((state) => state.setGame);
-	const isTransitioning = useExperienceStore((state) => state.isTransitioning);
-	const setIsTransitioning = useExperienceStore(
-		(state) => state.setIsTransitioning,
-	);
+  const setGame = useExperienceStore((state) => state.setGame);
+  const isTransitioning = useExperienceStore((state) => state.isTransitioning);
+  const setIsTransitioning = useExperienceStore(
+    (state) => state.setIsTransitioning,
+  );
+    const startAmbience = useSoundStore((state) => state.startAmbience);
+  
 
-	const changeStep = (direction) => {
-		if (isTransitioning) return;
-		setIsTransitioning(true);
+  const changeStep = (direction) => {
+    if (isTransitioning) return;
+    setIsTransitioning(true);
 
-		// Animation sortie
-		gsap.to(".canvas-container", {
-			opacity: 0,
-			duration: 0.3,
-			onComplete: () => {
-				// Changement de l'index une fois invisible
-				if (direction === "next") {
-					if (currentIndex < CONTEXT_STEPS.length - 1) {
-						// Animation d'entrée
-						setCurrentIndex(currentIndex + 1);
-						gsap.to(".canvas-container", {
-							opacity: 1,
-							duration: 0.4,
-							onComplete: () => setIsTransitioning(false),
-						});
-					} else {
-						setIsTransitioning(false);
-						setGame();
-					}
-				} else {
-					setCurrentIndex((prev) => prev - 1);
-					gsap.to(".canvas-container", {
-						opacity: 1,
-						duration: 0.4,
-						onComplete: () => setIsTransitioning(false),
-					});
-				}
-			},
-		});
-	};
+    gsap.to(".canvas-container", {
+      opacity: 0,
+      duration: 0.3,
+      onComplete: () => {
+        if (direction === "next") {
+          if (currentIndex < CONTEXT_STEPS.length - 1) {
+            // Logique habituelle pour passer au slide suivant
+            setCurrentIndex((prev) => prev + 1);
+            gsap.to(".canvas-container", {
+              opacity: 1,
+              duration: 0.4,
+              onComplete: () => setIsTransitioning(false),
+            });
+          } else {
+            // --- LOGIQUE "LANCER" ---
+            setIsTransitioning(false);
 
-	return (
-		<div className="context__screen">
-			<div
-				className="canvas-container"
-				style={{ position: "absolute", inset: 0 }}
-			>
-				<Canvas camera={{ position: [0, 0, 5], fov: 50 }}>
-					<BackgroundPlane imagePath={currentStep.image} />
-					<AnimatedText key={currentIndex} content={currentStep.text} />
-				</Canvas>
-			</div>
+            // On lance l'ambiance sonore
+            if (startAmbience) startAmbience();
 
-			{/* DOM UI Layer */}
-			<div
-				className="utils__screenInfo"
-				style={{ position: "absolute", top: 20, left: 20 }}
-			>
-				CONTEXT SCREEN
-			</div>
+            // On lance le jeu
+            setGame();
+          }
+        } else {
+          setCurrentIndex((prev) => Math.max(0, prev - 1));
 
-			<div className="context__nav">
-				<div className="context__buttons">
-					{currentIndex !== 0 ? (
-						<CursorButton onClick={() => changeStep("prev")}>
-							Précédent
-						</CursorButton>
-					) : (
-						<div />
-					)}
+          gsap.to(".canvas-container", {
+            opacity: 1,
+            duration: 0.4,
+            onComplete: () => setIsTransitioning(false),
+          });
+        }
+      },
+    });
+  };
 
-					<CursorButton onClick={() => changeStep("next")}>
-						{currentIndex === CONTEXT_STEPS.length - 1 ? "Lancer" : "Suivant"}
-					</CursorButton>
-				</div>
-			</div>
-		</div>
-	);
+  return (
+    <div className="context__screen">
+      <div
+        className="canvas-container"
+        style={{ position: "absolute", inset: 0 }}
+      >
+        <Canvas camera={{ position: [0, 0, 5], fov: 50 }}>
+          <BackgroundPlane imagePath={currentStep.image} />
+          <AnimatedText key={currentIndex} content={currentStep.text} />
+        </Canvas>
+      </div>
+
+      {/* DOM UI Layer */}
+      <div
+        className="utils__screenInfo"
+        style={{ position: "absolute", top: 20, left: 20 }}
+      >
+        CONTEXT SCREEN
+      </div>
+
+      <div className="context__nav">
+        <div className="context__buttons">
+          {currentIndex !== 0 ? (
+            <MainButtonComponent onClick={() => changeStep("prev")}>
+              Précédent
+            </MainButtonComponent>
+          ) : (
+            <div />
+          )}
+
+          <MainButtonComponent onClick={() => changeStep("next")}>
+            {currentIndex === CONTEXT_STEPS.length - 1 ? "Lancer" : "Suivant"}
+          </MainButtonComponent>
+        </div>
+      </div>
+    </div>
+  );
 }

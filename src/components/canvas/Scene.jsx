@@ -40,6 +40,8 @@ export function Scene({ name, glb, active, before = "right", after = "left" }) {
     [scene],
   );
 
+  const updateSceneSounds = useSoundStore((state) => state.updateSceneSounds);
+
   // Setting initial position
   useLayoutEffect(() => {
     const direction = useExperienceStore.getState().direction;
@@ -55,31 +57,27 @@ export function Scene({ name, glb, active, before = "right", after = "left" }) {
     }
   }, [meshes, active, before, after]);
 
-  // Scene transitions : animate layers with stagger
   useEffect(() => {
-    // Retrieve swap direction
-    const direction = useExperienceStore.getState().direction;
+  const direction = useExperienceStore.getState().direction;
 
-    // Scene becomes ACTIVE (arrives)
-    if (active && !prevActive.current) {
-      console.log(`[${name}] ACTIVE`);
-      const startPos =
-        direction === "FORWARD" ? POSITIONS[before] : POSITIONS[after];
-      useExperienceStore.getState().setIsTransitioning(true); // Security lock at the start of the animation
-      animateSceneLayers(meshes, startPos, POSITIONS.center, true, 0.4, () => {
-        setIsTransitioning(false);
-      });
-      prevActive.current = true;
-    }
+  if (active && !prevActive.current) {
+    updateSceneSounds(name); 
 
-    // Scene becomes INACTIVE (leaves)
-    else if (!active && prevActive.current) {
-      const endPos =
-        direction === "FORWARD" ? POSITIONS[after] : POSITIONS[before];
-      animateSceneLayers(meshes, POSITIONS.center, endPos, false, 0);
-      prevActive.current = false;
-    }
-  }, [active, meshes]);
+    const startPos = direction === "FORWARD" ? POSITIONS[before] : POSITIONS[after];
+    useExperienceStore.getState().setIsTransitioning(true);
+    
+    animateSceneLayers(meshes, startPos, POSITIONS.center, true, 0.4, () => {
+      setIsTransitioning(false);
+    });
+    prevActive.current = true;
+  }
+  
+  else if (!active && prevActive.current) {
+    const endPos = direction === "FORWARD" ? POSITIONS[after] : POSITIONS[before];
+    animateSceneLayers(meshes, POSITIONS.center, endPos, false, 0);
+    prevActive.current = false;
+  }
+}, [active, name, updateSceneSounds]);
 
   useFrame(() => {
     updateSceneLayers(meshes, mousePointer, 0.1, true);
