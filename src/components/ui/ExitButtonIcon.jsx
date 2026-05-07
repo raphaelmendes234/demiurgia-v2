@@ -3,9 +3,8 @@ import React from "react";
 export default function ExitButtonIcon(props) {
   return (
     <svg
-      width={20}
-      height={20}
-      viewBox="0 0 108 108"
+      style={{ width: '100%', height: 'auto' }} 
+      viewBox="0 0 140 150"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
       {...props}
