@@ -1,6 +1,6 @@
 import React from "react";
 
-const MainButton = ({ children, onClick, className = "", ...props }) => {
+const MainButtonStyle = ({ children, onClick, className = "", ...props }) => {
   // On stocke le contenu visuel dans une constante pour ne pas répéter 3x le gros bloc de code
   const SvgContent = (
     <g className="cls-8">
@@ -380,4 +380,4 @@ const MainButton = ({ children, onClick, className = "", ...props }) => {
   );
 };
 
-export default MainButton;
+export default MainButtonStyle;

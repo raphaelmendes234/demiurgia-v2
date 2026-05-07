@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useCursorStore } from "../../stores/useCursorStore";
 import { useExperienceStore } from "../../stores/useExperienceStore";
 import { useSoundStore } from "../../stores/useSoundStore";
-import { CursorButton } from "../cursor/CursorButton";
+import { MainButtonComponent } from "../ui/MainButtonComponent";
 import Title3DModel from "../Title3DModel";
 import { Suspense } from "react";
 import { Canvas } from "@react-three/fiber";
@@ -35,12 +35,12 @@ export function MenuScreen() {
           />
         </Suspense>
       </Canvas>
-        <CursorButton
+        <MainButtonComponent
           onClick={handleStart}
           onPointerDown={() => playSound("magic")}
         >
           COMMENCER
-        </CursorButton>
+        </MainButtonComponent>
         <span className="utils__screenInfo">MENU SCREEN</span>
     </div>
   );

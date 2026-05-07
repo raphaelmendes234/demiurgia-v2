@@ -3,7 +3,7 @@ import {
   GAME_SCENES,
 } from "../../stores/useExperienceStore";
 import { useSoundStore } from "../../stores/useSoundStore";
-import { CursorButton } from "../cursor/CursorButton";
+import { MainButtonComponent } from "../ui/MainButtonComponent";
 
 export function GameScreen() {
   const nextScene = useExperienceStore((state) => state.nextScene);
@@ -36,24 +36,24 @@ export function GameScreen() {
 
       <div className="game__nav">
         {gameIndex !== 0 && (
-          <CursorButton
+          <MainButtonComponent
             onClick={handlePrevClick}
             onPointerEnter={handlePointerOver}
             disabled={isTransitioning}
             style={{ opacity: isTransitioning ? 0.5 : 1 }}
           >
             Précédent
-          </CursorButton>
+          </MainButtonComponent>
         )}
 
-        <CursorButton
+        <MainButtonComponent
           onClick={handleNextClick}
           onPointerEnter={handlePointerOver}
           disabled={isTransitioning}
           style={{ opacity: isTransitioning ? 0.5 : 1 }}
         >
           {gameIndex === totalScenes - 1 ? "Terminer l'aventure" : "Suivant"}
-        </CursorButton>
+        </MainButtonComponent>
       </div>
     </div>
   );

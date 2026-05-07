@@ -1,5 +1,5 @@
 import { useExperienceStore } from "../../stores/useExperienceStore";
-import { CursorButton } from "../cursor/CursorButton";
+import { MainButtonComponent } from "../ui/MainButtonComponent";
 
 export function EndScreen() {
 	const setMenu = useExperienceStore((state) => state.setMenu);
@@ -11,7 +11,9 @@ export function EndScreen() {
 	return (
 		<div className="end__screen">
 			<span className="utils__screenInfo">END SCREEN</span>
-			<CursorButton onClick={handleClick}>RETOUR AU MENU</CursorButton>
+			<MainButtonComponent onClick={handleClick}>
+				RETOUR AU MENU
+			</MainButtonComponent>
 		</div>
 	);
 }

@@ -2,7 +2,7 @@ import { create } from "zustand";
 import { Howl, Howler } from "howler";
 import { gsap } from "gsap";
 import { sin } from "three/tsl";
-import MainButton from "../components/ui/MainButton";
+import MainButton from "../components/ui/MainButtonStyle";
 
 // --- SONS GLOBAUX ---
 

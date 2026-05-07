@@ -2,11 +2,11 @@ import { useEffect, useState } from "react";
 import { Canvas } from "@react-three/fiber";
 import { useExperienceStore } from "../../stores/useExperienceStore";
 import { CONTEXT_STEPS } from "../../data/contextData";
-import { CursorButton } from "../cursor/CursorButton";
 import { BackgroundPlane } from "../context/BackgroundPlane";
 import { AnimatedText } from "../context/AnimatedText";
 import { gsap } from "gsap";
 import { div } from "framer-motion/client";
+import { MainButtonComponent } from "../ui/MainButtonComponent";
 
 export function ContextScreen() {
 	const [currentIndex, setCurrentIndex] = useState(0);
@@ -74,16 +74,16 @@ export function ContextScreen() {
 			<div className="context__nav">
 				<div className="context__buttons">
 					{currentIndex !== 0 ? (
-						<CursorButton onClick={() => changeStep("prev")}>
+						<MainButtonComponent onClick={() => changeStep("prev")}>
 							Précédent
-						</CursorButton>
+						</MainButtonComponent>
 					) : (
 						<div />
 					)}
 
-					<CursorButton onClick={() => changeStep("next")}>
+					<MainButtonComponent onClick={() => changeStep("next")}>
 						{currentIndex === CONTEXT_STEPS.length - 1 ? "Lancer" : "Suivant"}
-					</CursorButton>
+					</MainButtonComponent>
 				</div>
 			</div>
 		</div>

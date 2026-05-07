@@ -12,7 +12,6 @@ import InfoButtonIcon from "../ui/InfoButtonIcon";
 import { InfoPanel3D } from "./InfoPanel";
 import { useEffect } from "react";
 import { useSoundStore } from "../../stores/useSoundStore";
-import MainButton from "../ui/MainButton";
 
 export const DialogueSystem = () => {
 	const [isPanelOpen, setIsPanelOpen] = useState(false);

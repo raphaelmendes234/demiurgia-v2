@@ -1,9 +1,9 @@
 import { useEffect } from "react";
 import { useCursorStore } from "../../stores/useCursorStore";
 import { useSoundStore } from "../../stores/useSoundStore";
-import MainButton from "../ui/MainButton";
+import MainButtonStyle from "./MainButtonStyle";
 
-export function CursorButton({
+export function MainButtonComponent({
   children,
   onClick,
   onPointerEnter,
@@ -34,7 +34,7 @@ export function CursorButton({
   };
 
   return (
-    <MainButton
+    <MainButtonStyle
       {...props}
       onPointerEnter={handlePointerEnter}
       onPointerLeave={() => setIsHovering(false)}
@@ -42,6 +42,6 @@ export function CursorButton({
       onClick={handleClick}
     >
       {children}
-    </MainButton>
+    </MainButtonStyle>
   );
 }
