@@ -21,7 +21,7 @@
 
 .fantasy-btn-wrapper {
   display: flex;
-  height: 80px;
+  height: 60px;
   align-items: stretch;
 }
 
@@ -45,7 +45,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  margin: 0 -2px; /* Pour éviter les micro-fissures entre les morceaux */
+  margin: 0 -2px; 
 }
 
 .center-fill svg {
@@ -61,7 +61,7 @@
   position: relative;
   z-index: 2;
   color: #9deed1;
-  font-size: 1.5rem;
+  font-size: 1rem;
   font-weight: bold;
   text-transform: uppercase;
   padding: 0 10px;

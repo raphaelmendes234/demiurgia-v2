@@ -7,7 +7,7 @@ export function MainButtonComponent({
   children,
   onClick,
   onPointerEnter,
-  specialSound = false,
+  disabled,
   ...props
 }) {
   const setIsHovering = useCursorStore((state) => state.setIsHovering);
@@ -18,27 +18,27 @@ export function MainButtonComponent({
   }, [setIsHovering]);
 
   const handlePointerEnter = (e) => {
+    if (disabled) return;
     setIsHovering(true);
     if (onPointerEnter) onPointerEnter(e);
   };
 
-  const handlePointerDown = (e) => {
-    e.stopPropagation();
-    if (props.onPointerDown) props.onPointerDown(e);
-  };
-
   const handleClick = (e) => {
+    if (disabled) return;
+
     playSound("uiMainButton");
 
-    if (onClick) onClick(e);
+    if (onClick) {
+      onClick(e);
+    }
   };
 
   return (
     <MainButtonStyle
       {...props}
+      disabled={disabled}
       onPointerEnter={handlePointerEnter}
       onPointerLeave={() => setIsHovering(false)}
-      onPointerDown={handlePointerDown}
       onClick={handleClick}
     >
       {children}
