@@ -76,6 +76,8 @@ export const SCENE_CONFIG = {
     name: "Childrens",
     dialogue: "Enfants",
     image: "/assets/images/character/scene2/Childrens.png",
+    imageInfo: "/assets/images/character/scene2/2-2.png",
+
     isObject: false,
 
     hoverSound: "",
@@ -91,6 +93,7 @@ export const SCENE_CONFIG = {
     name: "Reindeer",
     dialogue: "Reindeer",
     image: "/assets/images/character/scene2/Reindeer.png",
+    imageInfo: "/assets/images/character/scene2/2-1.png",
     isObject: true,
 
     hoverSound: "",
@@ -100,6 +103,7 @@ export const SCENE_CONFIG = {
     name: "TalismanTree",
     dialogue: "TalismanTree",
     image: "/assets/images/character/scene2/TalismanTree.png",
+    imageInfo: "/assets/images/character/scene2/2-3.png",
     isObject: true,
 
     hoverSound: "",
@@ -119,6 +123,7 @@ export const SCENE_CONFIG = {
     name: "Sled",
     dialogue: "Sled",
     image: "/assets/images/character/scene3/Sled.png",
+    imageInfo: "/assets/images/character/scene3/3-2.png",
     isObject: true,
 
     hoverSound: "",
@@ -137,6 +142,7 @@ export const SCENE_CONFIG = {
     name: "Leader",
     dialogue: "Leader",
     image: "/assets/images/character/scene3/Leader.png",
+    imageInfo: "/assets/images/character/scene3/3-3.png",
     isObject: false,
 
     hoverSound: "",
@@ -152,6 +158,7 @@ export const SCENE_CONFIG = {
     name: "SingingMen",
     dialogue: "SingingMen",
     image: "/assets/images/character/scene3/SingingMen.png",
+    imageInfo: "/assets/images/character/scene3/3-1.png",
     isObject: false,
 
     hoverSound: "",
@@ -167,6 +174,8 @@ export const SCENE_CONFIG = {
     name: "SingingMen",
     dialogue: "SingingMen",
     image: "/assets/images/character/scene3/SingingMen.png",
+    imageInfo: "/assets/images/character/scene3/3-1.png",
+
     isObject: false,
 
     hoverSound: "",
@@ -182,6 +191,8 @@ export const SCENE_CONFIG = {
     name: "SingingMen",
     dialogue: "SingingMen",
     image: "/assets/images/character/scene3/SingingMen.png",
+    imageInfo: "/assets/images/character/scene3/3-1.png",
+
     isObject: false,
 
     hoverSound: "",
@@ -201,6 +212,7 @@ export const SCENE_CONFIG = {
     name: "Autel",
     dialogue: "Autel",
     image: "/assets/images/character/scene4/Autel.png",
+      imageInfo: "/assets/images/character/scene4/4-1.png",
     isObject: false,
 
     hoverSound: "",
@@ -216,6 +228,7 @@ export const SCENE_CONFIG = {
     name: "Gifts",
     dialogue: "Gifts",
     image: "/assets/images/character/scene4/Gifts.png",
+    imageInfo: "/assets/images/character/scene4/4-2.png",
     isObject: true,
 
     hoverSound: "",
