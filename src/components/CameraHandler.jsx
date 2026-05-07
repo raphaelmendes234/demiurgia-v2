@@ -1,33 +1,19 @@
-import { useThree } from "@react-three/fiber";
+import { useFrame, useThree } from "@react-three/fiber";
 import { useExperienceStore, PHASES } from "../stores/useExperienceStore";
 import { useControls } from "leva";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { gsap } from "gsap";
 
-export function CameraHandler({ edit = false }) {
-	const { camera } = useThree(); // Récupère l'instance réelle de la caméra
-
-	// const { xPosition, yPosition, zPosition, fov } = useControls("Camera", {
-	//     xPosition: { value: 0.02, min: -5, max: 5, step: 0.001 },
-	// 	yPosition: { value: 0, min: -5, max: 5, step: 0.001 },
-	// 	zPosition: { value: 4.35, min: 0, max: 20, step: 0.001 },
-	// 	fov: { value: 21, min: 10, max: 120, step: 0.001 },
-	// });
-
-	// useEffect(() => {
-	//     // On met à jour la position
-	// 	camera.position.x = xPosition;
-	// 	camera.position.y = yPosition;
-	// 	camera.position.z = zPosition;
-	// 	// On met à jour le FOV
-	// 	camera.fov = fov;
-	// 	// TRÈS IMPORTANT : On dit à Three.js de recalculer le rendu
-	// 	camera.updateProjectionMatrix();
-	// }, [xPosition, yPosition, zPosition, fov, camera]);
-
+export function CameraHandler() {
+	const { camera } = useThree();
 	const phase = useExperienceStore((state) => state.phase);
 
+	const shakeIntensity = useRef(0);
+	const shakeSpeed = useRef(1);
+	const initialPos = useRef([0.02, 0, 4.35]);
+
 	useEffect(() => {
+		// Context
 		if (phase === PHASES.CONTEXT) {
 			gsap.to(camera.rotation, {
 				x: 0.15,

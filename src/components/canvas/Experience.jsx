@@ -6,6 +6,7 @@ import { useControls, folder } from "leva";
 import { CameraHandler } from "../CameraHandler";
 import { ScenesManager } from "./ScenesManager";
 import { DialogueSystem } from "../character/DialogueSystem";
+import { FrameMask } from "./FrameMask";
 import { Bloom, EffectComposer } from "@react-three/postprocessing";
 
 export function Experience() {
@@ -21,6 +22,7 @@ export function Experience() {
 
 				<Suspense fallback={null}>
 					<ScenesManager />
+					<FrameMask />
 				</Suspense>
 
 				<EffectComposer>

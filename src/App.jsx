@@ -17,26 +17,25 @@ import { GlobalSoundController } from "./components/GlobalSoundController";
 import { CustomCursor } from "./components/cursor/CustomCursor";
 
 export default function App() {
+	const phase = useExperienceStore((state) => state.phase);
 
-  const phase = useExperienceStore((state) => state.phase)
+	return (
+		<>
+			<GlobalSoundController />
+			<div style={{ width: "100vw", height: "100vh" }}>
+				<Debug />
 
-  return (
-    <>
-      <GlobalSoundController /> 
-      <div style={{ width: "100vw", height: "100vh" }}>
-        <Debug />
+				<CustomCursor />
 
-         <CustomCursor /> 
+				<LoadingScreen />
 
-         <LoadingScreen /> 
-        
-        { phase === PHASES.MENU && <MenuScreen /> }
-        { phase === PHASES.CONTEXT && <ContextScreen /> }
-        { phase === PHASES.GAME && <GameScreen /> }
-        { phase === PHASES.END && <EndScreen /> }
+				{phase === PHASES.MENU && <MenuScreen />}
+				{phase === PHASES.CONTEXT && <ContextScreen />}
+				{phase === PHASES.GAME && <GameScreen />}
+				<EndScreen />
 
-        <Experience />
-      </div>
-    </>
-  );
+				<Experience />
+			</div>
+		</>
+	);
 }
