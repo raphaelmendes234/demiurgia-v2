@@ -9,9 +9,10 @@ import { CharacterComponent } from "./CharacterComponent";
 import { DialogueBox3D } from "./DialogueBox3D";
 import { CloseButtonComponent } from "../ui/CloseButtonComponent";
 import InfoButtonIcon from "../ui/InfoButtonIcon";
-import { InfoPanel3D } from "./InfoPanel";
 import { useEffect } from "react";
 import { useSoundStore } from "../../stores/useSoundStore";
+import { InfoPanel } from "./InfoPanel";
+import { InfoButtonComponent } from "../ui/InfoButtonComponent";
 
 export const DialogueSystem = () => {
   const [isPanelOpen, setIsPanelOpen] = useState(false);
@@ -21,17 +22,8 @@ export const DialogueSystem = () => {
 
   const character = activeCharacter ? SCENE_CONFIG[activeCharacter] : null;
 
-  const exitDialogue = () => {
-    closeDialogue();
-    setIsPanelOpen(false);
-  };
-
   useEffect(() => {
-    if (activeCharacter) {
-      setDucking(true);
-    } else {
-      setDucking(false);
-    }
+    setDucking(!!activeCharacter);
   }, [activeCharacter, setDucking]);
 
   return (
@@ -39,22 +31,19 @@ export const DialogueSystem = () => {
       {character && (
         <motion.div
           key="dialogue-system-overlay"
+          className="dialogue-overlay"
           initial={{ opacity: 0, scale: 1.05, filter: "blur(10px)" }}
           animate={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
-          exit={{
-            opacity: 0,
-            scale: 0.98,
-            filter: "blur(5px)",
-            transition: { duration: 0.3 },
-          }}
-          transition={{ duration: 0.5, ease: "easeOut" }}
-          className="dialogue-overlay"
+          exit={{ opacity: 0, scale: 0.98, filter: "blur(5px)" }}
+          transition={{ duration: 0.5 }}
         >
-          <CloseButtonComponent onClick={closeDialogue} />
+          <div className="dialogue-close-btn">
+            <CloseButtonComponent onClick={closeDialogue} />
+          </div>
 
           {!isPanelOpen && (
-            <button
-              className="infoPanel-open-btn"
+            <div
+              className="dialogue-info-btn"
               onClick={() => setIsPanelOpen(true)}
               style={{
                 position: "absolute",
@@ -63,30 +52,32 @@ export const DialogueSystem = () => {
                 zIndex: 10,
               }}
             >
-              <InfoButtonIcon />
-            </button>
+              <InfoButtonComponent />
+            </div>
           )}
 
+          <InfoPanel
+            isOpen={isPanelOpen}
+            onClose={() => setIsPanelOpen(false)}
+            characterName={character.name}
+            characterInfo={character.info}
+            characterImageInfo={character.imageInfo} // On ajoute l'image ici
+          />
+
+          {/* Scène 3D */}
           <div className="dialogue-content">
             <Canvas camera={{ position: [0, 0, 5], fov: 45 }}>
               <ambientLight intensity={1.5} />
               <Suspense fallback={null}>
                 <CharacterComponent imagePath={character.image} />
-                <InfoPanel3D
-                  isOpen={isPanelOpen}
-                  setIsOpen={setIsPanelOpen}
-                  characterName={character.name}
-                  characterInfo={character.info}
+                <DialogueBox3D
+                  name={character.name}
+                  text={character.text}
+                  isObject={character.isObject}
                 />
-                <DialogueBox3D name={character.name} text={character.text} />
               </Suspense>
             </Canvas>
           </div>
-
-          {/* <DialogueBox 
-            name={character.name} 
-            text={character.text} 
-          /> */}
         </motion.div>
       )}
     </AnimatePresence>

@@ -45,7 +45,7 @@ export const CharacterMaterial = {
 
       // On utilise le bruit pour faire varier l'opacité très légèrement
       // Ça donne l'aspect "vapeur" constant sans faire disparaître le perso
-      float smokeEffect = smoothstep(0.2, 1.0, n);
+      float smokeEffect = smoothstep(0.02, 1.0, n);
       
       // 3. L'OMBRAGE DU BAS
       float bottomFade = smoothstep(0.0, 0.4, vUv.y);

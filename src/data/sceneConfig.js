@@ -7,7 +7,9 @@ export const SCENE_CONFIG = {
     name: "Women",
     dialogue: "La place des femmes c'est à la couizine",
     image: "/assets/images/character/scene1/Woman.png",
+    imageInfo: "/assets/images/character/scene1/1-5.png",
     info: "Voivizvizv",
+    isObject: false,
 
     // Sound
     hoverSound: "",
@@ -24,6 +26,8 @@ export const SCENE_CONFIG = {
     name: "Backpack",
     dialogue: "Backpack",
     image: "/assets/images/character/scene1/Backpack.png",
+    imageInfo: "/assets/images/character/scene1/1-2.png",
+    isObject: true,
 
     hoverSound: "",
     clickSound: "pickup",
@@ -32,6 +36,8 @@ export const SCENE_CONFIG = {
     name: "Rope",
     dialogue: "Rope",
     image: "/assets/images/character/scene1/Rope.png",
+    imageInfo: "/assets/images/character/scene1/1-3.png",
+    isObject: true,
 
     hoverSound: "",
     clickSound: "rope",
@@ -40,6 +46,8 @@ export const SCENE_CONFIG = {
     name: "Dog",
     dialogue: "Dog",
     image: "/assets/images/character/scene1/Dog.png",
+    imageInfo: "/assets/images/character/scene1/1-1.png",
+    isObject: true,
 
     hoverSound: "",
     clickSound: "dog",
@@ -48,6 +56,8 @@ export const SCENE_CONFIG = {
     name: "Elders",
     dialogue: "Vieux",
     image: "/assets/images/character/scene1/Elders.png",
+    imageInfo: "/assets/images/character/scene1/1-4.png",
+    isObject: false,
 
     hoverSound: "",
     clickSound: "elders",
@@ -66,6 +76,7 @@ export const SCENE_CONFIG = {
     name: "Childrens",
     dialogue: "Enfants",
     image: "/assets/images/character/scene2/Childrens.png",
+    isObject: false,
 
     hoverSound: "",
     clickSound: "child",
@@ -80,6 +91,7 @@ export const SCENE_CONFIG = {
     name: "Reindeer",
     dialogue: "Reindeer",
     image: "/assets/images/character/scene2/Reindeer.png",
+    isObject: true,
 
     hoverSound: "",
     clickSound: "deer",
@@ -88,6 +100,7 @@ export const SCENE_CONFIG = {
     name: "TalismanTree",
     dialogue: "TalismanTree",
     image: "/assets/images/character/scene2/TalismanTree.png",
+    isObject: true,
 
     hoverSound: "",
     clickSound: "talismanTree",
@@ -106,6 +119,7 @@ export const SCENE_CONFIG = {
     name: "Sled",
     dialogue: "Sled",
     image: "/assets/images/character/scene3/Sled.png",
+    isObject: true,
 
     hoverSound: "",
     clickSound: "sled",
@@ -114,6 +128,7 @@ export const SCENE_CONFIG = {
     name: "Fire",
     dialogue: "Fire",
     image: "/assets/images/character/scene3/Fire.png",
+    isObject: true,
 
     hoverSound: "",
     clickSound: "fire",
@@ -122,6 +137,7 @@ export const SCENE_CONFIG = {
     name: "Leader",
     dialogue: "Leader",
     image: "/assets/images/character/scene3/Leader.png",
+    isObject: false,
 
     hoverSound: "",
     clickSound: "leader",
@@ -132,10 +148,11 @@ export const SCENE_CONFIG = {
       emissiveIntensity: 4,
     },
   },
-  INT_SingingMen_Acting : {
+  INT_SingingMen_Acting: {
     name: "SingingMen",
     dialogue: "SingingMen",
     image: "/assets/images/character/scene3/SingingMen.png",
+    isObject: false,
 
     hoverSound: "",
     clickSound: "singing",
@@ -146,10 +163,11 @@ export const SCENE_CONFIG = {
       emissiveIntensity: 4,
     },
   },
-  INT_SingingMen_Standing : {
+  INT_SingingMen_Standing: {
     name: "SingingMen",
     dialogue: "SingingMen",
     image: "/assets/images/character/scene3/SingingMen.png",
+    isObject: false,
 
     hoverSound: "",
     clickSound: "singing",
@@ -160,10 +178,11 @@ export const SCENE_CONFIG = {
       emissiveIntensity: 4,
     },
   },
-  INT_SingingMen_Sitting : {
+  INT_SingingMen_Sitting: {
     name: "SingingMen",
     dialogue: "SingingMen",
     image: "/assets/images/character/scene3/SingingMen.png",
+    isObject: false,
 
     hoverSound: "",
     clickSound: "singing",
@@ -182,6 +201,7 @@ export const SCENE_CONFIG = {
     name: "Autel",
     dialogue: "Autel",
     image: "/assets/images/character/scene4/Autel.png",
+    isObject: false,
 
     hoverSound: "",
     clickSound: "autel",
@@ -196,6 +216,7 @@ export const SCENE_CONFIG = {
     name: "Gifts",
     dialogue: "Gifts",
     image: "/assets/images/character/scene4/Gifts.png",
+    isObject: true,
 
     hoverSound: "",
     clickSound: "gift",

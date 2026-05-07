@@ -27,12 +27,12 @@
 
   &-close-btn {
     position: absolute;
+
     top: 40px;
     left: 40px;
-    z-index: 1100;
+    z-index: 98;
     display: flex;
     align-items: center;
-    background: none;
     border: none;
     cursor: pointer;
     pointer-events: auto;
@@ -44,6 +44,28 @@
   }
 
   &-close-btn:hover svg {
+    scale: (1.1);
+  }
+
+  &-info-btn {
+    position: absolute;
+
+    top: 40px;
+    right: 40px;
+    z-index: 98;
+    display: flex;
+    align-items: center;
+    border: none;
+    cursor: pointer;
+    pointer-events: auto;
+    width: 50px;
+    height: auto;
+  }
+  &-info-btn svg {
+    transition: all 0.2s ease;
+  }
+
+  &-info-btn:hover svg {
     scale: (1.1);
   }
 }
