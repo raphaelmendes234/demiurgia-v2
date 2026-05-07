@@ -35,13 +35,15 @@ export function MenuScreen() {
           />
         </Suspense>
       </Canvas>
+      <div class="menuScreen_button"> 
         <MainButtonComponent
           onClick={handleStart}
           onPointerDown={() => playSound("magic")}
         >
           COMMENCER
         </MainButtonComponent>
-        <span className="utils__screenInfo">MENU SCREEN</span>
+      </div>
+      <span className="utils__screenInfo">MENU SCREEN</span>
     </div>
   );
 }
