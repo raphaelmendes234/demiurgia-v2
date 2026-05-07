@@ -4,15 +4,15 @@ import { shaderMaterial } from "@react-three/drei";
 import { extend } from "@react-three/fiber";
 
 export const AuroraMaterialImpl = shaderMaterial(
-  {
-    uTime: 0,
-    uProgress: 1, // On le met à 1 par défaut pour la visibilité
-    uColorA: new THREE.Color("#00ff8c"),
-    uColorB: new THREE.Color("#ad00ff"),
-    uOpacity: 0.5,
-  },
-  // Vertex Shader
-  `
+	{
+		uTime: 0,
+		uProgress: 1, // On le met à 1 par défaut pour la visibilité
+		uColorA: new THREE.Color("#00ff8c"),
+		uColorB: new THREE.Color("#ad00ff"),
+		uOpacity: 0.5,
+	},
+	// Vertex Shader
+	`
   varying vec2 vUv;
   void main() {
     vUv = uv;
@@ -20,8 +20,8 @@ export const AuroraMaterialImpl = shaderMaterial(
     gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
   }
   `,
-  // Fragment Shader
-  `
+	// Fragment Shader
+	`
   uniform float uTime;
   uniform float uProgress;
   uniform float uOpacity;

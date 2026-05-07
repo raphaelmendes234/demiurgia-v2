@@ -6,7 +6,8 @@ import { useControls, folder } from "leva";
 import { CameraHandler } from "../CameraHandler";
 import { ScenesManager } from "./ScenesManager";
 import { DialogueSystem } from "../character/DialogueSystem";
-import { FrameMask } from "./FrameMask";
+import { TentaclePlane } from "./TentacleShader";
+import Title3DModel from "../Title3DModel";
 import { Bloom, EffectComposer } from "@react-three/postprocessing";
 
 export function Experience() {
@@ -21,8 +22,9 @@ export function Experience() {
 				<CameraHandler />
 
 				<Suspense fallback={null}>
+					{/* <Title3DModel /> */}
 					<ScenesManager />
-					<FrameMask />
+					<TentaclePlane />
 				</Suspense>
 
 				<EffectComposer>

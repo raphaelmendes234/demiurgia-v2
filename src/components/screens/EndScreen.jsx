@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { useExperienceStore, PHASES } from "../../stores/useExperienceStore";
 import { MainButtonComponent } from "../ui/MainButtonComponent";
-import { FrameMask } from "../canvas/FrameMask";
 import { Canvas } from "@react-three/fiber";
 
 export function EndScreen() {
