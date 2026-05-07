@@ -2,12 +2,18 @@ import { create } from "zustand";
 import { Howl, Howler } from "howler";
 import { gsap } from "gsap";
 import { sin } from "three/tsl";
+import MainButton from "../components/ui/MainButton";
 
 // --- SONS GLOBAUX ---
 
 const uiClick = new Howl({
   src: ["/sounds/ui/UI_Click.webm"],
   volume: 0.5,
+});
+
+const uiMainButton = new Howl({
+  src: ["/sounds/ui/1.mp3"],
+  volume: 0.1,
 });
 
 const magicClick = new Howl({
@@ -256,6 +262,7 @@ export const useSoundStore = create((set, get) => ({
       magic: magicClick,
       pickup: itemPickup,
       click: uiClick,
+      uiMainButton: uiMainButton,
       close: uiClose,
       dog: itemDog,
       hover: uiHover,
@@ -282,14 +289,7 @@ export const useSoundStore = create((set, get) => ({
     setTimeout(() => set({ _isSpecificPlaying: false }), 100);
   },
 
-  playSuccess: () => {
-    const { isMuted } = get();
-    if (isMuted) return;
-
-    set({ _isSpecificPlaying: true });
-    magicClick.play();
-    setTimeout(() => set({ _isSpecificPlaying: false }), 100);
-  },
+ 
   startAmbience: () => {
     Howler.volume(get().isDucked ? 0.15 : 1.0);
     const FADE_DURATION = 1000;

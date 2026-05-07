@@ -19,39 +19,37 @@ export function ContextScreen() {
 	);
 
 	const changeStep = (direction) => {
-		if (isTransitioning) return;
-		setIsTransitioning(true);
+    if (isTransitioning) return;
+    setIsTransitioning(true);
 
-		// Animation sortie
-		gsap.to(".canvas-container", {
-			opacity: 0,
-			duration: 0.3,
-			onComplete: () => {
-				// Changement de l'index une fois invisible
-				if (direction === "next") {
-					if (currentIndex < CONTEXT_STEPS.length - 1) {
-						// Animation d'entrée
-						setCurrentIndex(currentIndex + 1);
-						gsap.to(".canvas-container", {
-							opacity: 1,
-							duration: 0.4,
-							onComplete: () => setIsTransitioning(false),
-						});
-					} else {
-						setIsTransitioning(false);
-						setGame();
-					}
-				} else {
-					setCurrentIndex((prev) => prev - 1);
-					gsap.to(".canvas-container", {
-						opacity: 1,
-						duration: 0.4,
-						onComplete: () => setIsTransitioning(false),
-					});
-				}
-			},
-		});
-	};
+    gsap.to(".canvas-container", {
+        opacity: 0,
+        duration: 0.3,
+        onComplete: () => {
+            if (direction === "next") {
+                if (currentIndex < CONTEXT_STEPS.length - 1) {
+                    setCurrentIndex((prev) => prev + 1);
+                    gsap.to(".canvas-container", {
+                        opacity: 1,
+                        duration: 0.4,
+                        onComplete: () => setIsTransitioning(false),
+                    });
+                } else {
+                    setIsTransitioning(false);
+                    setGame();
+                }
+            } else {
+                setCurrentIndex((prev) => Math.max(0, prev - 1));
+                
+                gsap.to(".canvas-container", {
+                    opacity: 1,
+                    duration: 0.4,
+                    onComplete: () => setIsTransitioning(false),
+                });
+            }
+        },
+    });
+};
 
 	return (
 		<div className="context__screen">

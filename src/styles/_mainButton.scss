@@ -4,7 +4,7 @@
   padding: 0;
   cursor: pointer;
   display: inline-block;
-  transition: transform 0.1s ease;
+  transition: all 0.1s ease;
   filter: drop-shadow(0 4px 6px rgba(0,0,0,0.3));
   z-index: 9999;
 }
@@ -12,6 +12,7 @@
 .fantasy-btn-container:hover {
   transform: scale(1.02);
   filter: brightness(1.2) drop-shadow(0 6px 12px rgba(157, 238, 209, 0.2));
+
 }
 
 .fantasy-btn-container:active {

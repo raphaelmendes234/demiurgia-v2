@@ -38,7 +38,7 @@ export function GameScreen() {
         {gameIndex !== 0 && (
           <CursorButton
             onClick={handlePrevClick}
-            onPointerEnter2={handlePointerOver}
+            onPointerEnter={handlePointerOver}
             disabled={isTransitioning}
             style={{ opacity: isTransitioning ? 0.5 : 1 }}
           >
@@ -48,7 +48,7 @@ export function GameScreen() {
 
         <CursorButton
           onClick={handleNextClick}
-          onPointerEnter2={handlePointerOver}
+          onPointerEnter={handlePointerOver}
           disabled={isTransitioning}
           style={{ opacity: isTransitioning ? 0.5 : 1 }}
         >
