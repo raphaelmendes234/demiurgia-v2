@@ -1,5 +1,6 @@
 .infoPanel {
 	&-container {
+		position: relative;
 		padding: 20px;
 		color: white;
 		overflow: hidden;
@@ -7,6 +8,7 @@
 		justify-content: flex-start;
 		align-items: flex-start;
 		gap: 24px;
+		overflow: visible;
 	}
 
 	&-open-btn {
@@ -21,13 +23,17 @@
 		border: none;
 		color: #ffe082;
 		cursor: pointer;
-		text-transform: uppercase;
 		font-family: "Georgia", serif;
 		font-size: 14px;
 		pointer-events: auto;
+		width: 50px;
+		height: auto;
 	}
 
 	&-close-btn {
+		position: absolute;
+		top: 30px;
+		left: -30px;
 		display: flex;
 		align-items: center;
 		gap: 12px;
@@ -39,11 +45,17 @@
 		font-family: "Georgia", serif;
 		font-size: 14px;
 		pointer-events: auto;
+		width: 30px;
+		height: auto;
 	}
 
+	&-close-btn svg,
 	&-open-btn svg {
-		width: 40px;
-		height: 40px;
-		padding: 8px;
+		transition: all 0.2s ease;
+	}
+
+	&-close-btn:hover svg,
+	&-open-btn:hover svg {
+		scale: (1.1);
 	}
 }

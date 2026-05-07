@@ -1,26 +1,53 @@
-.end {
-    &__screen {
-        z-index: 99;
+$fade-to-black-duration: 3s; // Durée demandée pour le fondu au noir
 
-        position: fixed;
-        top: 0;
-        left: 0;
+.end__screen {
+	position: fixed;
+	inset: 0;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	z-index: 100;
+	pointer-events: none;
+	background-color: transparent;
+	// Transition synchronisée avec les 2s du fondu[cite: 6]
+	transition: background-color #{$fade-to-black-duration} ease-in-out;
 
-        width: 100%;
-        height: 100%;
+	canvas {
+		position: absolute;
+		inset: 0;
+		pointer-events: none;
+	}
 
-        display: flex;
-        justify-content: center;
-        align-items: center;
+	&--black {
+		background-color: #000;
+	}
 
-        color: lightseagreen;
+	.end__credits {
+		position: absolute;
+		inset: 0;
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+		color: white;
+		text-align: center;
+		animation: fadeInCredits 2s ease-out forwards;
+		pointer-events: auto;
 
-        box-sizing: border-box;
-        border: solid 4px lightseagreen;
+		button {
+			padding: 10px 20px;
+			cursor: pointer;
+		}
+	}
+}
 
-        button {
-            padding: 10px 20px;
-            cursor: pointer;
-        }
-    }
+@keyframes fadeInCredits {
+	from {
+		opacity: 0;
+		transform: scale(0.95);
+	}
+	to {
+		opacity: 1;
+		transform: scale(1);
+	}
 }

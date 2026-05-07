@@ -12,7 +12,6 @@ export const GAME_SCENES = [
   "scene2", 
   "scene3", 
   "scene4", 
-  "scene5"
 ];
 
 export const useExperienceStore = create((set, get) => ({

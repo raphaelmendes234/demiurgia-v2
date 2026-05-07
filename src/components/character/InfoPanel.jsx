@@ -4,7 +4,6 @@ import { useFrame, useThree } from "@react-three/fiber";
 import * as THREE from "three";
 import gsap from "gsap";
 import CloseButtonIcon from "../ui/CloseButtonIcon";
-import { hilbert2D } from "three/examples/jsm/utils/GeometryUtils.js";
 
 const InfoPanelShader = {
 	vertexShader: `
@@ -63,7 +62,7 @@ export const InfoPanel3D = ({
 				: viewport.width / 2 + panelWidth / 2;
 			gsap.to(groupRef.current.position, {
 				x: targetX,
-				duration: 0.8,
+				duration: 1,
 				ease: "power3.out",
 				overwrite: "auto",
 			});
@@ -121,7 +120,7 @@ export const InfoPanel3D = ({
 						</button>
 
 						<div className="infoPanel-content">
-							<h2 style={{ fontSize: "24px", margin: "10px 0" }}>
+							<h2 style={{ fontSize: "18px", margin: "10px 0" }}>
 								{characterName}
 							</h2>
 							<p style={{ fontSize: "14px" }}>{characterInfo}</p>
