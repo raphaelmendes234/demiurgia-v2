@@ -1,3 +1,4 @@
+import { useGLTF } from "@react-three/drei";
 import { useExperienceStore } from "../../stores/useExperienceStore";
 import { Scene } from "./Scene";
 
@@ -55,3 +56,10 @@ export function ScenesManager() {
 		</>
 	);
 }
+
+useGLTF.preload("/models/sceneMenu.glb");
+useGLTF.preload("/models/scene1.glb");
+useGLTF.preload("/models/scene2.glb");
+useGLTF.preload("/models/scene3.glb");
+useGLTF.preload("/models/scene4.glb");
+useGLTF.preload("/models/sceneEnd.glb");
