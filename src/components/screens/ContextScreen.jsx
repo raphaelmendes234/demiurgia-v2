@@ -18,6 +18,12 @@ export function ContextScreen() {
 		(state) => state.setIsTransitioning,
 	);
 	const startAmbience = useSoundStore((state) => state.startAmbience);
+	const stopAmbianceContext = useSoundStore(
+		(state) => state.stopAmbianceContext,
+	);
+	const playSound = useSoundStore((state) => state.playSound);
+
+	const lastContextIndex = currentIndex === CONTEXT_STEPS.length - 1;
 
 	const changeStep = (direction) => {
 		if (isTransitioning) return;
@@ -39,6 +45,9 @@ export function ContextScreen() {
 					} else {
 						// --- LOGIQUE "LANCER" ---
 						setIsTransitioning(false);
+
+						if (stopAmbianceContext) stopAmbianceContext();
+						if (stopAmbianceContext) playSound("swoosh");
 
 						// On lance l'ambiance sonore
 						if (startAmbience) startAmbience();

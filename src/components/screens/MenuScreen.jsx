@@ -8,20 +8,28 @@ import { Canvas } from "@react-three/fiber";
 import { ContactShadows, Environment } from "@react-three/drei";
 
 export function MenuScreen() {
-	const setContext = useExperienceStore((state) => state.setContext);
-	const startAmbience = useSoundStore((state) => state.startAmbience);
-	const playSound = useSoundStore((state) => state.playSound);
+  const setContext = useExperienceStore((state) => state.setContext);
+  const playSound = useSoundStore((state) => state.playSound);
+  const startAmbianceMenu = useSoundStore((state) => state.startAmbianceMenu);
+  const stopAmbianceMenu = useSoundStore((state) => state.stopAmbianceMenu);
+  const startAmbianceContext = useSoundStore((state) => state.startAmbianceContext);
 
-	const handleStart = () => {
-		setContext();
-	};
+  useEffect(() => {
+    startAmbianceMenu();
+  }, [startAmbianceMenu]);
+
+  const handleStart = () => {
+    setContext();
+    stopAmbianceMenu();
+	startAmbianceContext();
+  };
 
 	return (
 		<div className="menu__screen">
 			<div className="menu__screen__button">
 				<MainButtonComponent
 					onClick={handleStart}
-					onPointerDown={() => playSound("magic")}
+					onPointerDown={() => playSound("buttonEnter")}
 				>
 					COMMENCER
 				</MainButtonComponent>
