@@ -1,50 +1,105 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useExperienceStore, PHASES } from "../../stores/useExperienceStore";
 import { MainButtonComponent } from "../ui/MainButtonComponent";
 import { Canvas } from "@react-three/fiber";
+import { gsap } from "gsap";
 
 export function EndScreen() {
 	const phase = useExperienceStore((state) => state.phase);
 	const setMenu = useExperienceStore((state) => state.setMenu);
 
-	const handleClick = () => {
-		setMenu();
-	};
-
-	const [isBlack, setIsBlack] = useState(false);
-	const [showCredits, setShowCredits] = useState(false);
+	const overlayRef = useRef(null);
+	const titleRef = useRef(null);
+	const creditsRef = useRef(null);
 
 	useEffect(() => {
 		if (phase === PHASES.END) {
-			// 1. Déclenchement de la séquence de fin
-			const blackTimer = setTimeout(() => setIsBlack(true), 2500);
-			const creditsTimer = setTimeout(() => setShowCredits(true), 6500);
+			const tl = gsap.timeline({
+				delay: 3,
+				onComplete: () => {
+					setTimeout(() => setMenu(), 1000);
+				},
+			});
 
-			return () => {
-				clearTimeout(blackTimer);
-				clearTimeout(creditsTimer);
-			};
+			// Config initiale au moment du déclenchement
+			gsap.set([titleRef.current, creditsRef.current], { opacity: 0, y: 20 });
+
+			// Apparition de l'overlay (autoAlpha passe visibility à visible)
+			tl.to(overlayRef.current, {
+				autoAlpha: 1, // Gère opacity: 1 ET visibility: visible
+				backgroundColor: "rgba(0, 0, 0, 1)",
+				duration: 4,
+				ease: "power2.inOut",
+				pointerEvents: "all", // Permet de cliquer si tu ajoutes des boutons
+			});
+
+			// Animation Titre
+			tl.to(titleRef.current, {
+				opacity: 1,
+				y: 0,
+				duration: 1.5,
+				ease: "power2.out",
+			});
+			tl.to(titleRef.current, {
+				opacity: 0,
+				y: -20,
+				duration: 1.5,
+				ease: "power2.in",
+				delay: 2,
+			});
+
+			// Animation Crédits
+			tl.to(creditsRef.current, {
+				opacity: 1,
+				y: 0,
+				duration: 1.5,
+				ease: "power2.out",
+			});
+			tl.to(creditsRef.current, {
+				opacity: 0,
+				duration: 1.5,
+				ease: "power2.in",
+				delay: 2,
+			});
+
+			return () => tl.kill();
 		} else {
-			// 2. Si on quitte la phase END, on reset les états.
-			// Le fondu sortant sera géré par la transition CSS sur 'isBlack'[cite: 6].
-			setIsBlack(false);
-			setShowCredits(false);
+			// SI ON N'EST PAS EN PHASE END : On cache tout immédiatement ou via une transition
+			gsap.to(overlayRef.current, {
+				autoAlpha: 0, // Repasse en visibility: hidden
+				backgroundColor: "rgba(0, 0, 0, 0)",
+				delay: 1,
+				duration: 4,
+				pointerEvents: "none", // Désactive les clics
+			});
 		}
 	}, [phase]);
 
 	return (
-		<div className={`end__screen ${isBlack ? "end__screen--black" : ""}`}>
-			{showCredits && (
-				<div className="end__credits">
-					<h1>FIN</h1>
-					<p>Merci d'avoir joué</p>
-					<div style={{ marginTop: "40px" }}>
-						<MainButtonComponent onClick={handleClick}>
-							RETOUR AU MENU
-						</MainButtonComponent>
-					</div>
-				</div>
-			)}
+		<div className="end__screen" ref={overlayRef}>
+			{/* Section Titre*/}
+			<div className="end__content" ref={titleRef} style={{ opacity: 0 }}>
+				<h1>Chapitre I — Le campement</h1>
+				<p className="suspense">
+					<i>
+						Nanouk s’est aventuré dans la forêt à la recherche d’une offrande.
+					</i>
+				</p>
+				<p className="suspense">
+					<i>Mais Démiurgia peut surgir à tout moment...</i>
+				</p>
+			</div>
+
+			{/* Section Crédits */}
+			<div className="end__credits" ref={creditsRef} style={{ opacity: 0 }}>
+				<h4>Réalisé par :</h4>
+				<ul>
+					<li>Eva Bougnon</li>
+					<li>Joome Lee</li>
+					<li>Alan King</li>
+					<li>Raphaël Mendes</li>
+				</ul>
+			</div>
 		</div>
 	);
 }
