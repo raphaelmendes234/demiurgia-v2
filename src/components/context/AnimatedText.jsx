@@ -53,16 +53,16 @@ const TextRevealShader = {
             float noiseOffset = (n - 0.5) * 0.4;
 
             // On déforme la ligne de progression classique (vUv.x) avec le bruit
-            float distortedX = vUv.x + noiseOffset;
+            float distortedY = vUv.y + noiseOffset;
 
             // --- 3. RECALCUL DU REVEAL ---
             // Comme le bruit déforme les bords, la valeur de uReveal (qui va de 0 à 1)
             // ne suffit plus à cacher ou afficher le texte à 100% sur les extrémités.
             // On élargit donc la plage d'action de uReveal.
-            float mappedReveal = uReveal * 1.5 - 0.25;
+            float mappedReveal = 1.25 - (uReveal * 1.5);;
 
             // Reveal en utilisant la coordonnée déformée
-            float alpha = smoothstep(mappedReveal, mappedReveal - 0.1, distortedX);
+            float alpha = smoothstep(mappedReveal, mappedReveal + 0.1, distortedY);
 
             gl_FragColor = vec4(uColor, alpha * uOpacity);
         }
@@ -81,7 +81,7 @@ export function AnimatedText({ content }) {
 		() => ({
 			uOpacity: { value: 0 },
 			uReveal: { value: 0 },
-			uColor: { value: new THREE.Color(0x3a2f22) },
+			uColor: { value: new THREE.Color(0x8a7352) },
 		}),
 		[],
 	);
@@ -150,10 +150,10 @@ export function AnimatedText({ content }) {
 			uniforms.uReveal,
 			{
 				value: 1,
-				duration: 4,
+				duration: 6,
 				ease: "power2.out",
 			},
-			0.5,
+			1,
 		);
 
 		return () => tl.kill();
@@ -172,8 +172,8 @@ export function AnimatedText({ content }) {
 				/>
 			</mesh>
 			<Text
-				position={[0, 0, 0.01]}
-				fontSize={0.1}
+				position={[0, -0.01, 0.01]}
+				fontSize={0.11}
 				maxWidth={3}
 				lineHeight={1.2}
 				textAlign="center"

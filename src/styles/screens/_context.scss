@@ -26,17 +26,39 @@
 
 	&__buttons {
 		width: 100%;
-		max-width: 1024px;
+		max-width: 850px;
 		margin: 0 auto;
-		padding-right: 24px;
+		margin-bottom: 20px;
 		display: flex;
 		justify-content: space-between;
 		align-items: bottom;
+	}
 
-		button {
-			padding: 10px 20px;
-			cursor: pointer;
-		}
+	&__nav-btn {
+		z-index: 98;
+		display: flex;
+		align-items: center;
+		border: none;
+		cursor: pointer;
+		pointer-events: auto;
+		width: 50px;
+		height: auto;
+
+		animation: btnSlideIn 0.6s ease-out forwards;
+		animation-delay: 0.2s;
+		opacity: 0;
+	}
+	&__nav-btn svg {
+		transition: all 0.2s ease;
+	}
+
+	&__nav-btn:hover svg {
+		scale: (1.1);
+	}
+
+	&__nav-btn:active svg {
+		transform: scale(0.9);
+		transition: transform 0.05s ease-in;
 	}
 }
 
@@ -48,5 +70,16 @@
 	to {
 		opacity: 1;
 		transform: translateY(0);
+	}
+}
+
+@keyframes btnSlideIn {
+	from {
+		opacity: 0;
+		transform: translateY(20px) scale(0.9);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0) scale(1);
 	}
 }

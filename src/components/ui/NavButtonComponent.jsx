@@ -1,8 +1,8 @@
 import React from "react";
 import { useSoundStore } from "../../stores/useSoundStore";
-import CloseButtonIcon from "./CloseButtonIcon";
+import PlayButtonIcon from "./PlayButtonIcon";
 
-export const CloseButtonComponent = ({ onClick }) => {
+export const NavButtonComponent = ({ onClick, direction = "next" }) => {
 	const { playSound } = useSoundStore();
 	const handleClick = () => {
 		playSound("close");
@@ -13,6 +13,8 @@ export const CloseButtonComponent = ({ onClick }) => {
 		playSound("hover");
 	};
 
+	const rotation = direction === "prev" ? "rotate(180deg)" : "rotate(0deg)";
+
 	return (
 		<button
 			onClick={handleClick}
@@ -22,9 +24,10 @@ export const CloseButtonComponent = ({ onClick }) => {
 				border: "none",
 				padding: "0",
 				cursor: "pointer",
+				transform: rotation, // Applique la rotation ici
 			}}
 		>
-			<CloseButtonIcon />
+			<PlayButtonIcon />
 		</button>
 	);
 };

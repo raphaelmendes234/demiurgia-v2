@@ -5,9 +5,8 @@ import { CONTEXT_STEPS } from "../../data/contextData";
 import { BackgroundPlane } from "../context/BackgroundPlane";
 import { AnimatedText } from "../context/AnimatedText";
 import { gsap } from "gsap";
-import { div } from "framer-motion/client";
-import { MainButtonComponent } from "../ui/MainButtonComponent";
 import { useSoundStore } from "../../stores/useSoundStore";
+import { NavButtonComponent } from "../ui/NavButtonComponent";
 
 export function ContextScreen() {
 	const [currentIndex, setCurrentIndex] = useState(0);
@@ -82,16 +81,21 @@ export function ContextScreen() {
 			<div className="context__nav">
 				<div className="context__buttons">
 					{currentIndex !== 0 ? (
-						<MainButtonComponent onClick={() => changeStep("prev")}>
-							Précédent
-						</MainButtonComponent>
+						<div className="context__nav-btn">
+							<NavButtonComponent
+								direction="prev"
+								onClick={() => changeStep("prev")}
+							/>
+						</div>
 					) : (
 						<div />
 					)}
-
-					<MainButtonComponent onClick={() => changeStep("next")}>
-						{currentIndex === CONTEXT_STEPS.length - 1 ? "Lancer" : "Suivant"}
-					</MainButtonComponent>
+					<div className="context__nav-btn">
+						<NavButtonComponent
+							direction="next"
+							onClick={() => changeStep("next")}
+						/>
+					</div>
 				</div>
 			</div>
 		</div>
