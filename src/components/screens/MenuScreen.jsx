@@ -24,19 +24,16 @@ export function MenuScreen() {
 	startAmbianceContext();
   };
 
-  return (
-    <div className="menu__screen">
-      <div className="menuScreen_button">
-        <MainButtonComponent
-          onClick={handleStart}
-          onPointerDown={() => {
-            playSound("buttonEnter");
-          }}
-        >
-          COMMENCER
-        </MainButtonComponent>
-      </div>
-      <span className="utils__screenInfo">MENU SCREEN</span>
-    </div>
-  );
+	return (
+		<div className="menu__screen">
+			<div className="menu__screen__button">
+				<MainButtonComponent
+					onClick={handleStart}
+					onPointerDown={() => playSound("buttonEnter")}
+				>
+					COMMENCER
+				</MainButtonComponent>
+			</div>
+		</div>
+	);
 }

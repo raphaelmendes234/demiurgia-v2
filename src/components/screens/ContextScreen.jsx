@@ -87,23 +87,16 @@ export function ContextScreen() {
         </Canvas>
       </div>
 
-      {/* DOM UI Layer */}
-      <div
-        className="utils__screenInfo"
-        style={{ position: "absolute", top: 20, left: 20 }}
-      >
-        CONTEXT SCREEN
-      </div>
-
-      <div className="context__nav">
-        <div className="context__buttons">
-          {currentIndex !== 0 ? (
-            <MainButtonComponent onClick={() => changeStep("prev")}>
-              Précédent
-            </MainButtonComponent>
-          ) : (
-            <div />
-          )}
+			{/* DOM UI Layer */}
+			<div className="context__nav">
+				<div className="context__buttons">
+					{currentIndex !== 0 ? (
+						<MainButtonComponent onClick={() => changeStep("prev")}>
+							Précédent
+						</MainButtonComponent>
+					) : (
+						<div />
+					)}
 
           <MainButtonComponent onClick={() => changeStep("next")}>
             {lastContextIndex ? "Lancer" : "Suivant"}

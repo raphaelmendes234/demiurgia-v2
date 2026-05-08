@@ -1,6 +1,6 @@
 import {
-  useExperienceStore,
-  GAME_SCENES,
+	useExperienceStore,
+	GAME_SCENES,
 } from "../../stores/useExperienceStore";
 import { useSoundStore } from "../../stores/useSoundStore";
 import { MainButtonComponent } from "../ui/MainButtonComponent";
@@ -24,32 +24,28 @@ export function GameScreen() {
     }
   };
 
-  const handlePrevClick = () => {
-    prevScene();
-    playSound("swoosh");
-  };
+	const handlePrevClick = () => {
+		prevScene();
+		playSound("swoosh");
+	};
 
-  const handlePointerOver = (e) => {
-    playSound("hover");
-  };
+	const handlePointerOver = (e) => {
+		playSound("hover");
+	};
 
-  return (
-    <div className="game__screen">
-      <span className="utils__screenInfo">
-        GAME SCREEN | Scene {gameIndex + 1} / {totalScenes}
-      </span>
-
-      <div className="game__nav">
-        {gameIndex !== 0 && (
-          <MainButtonComponent
-            onClick={handlePrevClick}
-            onPointerEnter={handlePointerOver}
-            disabled={isTransitioning}
-            style={{ opacity: isTransitioning ? 0.5 : 1 }}
-          >
-            Précédent
-          </MainButtonComponent>
-        )}
+	return (
+		<div className="game__screen">
+			<div className="game__nav">
+				{gameIndex !== 0 && (
+					<MainButtonComponent
+						onClick={handlePrevClick}
+						onPointerEnter={handlePointerOver}
+						disabled={isTransitioning}
+						style={{ opacity: isTransitioning ? 0.5 : 1 }}
+					>
+						Précédent
+					</MainButtonComponent>
+				)}
 
         <MainButtonComponent
           onClick={handleNextClick}

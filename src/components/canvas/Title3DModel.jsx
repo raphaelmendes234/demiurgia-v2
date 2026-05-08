@@ -92,7 +92,7 @@ export default function Title3DModel(props) {
 			{...props}
 			rotation={[-0.4, 0, 0]}
 			dispose={null}
-			position={[0, 0.4, -1]}
+			position={[0, -0.2, -1]}
 			scale={[0.6, 0.6, 0.6]}
 		>
 			{/* DÉGRADÉ */}
@@ -104,7 +104,7 @@ export default function Title3DModel(props) {
 					depthWrite={false}
 					uniforms={{
 						uColor: { value: new THREE.Color("#282529") },
-						uOpacity: { value: 0.5 },
+						uOpacity: { value: 0 },
 					}}
 					vertexShader={`
 						varying vec2 vUv;
@@ -141,6 +141,7 @@ export default function Title3DModel(props) {
 							ref={(el) => (spectralRefs.current[index * 2] = el)}
 							transparent
 							uAlpha={1}
+							uDissolve={1}
 							uDistortion={0.03}
 							depthWrite={false}
 							blending={THREE.AdditiveBlending}
@@ -151,6 +152,7 @@ export default function Title3DModel(props) {
 							ref={(el) => (spectralRefs.current[index * 2 + 1] = el)}
 							transparent
 							uAlpha={1}
+							uDissolve={1}
 							uDistortion={0.04}
 							depthWrite={false}
 							blending={THREE.AdditiveBlending}
@@ -176,9 +178,10 @@ export default function Title3DModel(props) {
 				>
 					<mesh geometry={node.geometry}>
 						<spectralMaterialImpl
-							ref={(el) => spectralRefs.current.push(el)}
+							ref={(el) => (spectralRefs.current[letters.length * 2 + i] = el)}
 							transparent
 							uAlpha={1}
+							uDissolve={1}
 							uDistortion={0.002}
 							depthWrite={false}
 							blending={THREE.AdditiveBlending}
