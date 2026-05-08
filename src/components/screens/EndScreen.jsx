@@ -2,13 +2,16 @@ import { useEffect, useState } from "react";
 import { useExperienceStore, PHASES } from "../../stores/useExperienceStore";
 import { MainButtonComponent } from "../ui/MainButtonComponent";
 import { Canvas } from "@react-three/fiber";
+import { useSoundStore } from "../../stores/useSoundStore";
 
 export function EndScreen() {
 	const phase = useExperienceStore((state) => state.phase);
 	const setMenu = useExperienceStore((state) => state.setMenu);
+	const stopAmbianceEnd = useSoundStore((state) => state.stopAmbianceEnd);
 
 	const handleClick = () => {
 		setMenu();
+		stopAmbianceEnd();
 	};
 
 	const [isBlack, setIsBlack] = useState(false);

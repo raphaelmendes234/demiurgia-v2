@@ -10,97 +10,106 @@ import { MainButtonComponent } from "../ui/MainButtonComponent";
 import { useSoundStore } from "../../stores/useSoundStore";
 
 export function ContextScreen() {
-	const [currentIndex, setCurrentIndex] = useState(0);
-	const currentStep = CONTEXT_STEPS[currentIndex];
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const currentStep = CONTEXT_STEPS[currentIndex];
 
-	const setGame = useExperienceStore((state) => state.setGame);
-	const isTransitioning = useExperienceStore((state) => state.isTransitioning);
-	const setIsTransitioning = useExperienceStore(
-		(state) => state.setIsTransitioning,
-	);
-	const startAmbience = useSoundStore((state) => state.startAmbience);
+  const setGame = useExperienceStore((state) => state.setGame);
+  const isTransitioning = useExperienceStore((state) => state.isTransitioning);
+  const setIsTransitioning = useExperienceStore(
+    (state) => state.setIsTransitioning,
+  );
+  const startAmbience = useSoundStore((state) => state.startAmbience);
+  const stopAmbianceContext = useSoundStore(
+    (state) => state.stopAmbianceContext,
+  );
+  const playSound = useSoundStore((state) => state.playSound);
 
-	const changeStep = (direction) => {
-		if (isTransitioning) return;
-		setIsTransitioning(true);
+  const lastContextIndex = currentIndex === CONTEXT_STEPS.length - 1;
 
-		gsap.to(".canvas-container", {
-			opacity: 0,
-			duration: 0.3,
-			onComplete: () => {
-				if (direction === "next") {
-					if (currentIndex < CONTEXT_STEPS.length - 1) {
-						// Logique habituelle pour passer au slide suivant
-						setCurrentIndex((prev) => prev + 1);
-						gsap.to(".canvas-container", {
-							opacity: 1,
-							duration: 0.4,
-							onComplete: () => setIsTransitioning(false),
-						});
-					} else {
-						// --- LOGIQUE "LANCER" ---
-						setIsTransitioning(false);
+  const changeStep = (direction) => {
+    if (isTransitioning) return;
+    setIsTransitioning(true);
 
-						// On lance l'ambiance sonore
-						if (startAmbience) startAmbience();
+    gsap.to(".canvas-container", {
+      opacity: 0,
+      duration: 0.3,
+      onComplete: () => {
+        if (direction === "next") {
+          if (currentIndex < CONTEXT_STEPS.length - 1) {
+            // Logique habituelle pour passer au slide suivant
+            setCurrentIndex((prev) => prev + 1);
+            gsap.to(".canvas-container", {
+              opacity: 1,
+              duration: 0.4,
+              onComplete: () => setIsTransitioning(false),
+            });
+          } else {
+            // --- LOGIQUE "LANCER" ---
+            setIsTransitioning(false);
 
-						// On lance le jeu
-						setGame();
-					}
-				} else {
-					setCurrentIndex((prev) => Math.max(0, prev - 1));
+            if (stopAmbianceContext) stopAmbianceContext();
+            if (stopAmbianceContext) playSound("swoosh");
 
-					gsap.to(".canvas-container", {
-						opacity: 1,
-						duration: 0.4,
-						onComplete: () => setIsTransitioning(false),
-					});
-				}
-			},
-		});
-	};
+            // On lance l'ambiance sonore
+            if (startAmbience) startAmbience();
 
-	return (
-		<div className="context__screen">
-			<div
-				className="canvas-container"
-				style={{ position: "absolute", inset: 0 }}
-			>
-				<Canvas camera={{ position: [0, 0, 5], fov: 50 }}>
-					<BackgroundPlane
-						key={`bg-${currentIndex}`}
-						imagePath={currentStep.image}
-					/>
-					<AnimatedText
-						key={`text-${currentIndex}`}
-						content={currentStep.text}
-					/>
-				</Canvas>
-			</div>
+            // On lance le jeu
+            setGame();
+          }
+        } else {
+          setCurrentIndex((prev) => Math.max(0, prev - 1));
 
-			{/* DOM UI Layer */}
-			<div
-				className="utils__screenInfo"
-				style={{ position: "absolute", top: 20, left: 20 }}
-			>
-				CONTEXT SCREEN
-			</div>
+          gsap.to(".canvas-container", {
+            opacity: 1,
+            duration: 0.4,
+            onComplete: () => setIsTransitioning(false),
+          });
+        }
+      },
+    });
+  };
 
-			<div className="context__nav">
-				<div className="context__buttons">
-					{currentIndex !== 0 ? (
-						<MainButtonComponent onClick={() => changeStep("prev")}>
-							Précédent
-						</MainButtonComponent>
-					) : (
-						<div />
-					)}
+  return (
+    <div className="context__screen">
+      <div
+        className="canvas-container"
+        style={{ position: "absolute", inset: 0 }}
+      >
+        <Canvas camera={{ position: [0, 0, 5], fov: 50 }}>
+          <BackgroundPlane
+            key={`bg-${currentIndex}`}
+            imagePath={currentStep.image}
+          />
+          <AnimatedText
+            key={`text-${currentIndex}`}
+            content={currentStep.text}
+          />
+        </Canvas>
+      </div>
 
-					<MainButtonComponent onClick={() => changeStep("next")}>
-						{currentIndex === CONTEXT_STEPS.length - 1 ? "Lancer" : "Suivant"}
-					</MainButtonComponent>
-				</div>
-			</div>
-		</div>
-	);
+      {/* DOM UI Layer */}
+      <div
+        className="utils__screenInfo"
+        style={{ position: "absolute", top: 20, left: 20 }}
+      >
+        CONTEXT SCREEN
+      </div>
+
+      <div className="context__nav">
+        <div className="context__buttons">
+          {currentIndex !== 0 ? (
+            <MainButtonComponent onClick={() => changeStep("prev")}>
+              Précédent
+            </MainButtonComponent>
+          ) : (
+            <div />
+          )}
+
+          <MainButtonComponent onClick={() => changeStep("next")}>
+            {lastContextIndex ? "Lancer" : "Suivant"}
+          </MainButtonComponent>
+        </div>
+      </div>
+    </div>
+  );
 }

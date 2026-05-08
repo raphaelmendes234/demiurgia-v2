@@ -10,13 +10,18 @@ export function GameScreen() {
   const prevScene = useExperienceStore((state) => state.prevScene);
   const gameIndex = useExperienceStore((state) => state.gameIndex);
   const isTransitioning = useExperienceStore((state) => state.isTransitioning);
-  const { playSound } = useSoundStore();
+  const { playSound, stopAmbience } = useSoundStore();
 
   const totalScenes = GAME_SCENES.length;
+  const isLastScene = gameIndex === totalScenes - 1;
 
   const handleNextClick = () => {
     nextScene();
     playSound("swoosh");
+    if (isLastScene) {
+      stopAmbience();
+      playSound("ambiantEnd");
+    }
   };
 
   const handlePrevClick = () => {
@@ -52,7 +57,7 @@ export function GameScreen() {
           disabled={isTransitioning}
           style={{ opacity: isTransitioning ? 0.5 : 1 }}
         >
-          {gameIndex === totalScenes - 1 ? "Terminer l'aventure" : "Suivant"}
+          {isLastScene ? "Terminer l'aventure" : "Suivant"}
         </MainButtonComponent>
       </div>
     </div>
