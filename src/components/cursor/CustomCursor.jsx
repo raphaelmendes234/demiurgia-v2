@@ -1,6 +1,7 @@
 import React, { useEffect, useRef } from "react";
 import { useCursorStore } from "../../stores/useCursorStore";
 import { useSoundStore } from "../../stores/useSoundStore";
+import { gsap } from "gsap";
 
 export const CustomCursor = () => {
 	const cursorRef = useRef(null);
@@ -12,9 +13,14 @@ export const CustomCursor = () => {
 	const currentSize = useRef(75);
 	const velocity = useRef(0);
 
+	const hasMoved = useRef(false);
 	const cursorStateRef = useRef("default");
 
 	useEffect(() => {
+		if (cursorRef.current) {
+			gsap.set(cursorRef.current, { opacity: 0, scale: 0 });
+		}
+
 		// Souscription au store pour mettre à jour la ref sans re-render le composant
 		const unsub = useCursorStore.subscribe(
 			(state) => (cursorStateRef.current = state.cursorType),
@@ -22,6 +28,16 @@ export const CustomCursor = () => {
 
 		const moveCursor = (e) => {
 			mousePos.current = { x: e.clientX, y: e.clientY };
+
+			if (!hasMoved.current) {
+				hasMoved.current = true;
+				gsap.to(cursorRef.current, {
+					opacity: 1,
+					scale: 1,
+					duration: 0.5,
+					ease: "back.out(1.7)", // Petit effet de rebond sympa
+				});
+			}
 		};
 
 		const update = () => {

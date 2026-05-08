@@ -1,7 +1,11 @@
 .cursor {
 	position: fixed;
+	top: 0;
+	left: 0;
 	pointer-events: none; /* Indispensable pour ne pas cliquer sur le curseur lui-même */
 	z-index: 9999;
+	will-change: transform, width, height, opacity;
+	transform: translate3d(-100%, -100%, 0);
 
 	img {
 		width: 100%;
