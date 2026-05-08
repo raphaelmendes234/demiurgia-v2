@@ -47,11 +47,11 @@ const TextRevealShader = {
         void main() {
             // --- 2. CALCUL DU NOISE ---
             // Multiplier vUv change l'échelle du bruit (plus grand = plus de détails)
-            float n = noise(vUv * 20.0); 
-            
+            float n = noise(vUv * 20.0);
+
             // On centre le bruit (0.0 à 1.0 -> -0.5 à 0.5) et on gère la force (amplitude)
-            float noiseOffset = (n - 0.5) * 0.4; 
-            
+            float noiseOffset = (n - 0.5) * 0.4;
+
             // On déforme la ligne de progression classique (vUv.x) avec le bruit
             float distortedX = vUv.x + noiseOffset;
 
@@ -63,7 +63,7 @@ const TextRevealShader = {
 
             // Reveal en utilisant la coordonnée déformée
             float alpha = smoothstep(mappedReveal, mappedReveal - 0.1, distortedX);
-            
+
             gl_FragColor = vec4(uColor, alpha * uOpacity);
         }
     `,
@@ -99,9 +99,11 @@ export function AnimatedText({ content }) {
 	useEffect(() => {
 		if (!groupRef.current) return;
 
-		gsap.killTweensOf(uniforms);
+		gsap.killTweensOf(uniforms.uOpacity);
+		gsap.killTweensOf(uniforms.uReveal);
 		gsap.killTweensOf(groupRef.current.position);
 
+		groupRef.current.position.y = -2;
 		uniforms.uOpacity.value = 0;
 		uniforms.uReveal.value = 0;
 		if (bgMaterialRef.current) bgMaterialRef.current.opacity = 0;
@@ -153,6 +155,8 @@ export function AnimatedText({ content }) {
 			},
 			0.5,
 		);
+
+		return () => tl.kill();
 	}, [content, uniforms]);
 
 	return (
