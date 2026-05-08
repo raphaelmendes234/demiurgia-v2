@@ -79,13 +79,6 @@ export function ContextScreen() {
 			</div>
 
 			{/* DOM UI Layer */}
-			<div
-				className="utils__screenInfo"
-				style={{ position: "absolute", top: 20, left: 20 }}
-			>
-				CONTEXT SCREEN
-			</div>
-
 			<div className="context__nav">
 				<div className="context__buttons">
 					{currentIndex !== 0 ? (

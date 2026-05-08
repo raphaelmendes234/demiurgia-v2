@@ -18,7 +18,7 @@ export function MenuScreen() {
 
 	return (
 		<div className="menu__screen">
-			<div className="menuScreen_button">
+			<div className="menu__screen__button">
 				<MainButtonComponent
 					onClick={handleStart}
 					onPointerDown={() => playSound("magic")}
@@ -26,7 +26,6 @@ export function MenuScreen() {
 					COMMENCER
 				</MainButtonComponent>
 			</div>
-			<span className="utils__screenInfo">MENU SCREEN</span>
 		</div>
 	);
 }

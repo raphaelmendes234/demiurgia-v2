@@ -13,11 +13,6 @@
 		flex-direction: column;
 		justify-content: center;
 		align-items: center;
-
-		color: plum;
-
-		box-sizing: border-box;
-		border: solid 4px plum;
 	}
 
 	&__nav {
@@ -31,8 +26,9 @@
 
 	&__buttons {
 		width: 100%;
-		max-width: 950px;
+		max-width: 1024px;
 		margin: 0 auto;
+		padding-right: 24px;
 		display: flex;
 		justify-content: space-between;
 		align-items: bottom;
