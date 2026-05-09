@@ -265,4 +265,32 @@ export const SCENE_CONFIG = {
     hoverSound: "",
     clickSound: "gift",
   },
+  Familly: {
+    glow: {
+      mask: "/assets/images/emission/familly_emissive2.png",
+      emissiveColor: "#0fd15d",
+      emissiveIntensity: 4,
+    },
+  },
+  Man1: {
+    glow: {
+      mask: "/assets/images/emission/man1_emissive2.png",
+      emissiveColor: "#0fd15d",
+      emissiveIntensity: 4,
+    },
+  },
+  Man2: {
+    glow: {
+      mask: "/assets/images/emission/man2_emissive2.png",
+      emissiveColor: "#0fd15d",
+      emissiveIntensity: 4,
+    },
+  },
+  Woman: {
+    glow: {
+      mask: "/assets/images/emission/woman_emissive2.png",
+      emissiveColor: "#0fd15d",
+      emissiveIntensity: 4,
+    },
+  },
 };
