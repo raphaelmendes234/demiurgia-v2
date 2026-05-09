@@ -42,7 +42,7 @@ export default function Title3DModel(props) {
 
 		// Animation position groupe entier
 		gsap.to(mainGroupRef.current.position, {
-			y: isMenu ? 0.4 : -0.2,
+			y: isMenu ? 0.3 : -0.2,
 			duration: 2,
 			ease: "power3.inOut",
 		});
@@ -92,8 +92,8 @@ export default function Title3DModel(props) {
 			{...props}
 			rotation={[-0.4, 0, 0]}
 			dispose={null}
-			position={[0, -0.2, -1]}
-			scale={[0.6, 0.6, 0.6]}
+			position={[0, -0.2, 0.9]}
+			scale={[0.4, 0.4, 0.4]}
 		>
 			{/* DÉGRADÉ */}
 			<mesh position={[0, 0, -0.1]} scale={[5, 2, 1]}>

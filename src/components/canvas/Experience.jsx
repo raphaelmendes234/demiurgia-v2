@@ -19,9 +19,10 @@ export function Experience() {
 
 			<Canvas camera={{ position: [0.02, 0, 4.35], fov: 21 }}>
 				<color attach="background" args={["#111"]} />
-				<ambientLight intensity={0.8} color={"white"} />
+				<ambientLight intensity={2} color={"white"} />
 
 				<CameraHandler />
+				{/* <OrbitControls /> */}
 
 				<Suspense fallback={null}>
 					<Title3DModel />

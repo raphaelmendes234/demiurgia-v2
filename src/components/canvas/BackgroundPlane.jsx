@@ -19,7 +19,7 @@ export function BackgroundPlane() {
 				<auroraMaterialImpl
 					ref={auroraRef}
 					transparent
-					uOpacity={0.4}
+					uOpacity={0.1}
 					uColorA="#7b00ff"
 					uColorB="#01FDA9"
 					blending={THREE.AdditiveBlending}
