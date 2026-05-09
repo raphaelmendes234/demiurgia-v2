@@ -310,7 +310,7 @@ export const useSoundStore = create((set, get) => ({
     set({ _isSpecificPlaying: true });
     selectedSound.play();
 
-    setTimeout(() => set({ _isSpecificPlaying: false }), 100);
+    setTimeout(() => set({ _isSpecificPlaying: false }), 200);
   },
 
   startAmbience: () => {
