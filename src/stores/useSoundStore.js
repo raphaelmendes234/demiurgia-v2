@@ -282,6 +282,7 @@ export const useSoundStore = create((set, get) => ({
       swoosh: uiSwooshScene,
       //CONTEXT
       contextAmbience: contextAmbience,
+      slideSoft: slideSoft,
       //END
       ambiantEnd: ambiantEnd,
       //SCENE1
