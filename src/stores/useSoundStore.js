@@ -21,7 +21,7 @@ const uiMainButton = new Howl({
 
 const buttonEnter = new Howl({
   src: ["/sounds/ui/boutonEnterMenu.webm"],
-  volume: 0.8,
+  volume: 1,
 });
 
 const menuAmbience = new Howl({

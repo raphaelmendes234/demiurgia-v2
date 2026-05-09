@@ -2,10 +2,10 @@ import { useEffect } from "react";
 import { useCursorStore } from "../../stores/useCursorStore";
 import { useExperienceStore } from "../../stores/useExperienceStore";
 import { useSoundStore } from "../../stores/useSoundStore";
-import { MainButtonComponent } from "../ui/MainButtonComponent";
 import { Suspense } from "react";
 import { Canvas } from "@react-three/fiber";
 import { ContactShadows, Environment } from "@react-three/drei";
+import { BigMainButtonComponent } from "../ui/BigMainButtonComponent";
 
 export function MenuScreen() {
   const setContext = useExperienceStore((state) => state.setContext);
@@ -27,12 +27,12 @@ export function MenuScreen() {
 	return (
 		<div className="menu__screen">
 			<div className="menu__screen__button">
-				<MainButtonComponent
+				<BigMainButtonComponent
 					onClick={handleStart}
 					onPointerDown={() => playSound("buttonEnter")}
 				>
 					COMMENCER
-				</MainButtonComponent>
+				</BigMainButtonComponent>
 			</div>
 		</div>
 	);
