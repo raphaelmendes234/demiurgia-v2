@@ -176,7 +176,7 @@ export default function Title3DModel(props) {
 					rotation={[Math.PI / 2, 0, 0]}
 					scale={15}
 				>
-					<mesh geometry={node.geometry}>
+					<mesh geometry={node.geometry} renderOrder={999}>
 						<spectralMaterialImpl
 							ref={(el) => (spectralRefs.current[letters.length * 2 + i] = el)}
 							transparent
