@@ -150,6 +150,8 @@ export const SCENE_CONFIG = {
     name: "Feu",
     dialogue: "J’aime rester près du feu quand il fait nuit.",
     image: "/assets/images/character/scene3/Fire.png",
+    imageInfo: "/assets/images/character/scene3/3-4.png",
+
     isObject: true,
     infoName: "Feu de camp",
     infoText: "Source de chaleur et de lumière, le feu permet à la tribu de survivre au froid. Les Lumaras s’y rassemblent également pour cuisiner, chanter les rites anciens et rester unis.",
