@@ -35,26 +35,28 @@ export function BigMainButtonComponent({
     }
   };
 
- return (
-    <div style={{ position: 'relative', display: 'inline-block' }}>
-      <div style={{
-        position: 'absolute',
-        top: '50%',
-        left: '50%',
-        transform: 'translate(-50%, -50%)',
-        width: '300px', 
-        height: '300px',
-        pointerEvents: 'none', 
-        zIndex: 0
-      }}>
+  return (
+    <div style={{ position: "relative", display: "inline-block" }}>
+      <div
+        style={{
+          position: "absolute",
+          top: "50%",
+          left: "50%",
+          transform: "translate(-50%, -50%)",
+          width: "700px",
+          height: "700px",
+          pointerEvents: "none",
+          zIndex: 0,
+        }}
+      >
         <Canvas camera={{ position: [0, 0, 5] }}>
-          <ButtonAura hovered={isHovered} />
+          <ButtonAura hovered={isHovered} url="/assets/ui/BigMain.png" scale={3} />
         </Canvas>
       </div>
 
       <MainButtonStyle
         {...props}
-        style={{ position: 'relative', zIndex: 1 }}
+        style={{ position: "relative", zIndex: 1 }}
         onPointerEnter={() => {
           setIsHovered(true);
           setIsHovering(true);
