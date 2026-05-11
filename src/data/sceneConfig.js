@@ -119,7 +119,7 @@ export const SCENE_CONFIG = {
     imageInfo: "/assets/images/character/scene2/2-3.png",
     isObject: true,
     infoName: "Talismans protecteurs",
-    infoText: "Orné sur les arbres de la forêt, ils repoussent la colère de Démiurgia et ralentissent son approche depuis la forêt.",
+    infoText: "Orné sur les arbres, ils repoussent la colère de Démiurgia et ralentissent son approche depuis la forêt.",
     
     hoverSound: "",
     clickSound: "talismanTree",
