@@ -61,7 +61,7 @@ export const SCENE_CONFIG = {
   },
   INT_Elders: {
     name: "Vieillards",
-    dialogue: "J’ai mal aux jambes... la tribu se déplace de plus en plus souvent...\n\nJe suis épuisé aussi.\n\nC'est car Démiurgia se rapproche…",
+    dialogue: "J’ai mal aux jambes... la tribu se déplace de plus en plus souvent...\n\nJe suis épuisé aussi.\n\nC'est Démiurgia qui se rapproche…",
     image: "/assets/images/character/scene1/Elders.png",
     imageInfo: "/assets/images/character/scene1/1-4.png",
     isObject: false,

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { Canvas } from "@react-three/fiber";
 import { useExperienceStore } from "../../stores/useExperienceStore";
 import { CONTEXT_STEPS } from "../../data/contextData";
@@ -7,6 +7,8 @@ import { AnimatedText } from "../context/AnimatedText";
 import { gsap } from "gsap";
 import { useSoundStore } from "../../stores/useSoundStore";
 import { NavButtonComponent } from "../ui/NavButtonComponent";
+import { Bloom, EffectComposer } from "@react-three/postprocessing";
+import { useTexture } from "@react-three/drei";
 
 export function ContextScreen() {
 	const [currentIndex, setCurrentIndex] = useState(0);
@@ -40,6 +42,7 @@ export function ContextScreen() {
 						gsap.to(".canvas-container", {
 							opacity: 1,
 							duration: 0.4,
+							delay: 0.2,
 							onComplete: () => setIsTransitioning(false),
 						});
 					} else {
@@ -61,12 +64,20 @@ export function ContextScreen() {
 					gsap.to(".canvas-container", {
 						opacity: 1,
 						duration: 0.4,
+						delay: 0.2,
 						onComplete: () => setIsTransitioning(false),
 					});
 				}
 			},
 		});
 	};
+
+	useEffect(() => {
+		const nextIndex = currentIndex + 1;
+		if (nextIndex < CONTEXT_STEPS.length) {
+			useTexture.preload(CONTEXT_STEPS[nextIndex].image);
+		}
+	}, [currentIndex]);
 
 	return (
 		<div className="context__screen">
@@ -75,14 +86,28 @@ export function ContextScreen() {
 				style={{ position: "absolute", inset: 0 }}
 			>
 				<Canvas camera={{ position: [0, 0, 5], fov: 50 }}>
-					<BackgroundPlane
-						key={`bg-${currentIndex}`}
-						imagePath={currentStep.image}
-					/>
-					<AnimatedText
-						key={`text-${currentIndex}`}
-						content={currentStep.text}
-					/>
+					<Suspense fallback={null}>
+						<EffectComposer disableNormalPass>
+							<Bloom
+								luminanceThreshold={0.6}
+								mipmapBlur
+								intensity={2}
+								radius={0.2}
+								levels={9}
+							/>
+						</EffectComposer>
+
+						<BackgroundPlane
+							key={`bg-${currentIndex}`}
+							imagePath={currentStep.image}
+							color="#9bc4ff"
+							intensity={2.5}
+						/>
+						<AnimatedText
+							key={`text-${currentIndex}`}
+							content={currentStep.text}
+						/>
+					</Suspense>
 				</Canvas>
 			</div>
 

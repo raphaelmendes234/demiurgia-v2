@@ -6,19 +6,19 @@ import { useExperienceStore } from "../../stores/useExperienceStore";
 import { useSoundStore } from "../../stores/useSoundStore";
 
 const TextRevealShader = {
-  uniforms: {
-    uReveal: { value: 0 },
-    uOpacity: { value: 0 },
-    uColor: { value: new THREE.Color("black") },
-  },
-  vertexShader: `
+	uniforms: {
+		uReveal: { value: 0 },
+		uOpacity: { value: 0 },
+		uColor: { value: new THREE.Color("black") },
+	},
+	vertexShader: `
         varying vec2 vUv;
         void main() {
             vUv = uv;
             gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
         }
     `,
-  fragmentShader: `
+	fragmentShader: `
         varying vec2 vUv;
         uniform float uReveal;
         uniform float uOpacity;
@@ -71,131 +71,133 @@ const TextRevealShader = {
 };
 
 export function AnimatedText({ content }) {
-  const isTransitioning = useExperienceStore((state) => state.isTransitioning);
+	const isTransitioning = useExperienceStore((state) => state.isTransitioning);
 
-  const groupRef = useRef();
-  const textMaterialRef = useRef();
-  const bgMaterialRef = useRef();
-  const bgTexture = useTexture("/assets/images/context/context-box.png");
+	const groupRef = useRef();
+	const textMaterialRef = useRef();
+	const bgMaterialRef = useRef();
+	const bgTexture = useTexture("/assets/images/context/context-box.png");
 
-  const playSound = useSoundStore((state) => state.playSound);
+	const playSound = useSoundStore((state) => state.playSound);
 
-  const uniforms = useMemo(
-    () => ({
-      uOpacity: { value: 0 },
-      uReveal: { value: 0 },
-      uColor: { value: new THREE.Color(0x8a7352) },
-    }),
-    [],
-  );
+	const uniforms = useMemo(
+		() => ({
+			uOpacity: { value: 0 },
+			uReveal: { value: 0 },
+			uColor: { value: new THREE.Color(0x000000) },
+		}),
+		[],
+	);
 
-  useEffect(() => {
-    if (isTransitioning && groupRef.current) {
-      gsap.to(groupRef.current.position, {
-        y: -2,
-        duration: 0.5,
-        ease: "power2.in",
-      });
-    }
-  }, [isTransitioning]);
+	useEffect(() => {
+		if (isTransitioning && groupRef.current) {
+			gsap.to(groupRef.current.position, {
+				y: -2,
+				duration: 0.5,
+				ease: "power2.in",
+			});
+		}
+	}, [isTransitioning]);
 
-  useEffect(() => {
-    if (!groupRef.current) return;
+	useEffect(() => {
+		if (!groupRef.current) return;
 
-    gsap.killTweensOf(uniforms.uOpacity);
-    gsap.killTweensOf(uniforms.uReveal);
-    gsap.killTweensOf(groupRef.current.position);
+		gsap.killTweensOf(uniforms.uOpacity);
+		gsap.killTweensOf(uniforms.uReveal);
+		gsap.killTweensOf(groupRef.current.position);
 
-    groupRef.current.position.y = -2;
-    uniforms.uOpacity.value = 0;
-    uniforms.uReveal.value = 0;
-    if (bgMaterialRef.current) bgMaterialRef.current.opacity = 0;
+		groupRef.current.position.y = -2;
+		uniforms.uOpacity.value = 0;
+		uniforms.uReveal.value = 0;
+		if (bgMaterialRef.current) bgMaterialRef.current.opacity = 0;
 
-    groupRef.current.position.y = -3;
+		groupRef.current.position.y = -3;
 
-    const tl = gsap.timeline();
+		const tl = gsap.timeline();
 
-    tl.add(() => {
-      playSound("slideSoft"); 
-    }, 0.8);
+		tl.add(() => {
+			playSound("slideSoft");
+		}, 0.8);
 
-    // Montée du bloc texte
-    tl.to(
-      groupRef.current.position,
-      {
-        y: -1.5,
-        duration: 1.2,
-        ease: "power3.out",
-        delay: 0.8,
-      },
-      0,
-    );
+		// Montée du bloc texte
+		tl.to(
+			groupRef.current.position,
+			{
+				y: -1.5,
+				duration: 1.2,
+				ease: "power3.out",
+				delay: 0.8,
+			},
+			0,
+		);
 
-    // Animation fond
-    tl.to(
-      bgMaterialRef.current,
-      {
-        opacity: 1,
-        duration: 1.5,
-        ease: "power2.out",
-      },
-      0,
-    );
+		// Animation fond
+		tl.to(
+			bgMaterialRef.current,
+			{
+				opacity: 1,
+				duration: 1.5,
+				ease: "power2.out",
+			},
+			0,
+		);
 
-    // Animation du texte
-    tl.to(
-      uniforms.uOpacity,
-      {
-        value: 1,
-        duration: 1.5,
-        ease: "power2.out",
-      },
-      0,
-    );
+		// Animation du texte
+		tl.to(
+			uniforms.uOpacity,
+			{
+				value: 1,
+				duration: 1.5,
+				ease: "power2.out",
+			},
+			0,
+		);
 
-    tl.to(
-      uniforms.uReveal,
-      {
-        value: 1,
-        duration: 6,
-        ease: "power2.out",
-      },
-      1,
-    );
+		tl.to(
+			uniforms.uReveal,
+			{
+				value: 1,
+				duration: 6,
+				ease: "power2.out",
+			},
+			1,
+		);
 
-    return () => tl.kill();
-  }, [content, uniforms, playSound ]);
+		return () => tl.kill();
+	}, [content, uniforms, playSound]);
 
-  return (
-    <group ref={groupRef} position={[0, -1.5, 0]}>
-      <mesh position={[0, 0, 0]}>
-        <planeGeometry args={[4, 1.3, 1, 1]}></planeGeometry>
-        <meshBasicMaterial
-          ref={bgMaterialRef}
-          map={bgTexture}
-          transparent={true}
-          opacity={0}
-          depthWrite={false}
-        />
-      </mesh>
-      <Text
-        position={[0, -0.01, 0.01]}
-        fontSize={0.11}
-        maxWidth={3}
-        lineHeight={1.2}
-        textAlign="center"
-        font="/fonts/Cormorant-Bold.woff"
-        anchorY="middle"
-      >
-        {content}
-        <shaderMaterial
-          ref={textMaterialRef}
-          transparent
-          uniforms={uniforms}
-          vertexShader={TextRevealShader.vertexShader}
-          fragmentShader={TextRevealShader.fragmentShader}
-        />
-      </Text>
-    </group>
-  );
+	return (
+		<group ref={groupRef} position={[0, -1.5, 0]}>
+			<mesh position={[0, 0, 0]}>
+				<planeGeometry args={[4, 1.3, 1, 1]}></planeGeometry>
+				<meshBasicMaterial
+					ref={bgMaterialRef}
+					map={bgTexture}
+					transparent={true}
+					opacity={0}
+					depthWrite={false}
+					toneMapped={false}
+				/>
+			</mesh>
+			<Text
+				position={[0, -0.01, 0.01]}
+				fontSize={0.11}
+				maxWidth={3}
+				lineHeight={1.2}
+				textAlign="center"
+				font="/fonts/Cormorant-Bold.woff"
+				anchorY="middle"
+			>
+				{content}
+				<shaderMaterial
+					ref={textMaterialRef}
+					transparent
+					uniforms={uniforms}
+					vertexShader={TextRevealShader.vertexShader}
+					fragmentShader={TextRevealShader.fragmentShader}
+					toneMapped={false}
+				/>
+			</Text>
+		</group>
+	);
 }

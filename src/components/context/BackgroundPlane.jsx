@@ -1,127 +1,162 @@
 import { useFrame, useThree } from "@react-three/fiber";
-import { useTexture } from "@react-three/drei";
+import { Sparkles, useTexture } from "@react-three/drei";
 import { useRef, useMemo, useEffect } from "react";
 import * as THREE from "three";
 import { gsap } from "gsap";
 
 const ImageShader = {
 	vertexShader: `
-        varying vec2 vUv;
-        uniform float uTime;
-        void main() {
-            vUv = uv;
-            vec3 pos = position;
-            // Ondulation : on fait bouger les sommets en Z selon X et le temps
-            pos.z += sin(pos.x * 5.0 + uTime * 2.0) * 0.05;
-            pos.y += cos(pos.x * 2.0 + uTime) * 0.02;
-            gl_Position = projectionMatrix * modelViewMatrix * vec4(pos, 1.0);
-        }
-    `,
+    varying vec2 vUv;
+    uniform float uTime;
+    void main() {
+      vUv = uv;
+      vec3 pos = position;
+      pos.y += sin(pos.x * 2.0 + uTime * 0.5) * 0.05;
+      pos.z += sin(pos.x * 5.0 + uTime * 2.0) * 0.05;
+      gl_Position = projectionMatrix * modelViewMatrix * vec4(pos, 1.0);
+    }
+  `,
 	fragmentShader: `
-        varying vec2 vUv;
-          uniform sampler2D uTexture;
-          uniform sampler2D uAlphaMap;
-          uniform float uTime;
-          uniform float uOpacity;
-          uniform float uMaskScale;
+    varying vec2 vUv;
+    uniform sampler2D uTexture;
+    uniform float uReveal; 
+    uniform vec3 uColor;
+	uniform float uOpacity;
+    uniform float uBloomIntensity;
+	uniform vec2 uPlaneRes;
 
-          void main() {
-            vec2 centeredUv = vUv - 0.5;
-            vec2 scaledUv = (centeredUv / max(uMaskScale, 0.0001)) + 0.5;
+    float random(vec2 st) {
+      return fract(sin(dot(st.xy, vec2(12.9898,78.233))) * 43758.5453123);
+    }
 
-            // --- ANIMATION DES BORDS ---
-            // On ajoute une petite ondulation spécifique aux UV du masque
-            // pour que les bords "bougent" comme du liquide ou de la fumée
-            vec2 maskUv = scaledUv;
-            maskUv.x += sin(maskUv.y * 10.0 + uTime) * 0.005;
-            maskUv.y += cos(maskUv.x * 10.0 + uTime) * 0.005;
+    float noise(vec2 st) {
+      vec2 i = floor(st);
+      vec2 f = fract(st);
+      float a = random(i);
+      float b = random(i + vec2(1.0, 0.0));
+      float c = random(i + vec2(0.0, 1.0));
+      float d = random(i + vec2(1.0, 1.0));
+      vec2 u = f * f * (3.0 - 2.0 * f);
+      return mix(a, b, u.x) + (c - a)* u.y * (1.0 - u.x) + (d - b) * u.x * u.y;
+    }
 
-            vec4 tex = texture2D(uTexture, vUv);
-            float rawMask = texture2D(uAlphaMap, maskUv).r;
+	void main() {
+		// --- LOGIQUE RATIO FIXE 16:9 ---
+		float screenRatio = uPlaneRes.x / uPlaneRes.y;
+		float targetRatio = 16.0 / 9.0;
+		
+		vec2 newUv = vUv;
+		if (screenRatio > targetRatio) {
+			// L'écran est plus large que le 16:9
+			float scale = targetRatio / screenRatio;
+			newUv.y = vUv.y * scale + (1.0 - scale) * 0.5;
+		} else {
+			// L'écran est plus étroit (ex: mobile portrait)
+			float scale = screenRatio / targetRatio;
+			newUv.x = vUv.x * scale + (1.0 - scale) * 0.5;
+		}
 
-            // --- DOUCEUR VIA SMOOTHSTEP ---
-            // Au lieu d'un masque binaire (0 ou 1), on crée un dégradé.
-            // On peut faire varier le seuil avec uTime pour un effet de "respiration"
-            float borderSoftness = 0.15; // Plus c'est haut, plus c'est flou
-            float threshold = 0.5 + sin(uTime * 0.5) * 0.02; 
-            
-            float alphaMask = smoothstep(threshold - borderSoftness, threshold + borderSoftness, rawMask);
+		vec4 tex = texture2D(uTexture, newUv);
 
-            // Sécurité pour les bords du masque pendant le scale
-            if(scaledUv.x < 0.0 || scaledUv.x > 1.0 || scaledUv.y < 0.0 || scaledUv.y > 1.0) {
-              alphaMask = 0.0;
-            }
+		// --- LA LOGIQUE ANTI-HALO ---
+		float mask = tex.r; 
+		float n = noise(newUv * 10.0);
+		float revealMask = smoothstep(uReveal - 0.1, uReveal, n);
+		
+		// Calcul de l'alpha final (visibilité)
+		float finalAlpha = mask * (1.0 - revealMask) * uOpacity;
 
-            gl_FragColor = vec4(tex.rgb, tex.a * alphaMask * uOpacity);
-          }
-    `,
+		// On multiplie la couleur par l'intensité ET par l'alpha.
+		// Si finalAlpha est 0 (pixel invisible), la couleur devient vec3(0,0,0).
+		// Le Bloom ne verra alors RIEN à cet endroit, supprimant le halo fantôme.
+		vec3 emissiveColor = uColor * uBloomIntensity * finalAlpha;
+
+		gl_FragColor = vec4(emissiveColor, finalAlpha);
+	}
+  `,
 };
 
-export function BackgroundPlane({ imagePath }) {
+export function BackgroundPlane({
+	imagePath,
+	color = "#ffffff",
+	intensity = 2.0,
+}) {
 	const { viewport } = useThree();
 	const meshRef = useRef();
+	const tex = useTexture(imagePath);
+	const sparklesRef = useRef();
 
-	// Chargement des textures (image et masque)
-	const [tex, alpha] = useTexture([
-		imagePath,
-		"/textures/context/alpha-mask.png",
-	]);
+	useEffect(() => {
+		if (tex) {
+			tex.colorSpace = THREE.SRGBColorSpace;
+			tex.needsUpdate = true;
+		}
+	}, [tex]);
 
-	// Initialisation des uniforms
 	const uniforms = useMemo(
 		() => ({
 			uTime: { value: 0 },
 			uTexture: { value: tex },
-			uAlphaMap: { value: alpha },
+			uReveal: { value: -0.5 },
 			uOpacity: { value: 0 },
-			uMaskScale: { value: 0 },
+			uColor: { value: new THREE.Color(color) },
+			uBloomIntensity: { value: intensity },
+			uPlaneRes: { value: new THREE.Vector2(viewport.width, viewport.height) },
 		}),
 		[],
 	);
 
-	// Mise à jour des textures quand l'étape change
 	useEffect(() => {
-		if (!meshRef.current) return;
-
-		// kill animations
-		gsap.killTweensOf(uniforms.uOpacity);
-		gsap.killTweensOf(uniforms.uMaskScale);
-
-		uniforms.uTexture.value = tex;
 		uniforms.uOpacity.value = 0;
-		uniforms.uMaskScale.value = 0;
+		uniforms.uReveal.value = -0.5;
+		uniforms.uTexture.value = tex;
+		uniforms.uColor.value.set(color);
+		uniforms.uBloomIntensity.value = intensity;
 
-		const tl = gsap.timeline();
+		const tl = gsap.timeline({ delay: 0.0 });
 
-		gsap.to(uniforms.uOpacity, {
+		tl.to(uniforms.uOpacity, {
 			value: 1,
-			duration: 1.5,
-			ease: "power2.inOut",
+			duration: 0.1, // On rend l'objet "existant" mais uReveal le cache encore
+		}).to(uniforms.uReveal, {
+			value: 1.1,
+			duration: 2.5,
+			ease: "power2.out",
 		});
 
-		gsap.to(uniforms.uMaskScale, {
-			value: 1,
-			duration: 2,
-			ease: "expo.out",
-		});
-	}, [tex, uniforms]);
+		return () => tl.kill();
+	}, [tex, color, intensity, uniforms]);
 
 	useFrame((state) => {
 		if (meshRef.current) {
 			meshRef.current.uniforms.uTime.value = state.clock.elapsedTime;
+			uniforms.uPlaneRes.value.set(state.viewport.width, state.viewport.height);
 		}
 	});
 
 	return (
-		<mesh position={[0, 0.5, -1]} scale={[viewport.width, viewport.height, 1]}>
-			<planeGeometry args={[0.9, 0.9, 64, 64]} />
-			<shaderMaterial
-				ref={meshRef}
-				transparent={true}
-				uniforms={uniforms}
-				vertexShader={ImageShader.vertexShader}
-				fragmentShader={ImageShader.fragmentShader}
+		<group position={[0, 0.9, -1]}>
+			<Sparkles
+				ref={sparklesRef}
+				count={60}
+				scale={[6, 4, 2]}
+				size={2}
+				speed={0.3}
+				color="#9bc4ff"
+				opacity={0.1}
 			/>
-		</mesh>
+			<mesh scale={[viewport.width, viewport.height, 1]}>
+				<planeGeometry args={[1, 1, 64, 64]} />
+				<shaderMaterial
+					ref={meshRef}
+					transparent={true}
+					toneMapped={false}
+					depthWrite={false}
+					uniforms={uniforms}
+					vertexShader={ImageShader.vertexShader}
+					fragmentShader={ImageShader.fragmentShader}
+				/>
+			</mesh>
+		</group>
 	);
 }
