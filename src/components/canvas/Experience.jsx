@@ -17,7 +17,7 @@ export function Experience() {
 		<>
 			<DialogueSystem />
 
-			<Canvas camera={{ position: [0.02, 0, 4.35], fov: 21 }}>
+			<Canvas camera={{ position: [0.02, 0, 4.35], fov: 21 }} dpr={[1, 1.5]}>
 				<color attach="background" args={["#111"]} />
 				<ambientLight intensity={2} color={"white"} />
 

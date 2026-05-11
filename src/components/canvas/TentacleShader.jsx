@@ -84,6 +84,7 @@ export const TentaclePlane = ({ textureUrl, ...props }) => {
 
 	// Animation du temps
 	useFrame((state) => {
+		if (phase !== PHASES.GAME && phase !== PHASES.END) return;
 		if (materialRef.current) {
 			materialRef.current.uTime = state.clock.getElapsedTime();
 		}

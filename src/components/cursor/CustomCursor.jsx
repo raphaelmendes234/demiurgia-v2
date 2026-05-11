@@ -21,10 +21,16 @@ export const CustomCursor = () => {
 			gsap.set(cursorRef.current, { opacity: 0, scale: 0 });
 		}
 
+		let rafId = null;
+		const requestUpdate = () => {
+			if (rafId === null) rafId = requestAnimationFrame(update);
+		};
+
 		// Souscription au store pour mettre à jour la ref sans re-render le composant
-		const unsub = useCursorStore.subscribe(
-			(state) => (cursorStateRef.current = state.cursorType),
-		);
+		const unsub = useCursorStore.subscribe((state) => {
+			cursorStateRef.current = state.cursorType;
+			requestUpdate();
+		});
 
 		const moveCursor = (e) => {
 			mousePos.current = { x: e.clientX, y: e.clientY };
@@ -38,6 +44,7 @@ export const CustomCursor = () => {
 					ease: "back.out(1.7)", // Petit effet de rebond sympa
 				});
 			}
+			requestUpdate();
 		};
 
 		const update = () => {
@@ -68,10 +75,19 @@ export const CustomCursor = () => {
 			}
 
 			lastMousePos.current = { ...mousePos.current };
-			requestAnimationFrame(update);
+
+			// Stop quand tout est stabilisé pour libérer le CPU à l'idle
+			if (
+				velocity.current < 0.01 &&
+				Math.abs(currentSize.current - baseSize) < 0.1
+			) {
+				rafId = null;
+				return;
+			}
+			rafId = requestAnimationFrame(update);
 		};
 
-		const raf = requestAnimationFrame(update);
+		rafId = requestAnimationFrame(update);
 
 		const handleGlobalDown = () => {
 			setCursorType("click");
@@ -90,7 +106,7 @@ export const CustomCursor = () => {
 
 		return () => {
 			unsub(); // On coupe la souscription
-			cancelAnimationFrame(raf);
+			if (rafId !== null) cancelAnimationFrame(rafId);
 			window.removeEventListener("mousemove", moveCursor);
 			window.removeEventListener("pointerdown", handleGlobalDown);
 			window.removeEventListener("pointerup", handleGlobalUp);

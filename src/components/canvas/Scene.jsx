@@ -28,6 +28,7 @@ const POSITIONS = {
 };
 
 export function Scene({ name, glb, active, before = "right", after = "left" }) {
+	const isTransitioning = useExperienceStore((state) => state.isTransitioning);
 	const setIsTransitioning = useExperienceStore(
 		(state) => state.setIsTransitioning,
 	);
@@ -80,6 +81,7 @@ export function Scene({ name, glb, active, before = "right", after = "left" }) {
 	}, [active, name, updateSceneSounds]);
 
 	useFrame(() => {
+		if (!active && !isTransitioning) return;
 		updateSceneLayers(meshes, mousePointer, 0.1, true);
 	});
 

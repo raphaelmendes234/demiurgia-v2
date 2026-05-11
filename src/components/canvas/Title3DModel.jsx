@@ -13,6 +13,7 @@ function AnimatedGroup({ children, position, rotation, scale = 1, delay = 0 }) {
 	const groupRef = useRef();
 
 	useFrame((state) => {
+		if (useExperienceStore.getState().phase !== PHASES.MENU) return;
 		const t = state.clock.getElapsedTime();
 		if (groupRef.current) {
 			groupRef.current.position.y =
@@ -68,6 +69,7 @@ export default function Title3DModel(props) {
 	}, [phase]);
 
 	useFrame((state) => {
+		if (phase !== PHASES.MENU) return;
 		const t = state.clock.getElapsedTime();
 		spectralRefs.current.forEach((mat) => {
 			if (mat) mat.uTime = t;
