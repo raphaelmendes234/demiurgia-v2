@@ -1,192 +1,138 @@
 import { create } from "zustand";
 import { Howl, Howler } from "howler";
 import { gsap } from "gsap";
-import { sin } from "three/tsl";
-import MainButton from "../components/ui/MainButtonStyle";
 
-// --- SONS GLOBAUX ---
+// --- TOUS TES SONS AVEC TES NOMS EXACTS ---
+const SOUNDS = {
+  // UI & Menu
+  click: new Howl({ src: ["/sounds/ui/UI_Click.webm"], volume: 0.5 }),
+  uiMainButton: new Howl({ src: ["/sounds/ui/ButtonMain.webm"], volume: 0.3 }),
+  buttonEnter: new Howl({
+    src: ["/sounds/ui/boutonEnterMenu.webm"],
+    volume: 1,
+  }),
+  close: new Howl({ src: ["/sounds/ui/UI_ClickWood.webm"], volume: 2 }),
+  hover: new Howl({ src: ["/sounds/ui/UI_Hover.webm"], volume: 0.3 }),
+  swoosh: new Howl({
+    src: ["/sounds/ui/UI_Swoosh_SF_SpeedUp2.webm"],
+    volume: 0.5,
+  }),
+  slideSoft: new Howl({ src: ["/sounds/ui/SlideSoft.webm"], volume: 0.4 }),
 
-const uiClick = new Howl({
-  src: ["/sounds/ui/UI_Click.webm"],
-  volume: 0.5,
-});
+  // Ambiances 
+  menuAmbience: new Howl({
+    src: ["/sounds/ambiant/AmbiantMenu.webm"],
+    loop: true,
+    volume: 0,
+  }),
+  contextAmbience: new Howl({
+    src: ["/sounds/ambiant/AmbiantContext.webm"],
+    loop: true,
+    volume: 0.4,
+  }),
+  ambientSound: new Howl({
+    src: ["/sounds/ambiant/3_WindAmbiant2.webm"],
+    loop: true,
+    volume: 0.4,
+  }),
+  ambientSound2: new Howl({
+    src: ["/sounds/ambiant/4_AnimalsAmbiant.webm"],
+    loop: true,
+    volume: 1,
+  }),
+  ambiantEnd: new Howl({
+    src: ["/sounds/ambiant/AmbiantEnd.webm"],
+    loop: true,
+    volume: 0.4,
+  }),
 
-const uiMainButton = new Howl({
-  src: ["/sounds/ui/ButtonMain.webm"],
-  volume: 0.3,
-});
+  // Sons communs à plusieurs scènes
+  commonDeepChoir: new Howl({
+    src: ["/sounds/scene3/ambiant/DeepChoir.webm"],
+    loop: true,
+    volume: 0,
+  }),
+  commonFireWood: new Howl({
+    src: ["/sounds/scene3/ambiant/FireWood.webm"],
+    loop: true,
+    volume: 0,
+  }),
 
+  // SCENE 1
+  pickup: new Howl({
+    src: ["/sounds/scene1/target/1_OpenBag.webm"],
+    volume: 0.5,
+  }),
+  dog: new Howl({ src: ["/sounds/scene1/target/2_Wouaf.webm"], volume: 0.5 }),
+  rope: new Howl({ src: ["/sounds/scene1/target/3_Rope.webm"], volume: 0.5 }),
+  women: new Howl({ src: ["/sounds/scene1/target/4_Women.webm"], volume: 0.5 }),
+  elders: new Howl({
+    src: ["/sounds/scene1/target/5_Elders_Hmm.webm"],
+    volume: 0.5,
+  }),
 
-//MENU
+  // SCENE 2
+  child: new Howl({
+    src: ["/sounds/scene2/target/childGiggle.webm"],
+    volume: 0.7,
+  }),
+  talismanTree: new Howl({
+    src: ["/sounds/scene2/target/TalismanTree.webm"],
+    volume: 0.7,
+  }),
+  deer: new Howl({
+    src: ["/sounds/scene2/target/DeerGrunt.webm"],
+    volume: 0.7,
+  }),
 
-const buttonEnter = new Howl({
-  src: ["/sounds/ui/boutonEnterMenu.webm"],
-  volume: 1,
-});
+  // SCENE 3
+  leader: new Howl({
+    src: ["/sounds/scene3/target/Sound_Hmmm_Male.webm"],
+    volume: 0.7,
+  }),
+  sled: new Howl({
+    src: ["/sounds/scene3/target/Sled_Pickup.webm"],
+    volume: 0.7,
+  }),
+  fire: new Howl({
+    src: ["/sounds/scene3/target/Swoosh_Fire_Cut.webm"],
+    volume: 0.9,
+  }),
+  singing: new Howl({
+    src: ["/sounds/scene3/target/SingingMen.webm"],
+    volume: 0.7,
+  }),
 
-const menuAmbience = new Howl({
-  src: ["/sounds/ambiant/AmbiantMenu.webm"],
-  loop: true,
-  volume: 0,
-});
+  // SCENE 4
+  autel: new Howl({ src: ["/sounds/scene4/target/Autel.webm"], volume: 0.7 }),
+  gift: new Howl({ src: ["/sounds/scene4/target/Gifts.webm"], volume: 0.7 }),
+};
 
-//CONTEXT
-const contextAmbience = new Howl({
-  src: ["/sounds/ambiant/AmbiantContext.webm"],
-  loop: true,
-  volume: 0.4,
-});
-
-const slideSoft = new Howl({
-  src: ["/sounds/ui/SlideSoft.webm"],
-  volume: 0.4,
-});
-
-//AMBIANCE TAH SCREAM
-const ambientSound = new Howl({
-  src: ["/sounds/ambiant/3_WindAmbiant2.webm"],
-  loop: true,
-  volume: 0.4,
-});
-
-const ambientSound2 = new Howl({
-  src: ["/sounds/ambiant/4_AnimalsAmbiant.webm"],
-  loop: true,
-  volume: 1,
-});
-
-//AMBIANCE END
-
-const ambiantEnd = new Howl({
-  src: ["/sounds/ambiant/AmbiantEnd.webm"],
-  loop: true,
-  volume: 0.4,
-});
-
-///////////////
-const uiClose = new Howl({
-  src: ["/sounds/ui/UI_ClickWood.webm"],
-  volume: 2,
-});
-
-const uiHover = new Howl({
-  src: ["/sounds/ui/UI_Hover.webm"],
-  volume: 0.3,
-});
-
-const uiSwooshScene = new Howl({
-  src: ["/sounds/ui/UI_Swoosh_SF_SpeedUp2.webm"],
-  volume: 0.5,
-});
-
-const commonDeepChoir = new Howl({
-  src: ["/sounds/scene3/ambiant/DeepChoir.webm"],
-  loop: true,
-  volume: 0,
-});
-
-const commonFireWood = new Howl({
-  src: ["/sounds/scene3/ambiant/FireWood.webm"],
-  loop: true,
-  volume: 0,
-});
-
-// --- SONS SPÉCIFIQUES AUX SCÈNES POUR L'AMBIANCE TAH RONALDO PRIME ---
+// --- CONFIGURATION DES LAYERS ---
 const SCENE_LAYERS = {
   scene1: [],
   scene2: [
-    { sound: commonDeepChoir, maxVolume: 0.07 },
-    { sound: commonFireWood, maxVolume: 0.09 },
+    { sound: SOUNDS.commonDeepChoir, maxVolume: 0.07 },
+    { sound: SOUNDS.commonFireWood, maxVolume: 0.09 },
   ],
   scene3: [
-    { sound: commonDeepChoir, maxVolume: 0.5 },
-    { sound: commonFireWood, maxVolume: 0.9 },
+    { sound: SOUNDS.commonDeepChoir, maxVolume: 0.5 },
+    { sound: SOUNDS.commonFireWood, maxVolume: 0.9 },
   ],
   scene4: [
-    { sound: commonDeepChoir, maxVolume: 0.07 },
-    { sound: commonFireWood, maxVolume: 0.3 },
+    { sound: SOUNDS.commonDeepChoir, maxVolume: 0.07 },
+    { sound: SOUNDS.commonFireWood, maxVolume: 0.3 },
   ],
 };
 
-// --- SONS D'ACTION SPÉCIFIQUES MESSI PRIME ---
-
-//SCENE1
-
-const itemPickup = new Howl({
-  src: ["/sounds/scene1/target/1_OpenBag.webm"],
-  volume: 0.5,
-});
-
-const itemDog = new Howl({
-  src: ["/sounds/scene1/target/2_Wouaf.webm"],
-  volume: 0.5,
-});
-
-const itemRope = new Howl({
-  src: ["/sounds/scene1/target/3_Rope.webm"],
-  volume: 0.5,
-});
-
-const itemWomen = new Howl({
-  src: ["/sounds/scene1/target/4_Women.webm"],
-  volume: 0.5,
-});
-
-const itemElders = new Howl({
-  src: ["/sounds/scene1/target/5_Elders_Hmm.webm"],
-  volume: 0.5,
-});
-
-//SCENE2
-
-const itemChild = new Howl({
-  src: ["/sounds/scene2/target/childGiggle.webm"],
-  volume: 0.7,
-});
-
-const itemTalismanTree = new Howl({
-  src: ["/sounds/scene2/target/TalismanTree.webm"],
-  volume: 0.7,
-});
-
-const itemDeer = new Howl({
-  src: ["/sounds/scene2/target/DeerGrunt.webm"],
-  volume: 0.7,
-});
-
-//SCENE3
-
-const itemLeader = new Howl({
-  src: ["/sounds/scene3/target/Sound_Hmmm_Male.webm"],
-  volume: 0.7,
-});
-
-const itemSled = new Howl({
-  src: ["/sounds/scene3/target/Sled_Pickup.webm"],
-  volume: 0.7,
-});
-
-const itemFire = new Howl({
-  src: ["/sounds/scene3/target/Swoosh_Fire_Cut.webm"],
-  volume: 0.9,
-});
-
-const itemSinging = new Howl({
-  src: ["/sounds/scene3/target/SingingMen.webm"],
-  volume: 0.7,
-});
-
-// SCENE 4
-
-const itemAutel = new Howl({
-  src: ["/sounds/scene4/target/Autel.webm"],
-  volume: 0.7,
-});
-
-const itemGift = new Howl({
-  src: ["/sounds/scene4/target/Gifts.webm"],
-  volume: 0.7,
-});
+// Helper pour gérer les extinctions de sons proprement
+const fadeAndStop = (sound, duration = 2000) => {
+  if (!sound || !sound.playing()) return;
+  sound.fade(sound.volume(), 0, duration);
+  setTimeout(() => {
+    if (sound.volume() === 0) sound.stop();
+  }, duration + 50);
+};
 
 export const useSoundStore = create((set, get) => ({
   masterVolume: 1,
@@ -201,11 +147,8 @@ export const useSoundStore = create((set, get) => ({
   },
 
   setDucking: (active) => {
-    const { masterVolume } = get();
-    const targetVolume = active ? masterVolume * 0.2 : masterVolume;
-
+    const targetVolume = active ? get().masterVolume * 0.2 : get().masterVolume;
     set({ isDucked: active });
-
     gsap.to(Howler, {
       duration: 2,
       volume: targetVolume,
@@ -215,181 +158,80 @@ export const useSoundStore = create((set, get) => ({
 
   updateSceneSounds: (sceneName) => {
     set({ currentActiveLayer: sceneName });
-
     Object.entries(SCENE_LAYERS).forEach(([name, layers]) => {
-      if (name === sceneName) {
-        layers.forEach(({ sound, maxVolume }) => {
-          if (!sound.playing()) {
-            sound.play();
-            sound.fade(0, maxVolume || 0.4, 2000);
-          } else {
-            sound.fade(sound.volume(), maxVolume || 0.4, 2000);
-          }
-        });
-      } else {
-        layers.forEach(({ sound }) => {
-          if (sound.playing()) {
-            const isStillNeeded = SCENE_LAYERS[sceneName]?.some(
-              (layer) => layer.sound === sound,
-            );
-
-            if (!isStillNeeded) {
-              sound.fade(sound.volume(), 0, 1500);
-              setTimeout(() => {
-                if (
-                  get().currentActiveLayer !== name &&
-                  !get().currentActiveLayer?.includes(name)
-                ) {
-                  const currentNeeded = SCENE_LAYERS[
-                    get().currentActiveLayer
-                  ]?.some((l) => l.sound === sound);
-                  if (!currentNeeded) sound.stop();
-                }
-              }, 1600);
-            }
-          }
-        });
-      }
+      const isCurrent = name === sceneName;
+      layers.forEach(({ sound, maxVolume }) => {
+        if (isCurrent) {
+          if (!sound.playing()) sound.play();
+          sound.fade(sound.volume(), maxVolume, 2000);
+        } else {
+          const isNeeded = SCENE_LAYERS[sceneName]?.some(
+            (l) => l.sound === sound,
+          );
+          if (!isNeeded) fadeAndStop(sound, 1500);
+        }
+      });
     });
   },
 
   playClick: (isGlobal = false) => {
-    const { isMuted } = get();
-    if (isMuted) return;
-
+    if (get().isMuted) return;
     if (isGlobal) {
       setTimeout(() => {
-        if (!get()._isSpecificPlaying) {
-          uiClick.play();
-        }
+        if (!get()._isSpecificPlaying) SOUNDS.click.play();
       }, 150);
     } else {
-      uiClick.play();
+      SOUNDS.click.play();
     }
   },
 
   playSound: (soundName) => {
-    const { isMuted } = get();
-    if (isMuted) return;
-
-    const sounds = {
-      //MENU
-      buttonEnter: buttonEnter,
-      click: uiClick,
-      uiMainButton: uiMainButton,
-      close: uiClose,
-      hover: uiHover,
-      swoosh: uiSwooshScene,
-      //CONTEXT
-      contextAmbience: contextAmbience,
-      slideSoft: slideSoft,
-      //END
-      ambiantEnd: ambiantEnd,
-      //SCENE1
-      pickup: itemPickup,
-      dog: itemDog,
-      rope: itemRope,
-      women: itemWomen,
-      elders: itemElders,
-      //SCENE2
-      child: itemChild,
-      talismanTree: itemTalismanTree,
-      deer: itemDeer,
-      //SCENE3
-      leader: itemLeader,
-      sled: itemSled,
-      fire: itemFire,
-      singing: itemSinging,
-      //SCENE4
-      autel: itemAutel,
-      gift: itemGift,
-    };
-
-    const selectedSound = sounds[soundName] || uiClick;
-
+    if (get().isMuted) return;
+    const selectedSound = SOUNDS[soundName] || SOUNDS.click;
     set({ _isSpecificPlaying: true });
     selectedSound.play();
-
     setTimeout(() => set({ _isSpecificPlaying: false }), 200);
   },
 
   startAmbience: () => {
     Howler.volume(get().isDucked ? 0.15 : 1.0);
-    const FADE_DURATION = 5000;
-
-    ambientSound.play();
-    if (!ambientSound2.playing()) {
-      ambientSound2.play();
-      ambientSound2.fade(0, 1, FADE_DURATION);
-    }
-    if (!ambientSound.playing()) {
-      ambientSound.play();
-      ambientSound.fade(0, 0.4, FADE_DURATION);
-    }
+    [
+      { s: SOUNDS.ambientSound, v: 0.4 },
+      { s: SOUNDS.ambientSound2, v: 1 },
+    ].forEach(({ s, v }) => {
+      if (!s.playing()) {
+        s.play();
+        s.fade(0, v, 5000);
+      }
+    });
   },
 
   stopAmbience: () => {
-    const FADE = 4000;
-    [ambientSound, ambientSound2].forEach((s) => s.fade(s.volume(), 0, FADE));
-
+    [SOUNDS.ambientSound, SOUNDS.ambientSound2].forEach((s) =>
+      fadeAndStop(s, 4000),
+    );
     Object.values(SCENE_LAYERS)
       .flat()
-      .forEach(({ sound }) => {
-        if (sound.playing()) sound.fade(sound.volume(), 0, FADE);
-      });
-
-    setTimeout(() => {
-      [ambientSound, ambientSound2].forEach((s) => s.stop());
-      Object.values(SCENE_LAYERS)
-        .flat()
-        .forEach(({ sound }) => sound.stop());
-    }, FADE + 100);
+      .forEach(({ sound }) => fadeAndStop(sound, 4000));
   },
 
   startAmbianceMenu: () => {
-    const FADE_DURATION = 2000;
-    if (!menuAmbience.playing()) {
-      menuAmbience.fade(0, 1.5, FADE_DURATION);
-      menuAmbience.play();
+    if (!SOUNDS.menuAmbience.playing()) {
+      SOUNDS.menuAmbience.play();
+      SOUNDS.menuAmbience.fade(0, 1.5, 2000);
     }
   },
-
-  stopAmbianceMenu: () => {
-    const FADE_DURATION = 2000;
-    if (menuAmbience.playing()) {
-      menuAmbience.fade(menuAmbience.volume(), 0, FADE_DURATION);
-      setTimeout(() => {
-        menuAmbience.stop();
-      }, FADE_DURATION);
-    }
-  },
+  stopAmbianceMenu: () => fadeAndStop(SOUNDS.menuAmbience),
 
   startAmbianceContext: () => {
-    contextAmbience.volume(0.4);
-    if (!contextAmbience.playing()) {
-      contextAmbience.play();
+    if (!SOUNDS.contextAmbience.playing()) {
+      SOUNDS.contextAmbience.play();
+      SOUNDS.contextAmbience.fade(0, 0.4, 1000);
     }
   },
+  stopAmbianceContext: () => fadeAndStop(SOUNDS.contextAmbience, 1000),
 
-  stopAmbianceContext: () => {
-    const FADE_DURATION = 1000;
-    if (contextAmbience.playing()) {
-      contextAmbience.fade(contextAmbience.volume(), 0, FADE_DURATION);
-      setTimeout(() => {
-        contextAmbience.stop();
-      }, FADE_DURATION);
-    }
-  },
-
-  stopAmbianceEnd: () => {
-    const FADE_DURATION = 2000;
-    if (ambiantEnd.playing()) {
-      ambiantEnd.fade(ambiantEnd.volume(), 0, FADE_DURATION);
-      setTimeout(() => {
-        ambiantEnd.stop();
-      }, FADE_DURATION);
-    }
-  },
+  stopAmbianceEnd: () => fadeAndStop(SOUNDS.ambiantEnd),
 
   toggleMute: () => {
     const nextMute = !get().isMuted;
