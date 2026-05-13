@@ -3,11 +3,11 @@ import { useState } from "react";
 import { MainButtonComponent } from "../ui/MainButtonComponent";
 
 export function LoadingScreen() {
-    const { progress, active } = useProgress();
+    const active = useProgress((state) => state.active);
     const [isHidden, setIsHidden] = useState(false);
     const [hasStarted, setHasStarted] = useState(false); // Nouvel état pour le clic
 
-    const isLoaded = !active && progress === 100;
+    const isLoaded = !active;
 
     if (isHidden) return null;
 
@@ -26,22 +26,17 @@ export function LoadingScreen() {
         >
             <div className="loading__container">
                 {isLoaded ? (
-                    <MainButtonComponent 
+                    <MainButtonComponent
                         onClick={handleStart}
                     >
                         ENTRER DANS L'EXPÉRIENCE
                     </MainButtonComponent>
                 ) : (
-                    <>
-                        <img 
-                            src="/assets/images/loading/Loading.png" 
-                            alt="Loading..." 
-                            className="loading__spinner" 
-                        />
-                        <div className="loading__percentage">
-                            {Math.round(progress)}%
-                        </div>
-                    </>
+                    <img
+                        src="/assets/images/loading/Loading.png"
+                        alt="Loading..."
+                        className="loading__spinner"
+                    />
                 )}
             </div>
         </div>
